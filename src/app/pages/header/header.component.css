@@ -1,0 +1,12 @@
+.divcuenta,
+.divcarrito,
+.divpedido,
+.divcategoria {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1200px) {
+    .h5categoria, .h5smartech {
+        display: none;
+    }
+}

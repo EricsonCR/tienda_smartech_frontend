@@ -19,17 +19,19 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const token = authService.getToken();
 
   if (token && isAuthUrl) {
+    console.log("token agregado");
     req = req.clone({
       setHeaders: { Authorization: "Bearer " + token }
     });
   }
-
   return next(req).pipe(
     tap(event => {
       if (event instanceof HttpResponse) {
-        const authHeader = event.headers.get('Authorization'); // Lee el encabezado Authorization
-        if (authHeader && authHeader.startsWith('Bearer ')) {
-          authService.setToken(authHeader.substring(7));
+        console.log("response");
+        const token = event.headers.get('Authorization')?.substring(7)!;
+        if (token != "null" && token != undefined) {
+          console.log("token exists");
+          authService.setToken(token);
         }
       }
     })

@@ -1,18 +1,59 @@
-<div class="container col-sm-4">
-    <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <div class="mb-3">
-            <h1>Login</h1>
+<div class="container py-2">
+    <div class="row px-2">
+        <div class="col bg-body-secondary py-5">
+            <div class="row mb-4">
+                <div class="col-auto d-flex align-items-center">
+                    <img src="img/usuario-verificado.png" width="64px" alt="">
+                </div>
+                <div class="col-auto d-flex align-items-center px-0">
+                    <h2 class="fw-bold">Iniciar Sesion en SmarTech</h2>
+                </div>
+            </div>
+            <form [formGroup]="loginForm" (ngSubmit)="login()">
+                <div class="mb-4 px-4">
+                    <div class="position-relative">
+                        <img class="icon" src="img/correo-electronico.png" width="32px" alt="">
+                        <input type="text" class="form-control rounded-4 px-4 py-2" formControlName="email"
+                            placeholder="nombre@dominio.com">
+                    </div>
+                </div>
+                <div class="mb-4 px-4">
+                    <div class="position-relative">
+                        <img class="icon" src="img/clave.png" width="32px" alt="">
+                        <input type="password" class="form-control rounded-4 px-4 py-2" formControlName="password"
+                            placeholder="contraseña">
+                    </div>
+                </div>
+                <div class="mb-4 px-4">
+                    <a href="">
+                        <p>¿Olvidaste tu contraseña?</p>
+                    </a>
+                </div>
+                <div class="mb-4 px-4">
+                    <button class="btn btn-info px-5 py-2 rounded-4 fw-semibold" [disabled]="loginForm.invalid"
+                        type="submit">Iniciar Sesion</button>
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="" class="form-label">Email</label>
-            <input type="email" class="form-control" formControlName="email">
+        <div class="col bg-body-tertiary py-5">
+            <div class="row mb-4">
+                <div class="col-auto d-flex align-items-center">
+                    <img src="img/agregar-usuario.png" width="64px" alt="">
+                </div>
+                <div class="col-auto d-flex align-items-center px-0">
+                    <h2 class="fw-bold">Registrate en SmarTech y disfruta:</h2>
+                </div>
+            </div>
+            <div class="mb-4 px-4">
+                <ul class="">
+                    <li class="">Una experiencia de compra más rápida</li>
+                    <li>Descuentos exclusivos</li>
+                    <li>Crear listas de deseos</li>
+                </ul>
+            </div>
+            <div class="mb-4 px-4">
+                <button class="btn btn-info px-5 py-2 rounded-4 fw-semibold">Registrate</button>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="" class="form-label">Password</label>
-            <input type="password" class="form-control" formControlName="password">
-        </div>
-        <div class="mb-3">
-            <button class="btn btn-primary" type="submit" [disabled]="loginForm.invalid">Login</button>
-        </div>
-    </form>
+    </div>
 </div>

@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2'
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +17,9 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -26,8 +31,34 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.authService.login(this.loginForm.value).subscribe({
-      next: (result) => { console.log(result); },
-      error: (error) => { }
+      next: (result) => {
+        if (result.status == "200") {
+          this.authService.setEmail(this.loginForm.value.email);
+          this.sharedService.updateCuenta(this.loginForm.value.email);
+          this.alertOK(result.message);
+          this.router.navigate([""]);
+        } else {
+          this.alertError(result.message);
+        }
+      },
+      error: (error) => { console.log(error); }
+    });
+  }
+
+  alertOK(message: string) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 2500
+    });
+  }
+
+  alertError(message: string) {
+    Swal.fire({
+      title: message,
+      icon: "error"
     });
   }
 

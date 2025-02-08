@@ -13,15 +13,13 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
-  login(auth: Auth) {
-    return this.http.post<ControllerResponse>(this.url + "/login", auth);
-  }
+  login(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/login", auth); }
 
-  getToken() {
-    return localStorage.getItem("token");
-  }
+  getToken() { return localStorage.getItem("token"); }
+  setToken(token: string) { localStorage.setItem("token", token); }
+  removeToken() { localStorage.removeItem("token"); }
 
-  setToken(token: string) {
-    localStorage.setItem("token", token);
-  }
+  getEmail() { return localStorage.getItem("email"); }
+  setEmail(email: string) { localStorage.setItem("email", email); }
+  removeEmail() { localStorage.removeItem("email"); }
 }

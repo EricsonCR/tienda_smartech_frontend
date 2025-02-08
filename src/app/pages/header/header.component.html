@@ -1,0 +1,77 @@
+<div class="container bg-primary-subtle p-4">
+  <div class="row justify-content-between">
+    <div class="row col-sm-4">
+      <div class="row col-sm">
+        <a href="" class="" style="text-decoration: none;">
+          <h5 class="fw-bold fs-3 text-dark d-flex align-items-center">
+            <img class="" src="img/chat-gpt.png" alt="" width="48px">SmarTech
+          </h5>
+        </a>
+      </div>
+      <div class="row col-sm-auto d-flex justify-content-end divcategoria">
+        <div class="col-sm-auto ps-1 d-flex align-items-center">
+          <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="img/lista.png" alt="" width="32px" class="pe-1">Categorias
+          </h5>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Zona Gamer</a></li>
+            <li><a class="dropdown-item" href="#">Celular</a></li>
+            <li><a class="dropdown-item" href="#">Computador</a></li>
+            <li><a class="dropdown-item" href="#">Laptop</a></li>
+            <li><a class="dropdown-item" href="#">Audifono</a></li>
+            <li><a class="dropdown-item" href="#">Teclado</a></li>
+            <li><a class="dropdown-item" href="#">Mouse</a></li>
+            <li><a class="dropdown-item" href="#">Audio</a></li>
+            <li><a class="dropdown-item" href="#">SmartWatch</a></li>
+            <li><a class="dropdown-item" href="#">Accesorios</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4 p-0">
+      <div class="">
+        <input type="search" class="form-control bg" placeholder="¿Que estás buscando?">
+      </div>
+    </div>
+    <div class="row col-sm-4">
+      <div class="row col-sm p-0 divcuenta">
+        <div class="col-sm-auto px-1 d-flex align-items-center">
+          <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="img/account.png" alt="" width="32px" class="pe-1">{{usuario.nombres}}
+            <ul class="dropdown-menu">
+              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item"
+                  routerLink="login">Iniciar sesion</a></li>
+              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" href="#">Registrate</a>
+              </li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Perfil</a></li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item"
+                  href="#">Notificaciones</a></li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Pedidos</a></li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Favoritos</a>
+              </li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}">
+                <hr class="dropdown-divider">
+              </li>
+              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#"
+                  (click)="logout()">Salir</a></li>
+            </ul>
+          </h5>
+        </div>
+      </div>
+      <div class="row col-sm p-0 divcarrito">
+        <div class="col-sm-auto px-1 d-flex align-items-center">
+          <h5 class="fw-bold d-flex align-items-center">
+            <img src="img/cart.png" alt="" width="32px" class="pe-1">Carrito
+          </h5>
+        </div>
+      </div>
+      <div class="row col-sm p-0 divpedido">
+        <div class="col-sm-auto px-1 d-flex align-items-center">
+          <h5 class="fw-bold d-flex align-items-center">
+            <img src="img/delivery.png" alt="" width="40px" class="pe-1 py-0">Pedidos
+          </h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
