@@ -1,0 +1,47 @@
+<div class="container py-2 d-flex justify-content-center">
+    <div class="col-sm-5 p-5 bg-body-tertiary">
+        <div class="mb-5 row">
+            <div class="col-sm-auto"><img src="img/agregar-usuario.png" width="32px" alt=""></div>
+            <div class="col-sm-auto px-0 d-flex align-items-end">
+                <h4>Crear cuenta</h4>
+            </div>
+        </div>
+        <form [formGroup]="userForm" (ngSubmit)="registrar()">
+            <div class="mb-2 row">
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Documento</label>
+                    <select class="form-select" formControlName="documento">
+                        <option *ngFor="let d of listaDocumentos" [value]="d.value">{{ d.value }}</option>
+                    </select>
+                </div>
+                <div class="col-sm-8">
+                    <label for="" class="form-label">Numero</label>
+                    <input type="text" class="form-control" formControlName="numero">
+                </div>
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Nombres</label>
+                <input type="text" class="form-control" formControlName="nombres">
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Apellidos</label>
+                <input type="text" class="form-control" formControlName="apellidos">
+            </div>
+            <div class="mb-2">
+                <label class="form-label">Email</label>
+                <input type="email" class="form-control" formControlName="email">
+            </div>
+            <div class="mb-5">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" formControlName="password">
+            </div>
+            <div class="mb-2 mt-4 d-flex justify-content-between align-items-center">
+                <a routerLink="/login" class="">
+                    <img src="img/atras.png" alt="" width="24px" class="mx-2">Volver
+                </a>
+                <button class="btn btn-warning fw-semibold px-4" type="submit"
+                    [disabled]="userForm.invalid">Crearcuenta</button>
+            </div>
+        </form>
+    </div>
+</div>

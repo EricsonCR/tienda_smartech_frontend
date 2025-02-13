@@ -17,18 +17,19 @@ import { CommonModule } from '@angular/common';
 export class HeaderComponent implements OnInit {
 
   statusLogin: boolean = false;
-  usuario: Usuario = {
-    id: "",
-    rol: "",
-    documento: "",
-    numero: "",
-    nombres: "Cuenta",
-    apellidos: "",
-    telefono: "",
-    direccion: "",
-    email: "",
-    nacimiento: new Date()
-  };
+  nombreCuenta: string = "Cuenta";
+  // usuario: Usuario = {
+  //   id: "",
+  //   rol: "",
+  //   documento: "",
+  //   numero: "",
+  //   nombres: "Cuenta",
+  //   apellidos: "",
+  //   telefono: "",
+  //   direccion: "",
+  //   email: "",
+  //   nacimiento: new Date()
+  // };
 
   constructor(
     private usuarioService: UsuarioService,
@@ -44,7 +45,7 @@ export class HeaderComponent implements OnInit {
       this.sharedService.updateCuenta(email);
       this.usuarioService.buscarPorEmail(email).subscribe({
         next: (result) => {
-          if (result.status == "200") { this.usuario = result.data; this.statusLogin = true; }
+          if (result.status == "OK") { this.nombreCuenta = result.data.nombres; this.statusLogin = true; }
         },
         error: (error) => { console.log(error); }
       });
@@ -55,7 +56,7 @@ export class HeaderComponent implements OnInit {
           console.log("observable");
           this.usuarioService.buscarPorEmail(value).subscribe({
             next: (result) => {
-              if (result.status == "200") { this.usuario = result.data; this.statusLogin = true; }
+              if (result.status == "OK") { this.nombreCuenta = result.data.nombres; this.statusLogin = true; }
             },
             error: (error) => { console.log(error); }
           });
@@ -68,7 +69,7 @@ export class HeaderComponent implements OnInit {
     this.authService.removeEmail();
     this.authService.removeToken();
     this.statusLogin = false;
-    this.usuario.nombres = "Cuenta";
+    this.nombreCuenta = "Cuenta";
     this.router.navigate(["/login"]);
   }
 }

@@ -8,12 +8,14 @@ import { Auth } from '../interfaces/auth';
   providedIn: 'root'
 })
 export class AuthService {
-  private url = environment.urlAuth;
+  private url = environment.urlApi + "/auth";
   constructor(
     private http: HttpClient
   ) { }
 
   login(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/login", auth); }
+  registrar(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/registrar", auth); }
+  recuperarPassword(email: string) { return this.http.get<ControllerResponse>(this.url + "/recuperarPassword/" + email); }
 
   getToken() { return localStorage.getItem("token"); }
   setToken(token: string) { localStorage.setItem("token", token); }

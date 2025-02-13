@@ -1,19 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
-import { Router, RouterLink, RouterModule } from '@angular/router';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
 import { SharedService } from '../../services/shared.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signin',
   standalone: true,
-  imports: [RouterModule,RouterLink,ReactiveFormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  imports: [FormsModule, RouterLink, ReactiveFormsModule],
+  templateUrl: './signin.component.html',
+  styleUrl: './signin.component.css'
 })
-export class LoginComponent implements OnInit {
-  public loginForm!: FormGroup;
+export class SigninComponent {
+  public authForm!: FormGroup;
 
   constructor(
     private authService: AuthService,
@@ -23,18 +23,18 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
+    this.authForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(4)]]
     });
   }
 
   login() {
-    this.authService.login(this.loginForm.value).subscribe({
+    this.authService.login(this.authForm.value).subscribe({
       next: (result) => {
         if (result.status == "200") {
-          this.authService.setEmail(this.loginForm.value.email);
-          this.sharedService.updateCuenta(this.loginForm.value.email);
+          this.authService.setEmail(this.authForm.value.email);
+          this.sharedService.updateCuenta(this.authForm.value.email);
           this.alertOK(result.message);
           this.router.navigate([""]);
         } else {

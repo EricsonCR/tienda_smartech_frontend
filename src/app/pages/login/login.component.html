@@ -1,12 +1,12 @@
 <div class="container py-2">
-    <div class="row px-2">
+    <div class="row">
         <div class="col bg-body-secondary py-5">
             <div class="row mb-4">
                 <div class="col-auto d-flex align-items-center">
-                    <img src="img/usuario-verificado.png" width="64px" alt="">
+                    <img src="img/usuario-verificado.png" width="32px" alt="">
                 </div>
-                <div class="col-auto d-flex align-items-center px-0">
-                    <h2 class="fw-bold">Iniciar Sesion en SmarTech</h2>
+                <div class="col-auto d-flex align-items-end px-0">
+                    <h4 class="fw-semibold">Iniciar Sesion en SmarTech</h4>
                 </div>
             </div>
             <form [formGroup]="loginForm" (ngSubmit)="login()">
@@ -25,12 +25,12 @@
                     </div>
                 </div>
                 <div class="mb-4 px-4">
-                    <a href="">
+                    <a routerLink="/recuperarpassword">
                         <p>¿Olvidaste tu contraseña?</p>
                     </a>
                 </div>
                 <div class="mb-4 px-4">
-                    <button class="btn btn-info px-5 py-2 rounded-4 fw-semibold" [disabled]="loginForm.invalid"
+                    <button class="btn btn-warning px-5 py-2 rounded-4 fw-semibold" [disabled]="loginForm.invalid"
                         type="submit">Iniciar Sesion</button>
                 </div>
             </form>
@@ -38,21 +38,22 @@
         <div class="col bg-body-tertiary py-5">
             <div class="row mb-4">
                 <div class="col-auto d-flex align-items-center">
-                    <img src="img/agregar-usuario.png" width="64px" alt="">
+                    <img src="img/agregar-usuario.png" width="32px" alt="">
                 </div>
-                <div class="col-auto d-flex align-items-center px-0">
-                    <h2 class="fw-bold">Registrate en SmarTech y disfruta:</h2>
+                <div class="col-auto d-flex align-items-end px-0">
+                    <h4 class="fw-semibold">Registrate en SmarTech y disfruta</h4>
                 </div>
             </div>
             <div class="mb-4 px-4">
                 <ul class="">
-                    <li class="">Una experiencia de compra más rápida</li>
+                    <li>Una experiencia de compra más rápida</li>
                     <li>Descuentos exclusivos</li>
                     <li>Crear listas de deseos</li>
                 </ul>
             </div>
             <div class="mb-4 px-4">
-                <button class="btn btn-info px-5 py-2 rounded-4 fw-semibold">Registrate</button>
+                <button class="btn btn-warning px-5 py-2 rounded-4 fw-semibold" routerLink="/registrar">Crear
+                    cuenta</button>
             </div>
         </div>
     </div>

@@ -1,4 +1,4 @@
-<div class="container bg-primary-subtle p-4">
+<div class="container bg-warning p-4">
   <div class="row justify-content-between">
     <div class="row col-sm-4">
       <div class="row col-sm">
@@ -11,7 +11,7 @@
       <div class="row col-sm-auto d-flex justify-content-end divcategoria">
         <div class="col-sm-auto ps-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="img/lista.png" alt="" width="32px" class="pe-1">Categorias
+            <img src="img/lista.png" alt="" width="24px" class="pe-1">Categorias
           </h5>
           <ul class="dropdown-menu">
             <li><a class="dropdown-item" href="#">Zona Gamer</a></li>
@@ -34,14 +34,14 @@
       </div>
     </div>
     <div class="row col-sm-4">
-      <div class="row col-sm p-0 divcuenta">
+      <div class="row col-sm-auto p-0 divcuenta me-4">
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="img/account.png" alt="" width="32px" class="pe-1">{{usuario.nombres}}
+            <img src="img/account.png" alt="" width="24px" class="pe-1">{{nombreCuenta}}
             <ul class="dropdown-menu">
               <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item"
                   routerLink="login">Iniciar sesion</a></li>
-              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" href="#">Registrate</a>
+              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" routerLink="/registrar">Registrate</a>
               </li>
               <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Perfil</a></li>
               <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item"
@@ -58,17 +58,17 @@
           </h5>
         </div>
       </div>
-      <div class="row col-sm p-0 divcarrito">
+      <div class="row col-sm-auto p-0 divcarrito me-4">
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center">
-            <img src="img/cart.png" alt="" width="32px" class="pe-1">Carrito
+            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
           </h5>
         </div>
       </div>
-      <div class="row col-sm p-0 divpedido">
+      <div class="row col-sm-auto p-0 divpedido">
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center">
-            <img src="img/delivery.png" alt="" width="40px" class="pe-1 py-0">Pedidos
+            <img src="img/delivery.png" alt="" width="24px" class="pe-1 py-0">Pedidos
           </h5>
         </div>
       </div>
