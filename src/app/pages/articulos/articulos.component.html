@@ -23,13 +23,16 @@
                         </div>
                         <div class="card-body" style="height: 430px;">
                             <div class="d-flex justify-content-center m-0 pb-2">
-                                <a href=""><img src="img/celular.png" alt="" height="200px"></a>
+                                <a routerLink="producto/detalle/{{p.nombre}}"><img src="img/celular.png" alt=""
+                                        height="200px"></a>
                             </div>
                             <div class="">
                                 <p class="m-0 pb-2 fw-light">{{p.marca.nombre}}</p>
                             </div>
                             <div class="">
-                                <p class="m-0 pb-2 fw-bold truncate-multiline">{{p.nombre}}</p>
+                                <p routerLink="producto/detalle/{{p.nombre}}"
+                                    class="m-0 pb-2 fw-bold truncate-multiline" style="cursor: pointer;">{{p.nombre}}
+                                </p>
                             </div>
                             <div class="row">
                                 <p class="col-auto fs-5 text-danger fw-bold my-0">S/

@@ -4,11 +4,12 @@ import { Producto } from '../../interfaces/producto';
 import { CommonModule } from '@angular/common';
 import { CategoriaService } from '../../services/categoria.service';
 import { Categoria } from '../../interfaces/categoria';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-articulos',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './articulos.component.html',
   styleUrl: './articulos.component.css'
 })
@@ -18,6 +19,7 @@ export class ArticulosComponent implements OnInit {
   categorias!: Categoria[];
 
   constructor(
+    private router: Router,
     private productoService: ProductoService,
     private categoriaService: CategoriaService
   ) { }
