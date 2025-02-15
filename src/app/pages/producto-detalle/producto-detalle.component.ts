@@ -2,16 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../interfaces/producto';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-producto-detalle',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink],
   templateUrl: './producto-detalle.component.html',
   styleUrl: './producto-detalle.component.css'
 })
 export class ProductoDetalleComponent implements OnInit {
 
+  activeDetalle: string = "div1";
   producto!: Producto;
 
   constructor(
@@ -21,7 +23,6 @@ export class ProductoDetalleComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.router.navigate(['descripcion'], { relativeTo: this.route });
     const nombre = this.route.snapshot.paramMap.get("nombre");
     this.productoService.buscarPorNombre(nombre!).subscribe({
       next: (result) => {
@@ -31,5 +32,7 @@ export class ProductoDetalleComponent implements OnInit {
       error: (error) => { }
     });
   }
+
+  toggleDiv(div: string) { this.activeDetalle = div; }
 
 }

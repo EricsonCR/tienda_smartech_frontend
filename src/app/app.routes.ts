@@ -7,9 +7,6 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotpasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { ProductoDetalleComponent } from './pages/producto-detalle/producto-detalle.component';
-import { ProductoDescripcionComponent } from './pages/producto-descripcion/producto-descripcion.component';
-import { ProductoEspecificacionComponent } from './pages/producto-especificacion/producto-especificacion.component';
-import { ProductoCambioDevolucionComponent } from './pages/producto-cambio-devolucion/producto-cambio-devolucion.component';
 
 export const routes: Routes = [
     { path: "home", redirectTo: "", pathMatch: "full" },
@@ -18,13 +15,6 @@ export const routes: Routes = [
     { path: "registrar", component: SignupComponent },
     { path: "recuperarpassword", component: ForgotpasswordComponent },
     { path: "productos", component: ProductosComponent },
-    {
-        path: "producto-detalle/:nombre", component: ProductoDetalleComponent,
-        children: [
-            { path: "descripcion", component: ProductoDescripcionComponent },
-            { path: "especificacion", component: ProductoEspecificacionComponent },
-            { path: "cambio-devolucion", component: ProductoCambioDevolucionComponent }
-        ]
-    },
+    { path: "producto-detalle/:nombre", component: ProductoDetalleComponent },
     { path: "header", component: HeaderComponent }
 ];
