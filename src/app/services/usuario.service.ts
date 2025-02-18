@@ -9,6 +9,7 @@ import { ControllerResponse } from '../interfaces/controller-response';
 export class UsuarioService {
 
   private url = environment.urlApi + "/usuario";
+  
   constructor(
     private http: HttpClient
   ) { }

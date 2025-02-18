@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { UsuarioService } from '../../services/usuario.service';
-import { Usuario } from '../../interfaces/usuario';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
 import { SharedService } from '../../services/shared.service';
 import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
+import { CarritoService } from '../../services/carrito.service';
+import { Carrito } from '../../interfaces/carrito';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-header',
@@ -16,32 +19,27 @@ import { CommonModule } from '@angular/common';
 })
 export class HeaderComponent implements OnInit {
 
+  statusCarrito: boolean = false;
   statusLogin: boolean = false;
   nombreCuenta: string = "Cuenta";
-  // usuario: Usuario = {
-  //   id: "",
-  //   rol: "",
-  //   documento: "",
-  //   numero: "",
-  //   nombres: "Cuenta",
-  //   apellidos: "",
-  //   telefono: "",
-  //   direccion: "",
-  //   email: "",
-  //   nacimiento: new Date()
-  // };
+  cantidadCarrito: number = 0;
+  subTotalCarrito: number = 0;
+  precioTotal: string = "0";
+  carrito: Carrito[] = [];
 
   constructor(
+    private eRef: ElementRef,
     private usuarioService: UsuarioService,
     private router: Router,
     private sharedService: SharedService,
-    private authService: AuthService
+    private authService: AuthService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
+
     const email: string = this.authService.getEmail()!;
     if (email) {
-      console.log("header init");
       this.sharedService.updateCuenta(email);
       this.usuarioService.buscarPorEmail(email).subscribe({
         next: (result) => {
@@ -53,7 +51,6 @@ export class HeaderComponent implements OnInit {
     this.sharedService.cuenta$.subscribe(
       value => {
         if (value != "Cuenta") {
-          console.log("observable");
           this.usuarioService.buscarPorEmail(value).subscribe({
             next: (result) => {
               if (result.status == "OK") { this.nombreCuenta = result.data.nombres; this.statusLogin = true; }
@@ -63,6 +60,16 @@ export class HeaderComponent implements OnInit {
         }
       }
     );
+
+    this.carritoService.cargarItems();
+
+    this.carritoService.carrito$.subscribe(() => {
+      this.cantidadCarrito = this.carritoService.cantidadTotalCarrito();
+      this.subTotalCarrito = this.carritoService.precioTotalCarrito();
+      this.precioTotal = this.formatearNumero(this.subTotalCarrito);
+      this.carrito = this.carritoService.listarCarrito();
+    });
+
   }
 
   logout() {
@@ -71,5 +78,36 @@ export class HeaderComponent implements OnInit {
     this.statusLogin = false;
     this.nombreCuenta = "Cuenta";
     this.router.navigate(["/login"]);
+  }
+
+  formatearNumero(numero: number): string {
+    return numero.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  verCarrito() {
+    this.statusCarrito = !this.statusCarrito;
+    if (this.statusCarrito) {
+
+    }
+  }
+
+  irAlProducto(nombre: string) {
+    const modal = document.getElementById("myModal");
+    if (modal) {
+      const mymodal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+      mymodal.hide();
+      this.statusCarrito = false;
+    }
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(['producto-detalle', nombre]);
+    });
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickOut(event: Event) {
+    if (!this.eRef.nativeElement.contains(event.target)) {
+      this.statusCarrito = false;
+    }
   }
 }

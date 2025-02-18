@@ -1,4 +1,4 @@
-<div class="container bg-warning p-4">
+<div class="container bg-warning py-2 sticky-top">
   <div class="row justify-content-between">
     <div class="row col-sm-4">
       <div class="row col-sm">
@@ -9,7 +9,7 @@
         </a>
       </div>
       <div class="row col-sm-auto d-flex justify-content-end divcategoria">
-        <div class="col-sm-auto ps-1 d-flex align-items-center">
+        <div class="col-sm-auto ps-1 d-flex align-items-center" style="cursor:pointer;">
           <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="img/lista.png" alt="" width="24px" class="pe-1">Categorias
           </h5>
@@ -36,33 +36,82 @@
     <div class="row col-sm-4">
       <div class="row col-sm-auto p-0 divcuenta me-4">
         <div class="col-sm-auto px-1 d-flex align-items-center">
-          <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+          <h5 class="fw-bold d-flex align-items-center" style="cursor: pointer;" data-bs-toggle="dropdown"
+            aria-expanded="false">
             <img src="img/account.png" alt="" width="24px" class="pe-1">{{nombreCuenta}}
-            <ul class="dropdown-menu">
-              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item"
-                  routerLink="login">Iniciar sesion</a></li>
-              <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" routerLink="/registrar">Registrate</a>
-              </li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Perfil</a></li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item"
-                  href="#">Notificaciones</a></li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Pedidos</a></li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Favoritos</a>
-              </li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}">
-                <hr class="dropdown-divider">
-              </li>
-              <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#"
-                  (click)="logout()">Salir</a></li>
-            </ul>
           </h5>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" routerLink="login">Iniciar
+                sesion</a></li>
+            <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item"
+                routerLink="/registrar">Registrate</a>
+            </li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Perfil</a></li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Notificaciones</a>
+            </li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Pedidos</a></li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Favoritos</a>
+            </li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}">
+              <hr class="dropdown-divider">
+            </li>
+            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#"
+                (click)="logout()">Salir</a></li>
+          </ul>
         </div>
       </div>
-      <div class="row col-sm-auto p-0 divcarrito me-4">
-        <div class="col-sm-auto px-1 d-flex align-items-center">
-          <h5 class="fw-bold d-flex align-items-center">
-            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
+      <div class="row col-sm-auto p-0 me-4" style="cursor: pointer;">
+        <div class="col-sm-auto px-1 d-flex align-items-center position-relative">
+          <h5 class="fw-bold d-flex align-items-center" (click)="verCarrito()">
+            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito ({{cantidadCarrito}})
           </h5>
+          <div class="div-carrito bg-white px-4 py-2" [hidden]="!statusCarrito" style="width: 450px; cursor: auto;">
+            <div class="row d-flex justify-content-between mx-0">
+              <div class="col-sm-auto px-0">
+                <small class="fw-semibold" style="font-size: 15px;">{{cantidadCarrito}} Productos en el carrito</small>
+              </div>
+              <div class="col-sm-auto px-0">
+                <small class="fw-light" style="font-size: 15px;">Subtotal</small>
+              </div>
+            </div>
+            <div class="row d-flex justify-content-end mx-0 mb-3">
+              <div class="col-sm-auto px-0">
+                <p class="fs-4 my-0 fw-bold">S/ {{precioTotal}}</p>
+              </div>
+            </div>
+            <div class="row mx-0 mb-3">
+              <button class="btn btn-warning fw-bold rounded-5">Ir al carrito</button>
+            </div>
+            <div *ngFor="let c of carrito.slice(0,4)">
+              <div class="row border border-secondary-subtle mx-0 mb-3">
+                <div class="col-sm-3 d-flex align-items-center justify-content-center my-2">
+                  <img class="mx-0" src="img/{{c.producto.fotos[0].galeria.url}}" height="80px" alt="">
+                </div>
+                <div class="col-sm-9 px-0">
+                  <div class="">
+                    <p class="my-1 fw-light" style="font-size: 14px;">{{c.producto.marca.nombre}}</p>
+                  </div>
+                  <div class="mx-0">
+                    <p class="my-1 px-0 fw-semibold lh-1" style="font-size: 14px;">
+                      <a routerLink="" (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
+                    </p>
+                  </div>
+                  <div class="row mx-0 d-flex justify-content-between">
+                    <div class="col-sm-auto px-0">
+                      <p class="text-danger fw-bold" style="font-size: 17px;">S/
+                        {{(c.producto.precio*(1-c.producto.descuento/100)).toFixed(2)}}</p>
+                    </div>
+                    <div class="col-sm-auto">
+                      <img src="img/eliminar.png" alt="" width="24px">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="carrito.length>4" class="mb-3">
+              <a href="">ver mas ({{carrito.length}})</a>
+            </div>
+          </div>
         </div>
       </div>
       <div class="row col-sm-auto p-0 divpedido">

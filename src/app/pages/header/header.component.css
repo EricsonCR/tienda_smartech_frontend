@@ -1,12 +1,14 @@
-.divcuenta,
-.divcarrito,
-.divpedido,
-.divcategoria {
-    cursor: pointer;
+.div-carrito {
+    position: absolute;
+    top: 50px;
+    right: 0vw;
+    box-shadow: 0px 0px 15px 0px black;
 }
 
 @media screen and (max-width: 1200px) {
-    .h5categoria, .h5smartech {
+
+    .h5categoria,
+    .h5smartech {
         display: none;
     }
 }

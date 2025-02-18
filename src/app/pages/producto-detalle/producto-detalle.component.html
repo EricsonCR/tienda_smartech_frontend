@@ -1,49 +1,46 @@
 <div class="container my-2 bg-white">
     <div class="row py-4">
         <div class="col-sm">
-            <div class="row">
-                <div class="col-sm-2">
-                    <div class="list-group">
-                        <a routerLink="#" class="list-group-item list-group-item-action">
-                            <img src="img/apple-celular-1.png" class="" height="48px" alt="...">
-                        </a>
-                        <a routerLink="#" class="list-group-item list-group-item-action">
-                            <img src="img/apple-celular-2.png" class="" height="48px" alt="...">
-                        </a>
-                        <a routerLink="#" class="list-group-item list-group-item-action">
-                            <img src="img/apple-celular-3.png" class="" height="48px" alt="...">
-                        </a>
-                    </div>
-                </div>
-                <div class="col-sm-10 p-0 m-0">
-                    <div class="col-sm-12">
-                        <div *ngIf="producto.descuento > 0">
-                            <button type="button" class="btn btn-danger fw-semibold">-{{producto.descuento}}%</button>
+            <div *ngIf="producto">
+                <div class="row">
+                    <div class="col-sm-2">
+                        <div class="list-group">
+                            <div *ngFor="let foto of producto.fotos">
+                                <a routerLink="#" class="list-group-item list-group-item-action">
+                                    <img src="img/{{foto.galeria.url}}" class="" height="48px" alt="...">
+                                </a>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner text-center">
-                                <div class="carousel-item active">
-                                    <img src="img/apple-celular-1.png" class="" height="450px" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="img/apple-celular-2.png" class="" height="450px" alt="...">
-                                </div>
-                                <div class="carousel-item">
-                                    <img src="img/apple-celular-3.png" class="" height="450px" alt="...">
+                    <div class="col-sm-10 p-0 m-0">
+                        <div class="col-sm-12">
+                            <div *ngIf="producto">
+                                <div *ngIf="producto.descuento > 0">
+                                    <button type="button"
+                                        class="btn btn-danger fw-semibold">-{{producto.descuento}}%</button>
                                 </div>
                             </div>
-                            <button class="carousel-control-prev" type="button"
-                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Previous</span>
-                            </button>
-                            <button class="carousel-control-next" type="button"
-                                data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Next</span>
-                            </button>
+                        </div>
+                        <div class="col-sm-12">
+                            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                                <div class="carousel-inner text-center">
+                                    <div *ngFor="let foto of producto.fotos; let i = index">
+                                        <div class="carousel-item" [class.active]="i==0">
+                                            <img src="img/{{foto.galeria.url}}" class="" height="450px" alt="...">
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="carousel-control-prev" type="button"
+                                    data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Previous</span>
+                                </button>
+                                <button class="carousel-control-next" type="button"
+                                    data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Next</span>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -67,17 +64,20 @@
                     <div class="input-group" style="width: 135px;">
                         <button
                             class="btn btn-outline-secondary pt-0 fs-4 border border-end-0 border-warning rounded-start-pill"
-                            type="button" id="button-addon1">-</button>
+                            type="button" id="button-addon1" (click)="restarItems()">-</button>
                         <input type="text"
                             class="form-control text-center shadow-none border border-start-0 border-end-0 border-warning"
-                            placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1">
+                            placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"
+                            value="{{cantidadItem}}">
                         <button
                             class="btn btn-outline-secondary pt-0 mt-0 fs-4 border border-start-0 border-warning rounded-end-circle"
-                            type="button" id="button-addon2">+</button>
+                            type="button" id="button-addon2" (click)="sumarItems()">+</button>
                     </div>
                 </div>
                 <div class="col-sm-auto mx-0 px-2">
-                    <button class="btn btn-warning fw-bold px-5 py-2 rounded-5">Agregar al carrito</button>
+                    <button class="btn btn-warning fw-bold px-5 py-2 rounded-5" data-bs-toggle="modal"
+                        data-bs-target="#myModal" (click)="agregar(producto)">Agregar al
+                        carrito</button>
                 </div>
                 <div class="col-sm-auto d-flex align-items-center">
                     <img src="img/corazon.png" alt="" width="24px">
@@ -110,7 +110,7 @@
             <hr class="text-body-tertiary mb-3">
             <p class="text-secondary fw-semibold mb-1">Compartir en</p>
             <div class="row d-flex align-items-center">
-                <div class="col-sm-auto"><img src="img/social.png" class="" alt="" width="24px"></div>
+                <div class="col-sm-auto"><img src="img/social.png" class="" alt="" width="28px"></div>
                 <div class="col-sm-auto px-0"><img src="img/gmail.png" class="" alt="" width="24px"></div>
                 <div class="col-sm-auto"><img src="img/whatsapp2.png" class="" alt="" width="24px"></div>
             </div>
@@ -118,63 +118,54 @@
     </div>
 </div>
 <div class="container my-2 bg-dark">
-    <div class="py-2">
+    <div class="py-3">
         <ul class="nav justify-content-center nav-underline">
             <li class="nav-item px-2">
-                <a class="nav-link text-white fw-semibold" style="font-size: 14px;"
-                    [ngClass]="{'active':activeDetalle=='div1'}" routerLink="#" (click)="toggleDiv('div1')">DESCRIPCION
-                    DEL PRODUCTO</a>
+                <a class="nav-link text-white fw-semibold" style="font-size: 14px; cursor: pointer;"
+                    [ngClass]="{'active':activeDetalle=='div1'}" (click)="toggleDiv('div1')">DESCRIPCION DEL
+                    PRODUCTO</a>
             </li>
             <li class="nav-item px-2">
-                <a class="nav-link text-white fw-semibold" style="font-size: 14px;"
-                    [ngClass]="{'active':activeDetalle=='div2'}" routerLink="#"
-                    (click)="toggleDiv('div2')">ESPECIFICACION</a>
+                <a class="nav-link text-white fw-semibold" style="font-size: 14px; cursor: pointer;"
+                    [ngClass]="{'active':activeDetalle=='div2'}" (click)="toggleDiv('div2')">ESPECIFICACION</a>
             </li>
             <li class="nav-item px-2">
-                <a class="nav-link text-white fw-semibold" style="font-size: 14px;"
-                    [ngClass]="{'active':activeDetalle=='div3'}" routerLink="#" (click)="toggleDiv('div3')">CAMBIOS Y
-                    DEVOLUCION</a>
+                <a class="nav-link text-white fw-semibold" style="font-size: 14px; cursor: pointer;"
+                    [ngClass]="{'active':activeDetalle=='div3'}" (click)="toggleDiv('div3')">CAMBIOS Y DEVOLUCION</a>
             </li>
         </ul>
     </div>
 </div>
 <div *ngIf="activeDetalle=='div1'" class="container bg-body-tertiary my-2">
-    <div class="row py-5">
+    <div class="row py-4">
         <div class="col-sm-2 d-flex align-items-center justify-content-center">
             <img src="img/apple-celular-1.png" class="" height="100px" alt="...">
         </div>
-        <div class="col-sm-10">
+        <div *ngIf="producto" class="col-sm-10">
             <h2 class="fw-bold">{{producto.marca.nombre}}</h2>
             <p>{{producto.descripcion}}</p>
-            <p class="lh-1 text-body-secondary">Disfruta de tus películas y series favoritas con imágenes 4K Ultra HD
-                gracias a LG y su televisor
-                50UT7300PSA (2024) con sistema operativo Web OS. Tiene 3 entradas HDMI, 2 entradas USB, entrada
-                internet, Sintonizador TDT, 60Hz de Tasa de refresco, conexión Bluetooth y conexión WiFi. Además, posee
-                una pantalla plana LED de 50 pulgadas, unos parlantes potente de 20W, e incluye un control remoto. ¡No
-                lo pienses más y aprovecha esta oportunidad! Adquiere este increíble televisor LG con solo un clic a
-                través de la web de La Curacao, palabra de confianza.</p>
         </div>
     </div>
 </div>
 <div *ngIf="activeDetalle=='div2'" class="container bg-body-tertiary my-2">
-    <div class="row py-5">
+    <div class="row py-4 px-4">
         <div class="col-sm">
-            <div *ngFor="let e of producto.especificaciones.slice(0,4)" class="row py-2">
-                <div class="col-sm-4">{{e.nombre}}</div>
+            <div *ngFor="let e of producto.especificaciones.slice(0,6)" class="row py-2">
+                <div class="col-sm-4 fw-semibold">{{e.nombre}}</div>
                 <div class="col-sm-8">{{e.descripcion}}</div>
             </div>
         </div>
         <div class="col-sm">
-            <div *ngFor="let e of producto.especificaciones.slice(4,8)" class="row">
-                <div class="col-sm-4">{{e.nombre}}</div>
+            <div *ngFor="let e of producto.especificaciones.slice(6,12)" class="row py-2">
+                <div class="col-sm-4 fw-semibold">{{e.nombre}}</div>
                 <div class="col-sm-8">{{e.descripcion}}</div>
             </div>
         </div>
     </div>
 </div>
 <div *ngIf="activeDetalle=='div3'" class="container bg-body-tertiary my-2">
-    <div class="row py-5">
-        <h2 class="fw-bold mb-4">Cambios y Devoluciones</h2>
+    <div class="row py-4 px-4">
+        <h2 class="fw-bold">Cambios y Devoluciones</h2>
         <p class="lh-1 text-body-secondary mb-4">Recuerda que cuentas con 10 días calendarios luego de haber recibido tu
             compra,
             para solicitar el cambio o
@@ -182,8 +173,8 @@
             encuentra aquí. Si tu producto es de gran dimensión, contáctanos al (01)200-2890 LaCuracao opción 4, para
             coordinar el recojo. Para que conozcas los requisitos, opciones de cambio y mayor información puedes
             ingresar aquí.</p>
-        <h2 class="fw-bold  mb-4">Garantía de Fábrica</h2>
-        <p class="lh-1 text-body-secondary">Recuerda que cuentas con 10 días calendarios luego de haber recibido tu
+        <h2 class="fw-bold  mt-4">Garantía de Fábrica</h2>
+        <p class="lh-1 text-body-secondary mb-4">Recuerda que cuentas con 10 días calendarios luego de haber recibido tu
             compra,
             Todos los productos comercializados en lacuracao.pe cuentan con una garantía de fabricación, cuya vigencia y
             beneficios dependen del tipo de producto adquirido. Cabe mencionar que cada fabricante determinará los
@@ -214,6 +205,56 @@
             <img src="img/casilleros.png" class="bg-warning rounded-5 p-2 mb-2" alt="" width="48px">
             <h6 class="text-white">RETIRO EN LOCKERS</h6>
             <small class="text-light py-0 my-0 opacity-75">Retira tu compra en lockers las 24hs</small>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bg-body-tertiary p-2">
+            <div class="row d-flex justify-content-between mx-2 py-4">
+                <div class="col-auto row d-flex align-items-center">
+                    <div class="col-sm-auto rounded-circle bg-warning d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;">
+                        <img src="img/cart.png" width="24px" class="" alt="">
+                    </div>
+                    <div class="col-sm-auto d-flex align-items-center">
+                        <h4 class="modal-title" id="myModalLabel">{{tituloModal}}</h4>
+                    </div>
+                    <div class="spinner-border" [hidden]="estadoAgregar" role="status"></div>
+                    <div class="col-sm-auto" [hidden]="!estadoAgregar">
+                        <img src="img/cheque.png" class="" width="40px" alt="">
+                    </div>
+                </div>
+                <div class="col-auto"><button type="button" class="btn-close fs-5" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="row mx-2 p-4 border border-light-subtle">
+                <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                    <div *ngIf="item">
+                        <img src="img/{{item.fotos[0].galeria.url}}" alt="" height="150px">
+                    </div>
+                </div>
+                <div *ngIf="item" class="col-sm-10 px-4">
+                    <p class="mb-2">{{item.marca.nombre}}</p>
+                    <p class="fw-bold fs-5 mb-2">
+                        <a routerLink="" (click)="irAlProducto(item.nombre)">{{item.nombre}}</a>
+                    </p>
+                    <p class="text-danger fw-bold fs-4 mb-0">S/ {{(item.precio*(1-item.descuento/100)).toFixed(2)}}</p>
+                    <div *ngIf="item.descuento>0">
+                        <p class="text-decoration-line-through text-body-tertiary">S/ {{item.precio}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-end mx-2 p-4">
+                <div class="col-auto"><button type="button"
+                        class="btn btn-outline-warning rounded-5 px-4 py-2 fw-bold text-dark"
+                        data-bs-dismiss="modal">Seguir comprando</button></div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-warning rounded-5 px-5 py-2 fw-bold">Ir al carrito</button>
+                </div>
+            </div>
         </div>
     </div>
 </div>

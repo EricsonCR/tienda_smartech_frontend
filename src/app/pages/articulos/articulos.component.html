@@ -1,68 +1,124 @@
-<div *ngFor="let c of categorias">
-    <div *ngIf="c.productos.length>0">
-        <div class="container mb-2">
-            <div class="row py-2">
-                <a href="" class="col-auto pe-0 d-flex align-items-center"><img src="img/telefono-movil.png" alt=""
-                        width="32px"></a>
-                <a href="" class="col-auto fw-semibold fs-3 px-0 text-dark"
-                    style="text-decoration: none;">{{c.nombre}}</a>
+<div *ngIf="categorias">
+    <div *ngFor="let c of categorias.slice(0,2)">
+        <div *ngIf="c.productos.length>0">
+            <div class="container mb-2">
+                <div class="row py-2">
+                    <a href="" class="col-auto pe-0 d-flex align-items-center"><img src="img/telefono-movil.png" alt=""
+                            width="32px"></a>
+                    <a href="" class="col-auto fw-semibold fs-3 px-0 text-dark"
+                        style="text-decoration: none;">{{c.nombre}}</a>
+                </div>
             </div>
-        </div>
 
-        <div class="container mb-2">
-            <div class="row">
-                <div *ngFor="let p of c.productos.slice(0, 4)" class="col-12 col-sm-6 col-lg-3 mb-4">
-                    <div class="card">
+            <div class="container mb-2">
+                <div class="row">
+                    <div *ngFor="let p of c.productos.slice(0, 4)" class="col-12 col-sm-6 col-sm-4 col-lg-3 mb-4">
+                        <div class="card">
 
-                        <div class="position-relative">
-                            <div class="position-absolute top-0 start-0">
-                                <div *ngIf="p.descuento > 0">
-                                    <button type="button" class="btn btn-danger fw-semibold">-{{p.descuento}}%</button>
+                            <div class="position-relative">
+                                <div class="position-absolute top-0 start-0">
+                                    <div *ngIf="p.descuento > 0">
+                                        <button type="button"
+                                            class="btn btn-danger fw-semibold">-{{p.descuento}}%</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body" style="height: 430px;">
-                            <div class="d-flex justify-content-center m-0 pb-2">
-                                <a routerLink="producto-detalle/{{p.nombre}}"><img src="img/celular.png" alt=""
-                                        height="200px"></a>
-                            </div>
-                            <div class="">
-                                <p class="m-0 pb-2 fw-light">{{p.marca.nombre}}</p>
-                            </div>
-                            <div class="">
-                                <p routerLink="producto/detalle/{{p.nombre}}"
-                                    class="m-0 pb-2 fw-bold truncate-multiline" style="cursor: pointer;">{{p.nombre}}
-                                </p>
-                            </div>
-                            <div class="row">
-                                <p class="col-auto fs-5 text-danger fw-bold my-0">S/
-                                    {{(p.precio*(1-p.descuento/100)).toFixed(2)}}</p>
-                                <p *ngIf="p.descuento==0"
-                                    class="col-auto d-flex text-white align-items-center justify-content-start p-0 my-0">
-                                    oferta
-                                </p>
-                                <p *ngIf="p.descuento>0"
-                                    class="col-auto d-flex align-items-center justify-content-start p-0 my-0">oferta</p>
-                            </div>
-                            <div class="row">
-                                <p *ngIf="p.descuento==0"
-                                    class="col-auto fw-light text-white text-decoration-line-through my-0">S/
-                                    {{p.precio}}
-                                </p>
-                                <p *ngIf="p.descuento>0" class="col-auto fw-light text-decoration-line-through my-0">S/
-                                    {{p.precio}}</p>
-                            </div>
-                            <div class="row d-flex justify-content-center justify-content-evenly">
-                                <div class="col-auto py-2 px-2 m-0">
-                                    <button class="btn bg-warning fw-semibold rounded-4 px-5">Agregar al
-                                        carrito</button>
+                            <div class="card-body" style="height: 430px;">
+                                <div class="d-flex justify-content-center m-0 pb-2">
+                                    <a routerLink="producto-detalle/{{p.nombre}}"><img
+                                            src="img/{{p.fotos[0].galeria.url}}" alt="" height="200px"></a>
                                 </div>
-                                <div class="col-auto d-flex align-items-center p-0 m-0">
-                                    <a href=""><img src="img/corazon.png" alt="" width="24px"></a>
+                                <div class="">
+                                    <p class="m-0 pb-2 fw-light">{{p.marca.nombre}}</p>
+                                </div>
+                                <div class="">
+                                    <p routerLink="producto/detalle/{{p.nombre}}"
+                                        class="m-0 pb-2 fw-bold truncate-multiline" style="cursor: pointer;">
+                                        {{p.nombre}}
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <p class="col-auto fs-5 text-danger fw-bold my-0">S/
+                                        {{(p.precio*(1-p.descuento/100)).toFixed(2)}}</p>
+                                    <p *ngIf="p.descuento==0"
+                                        class="col-auto d-flex text-white align-items-center justify-content-start p-0 my-0">
+                                        oferta
+                                    </p>
+                                    <p *ngIf="p.descuento>0"
+                                        class="col-auto d-flex align-items-center justify-content-start p-0 my-0">oferta
+                                    </p>
+                                </div>
+                                <div class="row">
+                                    <p *ngIf="p.descuento==0"
+                                        class="col-auto fw-light text-white text-decoration-line-through my-0">S/
+                                        {{p.precio}}
+                                    </p>
+                                    <p *ngIf="p.descuento>0"
+                                        class="col-auto fw-light text-decoration-line-through my-0">S/
+                                        {{p.precio}}</p>
+                                </div>
+                                <div class="row d-flex justify-content-center justify-content-evenly">
+                                    <div class="col-auto py-2 px-2 m-0">
+                                        <button class="btn bg-warning fw-semibold rounded-4 px-4" data-bs-toggle="modal"
+                                            data-bs-target="#myModal" (click)="agregar(p)">Agregar al carrito</button>
+                                    </div>
+                                    <div class="col-auto d-flex align-items-center p-0 m-0">
+                                        <a href=""><img src="img/corazon.png" alt="" width="24px"></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content bg-body-tertiary p-2">
+            <div class="row d-flex justify-content-between mx-2 py-4">
+                <div class="col-auto row d-flex align-items-center">
+                    <div class="col-sm-auto rounded-circle bg-warning d-flex align-items-center justify-content-center"
+                        style="width: 40px; height: 40px;">
+                        <img src="img/cart.png" width="24px" class="" alt="">
+                    </div>
+                    <div class="col-sm-auto d-flex align-items-center">
+                        <h4 class="modal-title" id="myModalLabel">{{tituloModal}}</h4>
+                    </div>
+                    <div class="spinner-border" [hidden]="estadoAgregar" role="status"></div>
+                    <div class="col-sm-auto" [hidden]="!estadoAgregar">
+                        <img src="img/cheque.png" class="" width="40px" alt="">
+                    </div>
+                </div>
+                <div class="col-auto"><button type="button" class="btn-close fs-5" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="row mx-2 p-4 border border-light-subtle">
+                <div class="col-sm-2 d-flex align-items-center justify-content-center">
+                    <div *ngIf="item">
+                        <img src="img/{{item.fotos[0].galeria.url}}" alt="" height="150px">
+                    </div>
+                </div>
+                <div *ngIf="item" class="col-sm-10 px-4">
+                    <p class="mb-2">{{item.marca.nombre}}</p>
+                    <p class="fw-bold fs-5 mb-2">
+                        <a routerLink="" (click)="irAlProducto(item.nombre)">{{item.nombre}}</a>
+                    </p>
+                    <p class="text-danger fw-bold fs-4 mb-0">S/ {{(item.precio*(1-item.descuento/100)).toFixed(2)}}</p>
+                    <div *ngIf="item.descuento>0">
+                        <p class="text-decoration-line-through text-body-tertiary">S/ {{item.precio}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-end mx-2 p-4">
+                <div class="col-auto"><button type="button"
+                        class="btn btn-outline-warning rounded-5 px-4 py-2 fw-bold text-dark"
+                        data-bs-dismiss="modal">Seguir comprando</button></div>
+                <div class="col-auto">
+                    <button type="button" class="btn btn-warning rounded-5 px-5 py-2 fw-bold">Ir al carrito</button>
                 </div>
             </div>
         </div>
