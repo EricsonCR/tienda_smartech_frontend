@@ -1,0 +1,27 @@
+<div class="container my-2 bg-body-tertiary">
+    <div class="row py-4">
+        <div class="col-sm-3">
+            <div class="bg-warning rounded-2 p-4">
+                <ul class="m-0 p-0">
+                    <li *ngFor="let o of listaOpciones" class="d-flex justify-content-between mb-1">
+                        <div class="col-auto">
+                            <a [ngClass]="{'active':opcion==o.id}" (click)="seleccionarOpcion(o.id)"
+                                routerLink="/cuenta/{{o.ruta}}">{{o.nombre}}</a>
+                        </div>
+                        <div *ngIf="opcion==o.id" class="col-auto">
+                            <img src="img/flecha-correcta.png" width="12px" alt="">
+                        </div>
+                    </li>
+                    <li class="d-flex justify-content-between mb-1">
+                        <div class="col-auto">
+                            <a routerLink="#">Cerrar sesion</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</div>

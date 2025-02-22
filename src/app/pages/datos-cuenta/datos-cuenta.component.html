@@ -1,0 +1,61 @@
+<div class="container">
+    <div class="">
+        <h2 class="fw-bold">Informacion de mi cuenta</h2>
+        <hr class="mt-5">
+        <div class="row m-0 py-2">
+            <div class="col-auto bg-warning rounded-circle p-2"><img src="img/account.png" width="28px" alt=""></div>
+            <div class="col-auto d-flex align-items-center">
+                <p class="m-0 fw-light fs-4">Mis datos</p>
+            </div>
+        </div>
+        <form [formGroup]="userForm" (ngSubmit)="actualizarUsuario()">
+            <div class="row mx-0 mt-4 mb-2">
+                <div class="col-sm-6 ps-0 pe-2 py-1">
+                    <label for="" class="form-label fw-light">Nombres</label>
+                    <input type="text" class="form-control rounded-5 py-2 px-4" formControlName="nombres">
+                </div>
+                <div class="col-sm-6 ps-2 pe-0 py-1">
+                    <label for="" class="form-label fw-light">Apellidos</label>
+                    <input type="text" class="form-control rounded-5 py-2 px-4" formControlName="apellidos">
+                </div>
+            </div>
+            <div class="row mx-0 mb-2">
+                <div class="col-sm-6 ps-0 pe-2 py-1">
+                    <label for="" class="form-label fw-light">Tipo Documento</label>
+                    <select name="" id="" class="form-select rounded-5 py-2 px-4" formControlName="documento">
+                        <option value="DNI">DNI</option>
+                        <option value="CE">CE</option>
+                        <option value="PASAPORTE">PASAPORTE</option>
+                    </select>
+                </div>
+                <div class="col-sm-6 ps-2 pe-0 py-1">
+                    <label for="" class="form-label fw-light">Numero de Documento</label>
+                    <input type="text" class="form-control rounded-5 py-2 px-4" formControlName="numero">
+                </div>
+            </div>
+            <div class="row mx-0 mb-2">
+                <div class="col-sm-6 ps-0 pe-2 py-1">
+                    <label for="" class="form-label">Nacimiento</label>
+                    <input type="date" class="form-control rounded-5 py-2 px-4" formControlName="nacimiento">
+                </div>
+                <div class="col-sm-6 ps-2 pe-0 py-1">
+                    <label for="" class="form-label">Celular</label>
+                    <input type="tel" class="form-control rounded-5 py-2 px-4" formControlName="telefono">
+                </div>
+            </div>
+            <div class="row mx-0 mt-5 mb-2 d-flex justify-content-between">
+                <div class="row col-auto" (click)="irPaginaAnterior()" style="cursor: pointer;">
+                    <div class="col-auto">
+                        <a><img src="img/atras.png" width="24px" alt=""></a>
+                    </div>
+                    <div class="col-auto px-0">
+                        <p class="m-0 fw-light fs-6">Regresar</p>
+                    </div>
+                </div>
+                <div class="col-auto"><button type="submit" [disabled]="userForm.invalid"
+                        class="btn btn-warning text-dark fw-bold rounded-5 px-5 py-2">Guardar</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

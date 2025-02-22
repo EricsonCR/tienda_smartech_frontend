@@ -1,0 +1,121 @@
+<div class="container bg-body-tertiary my-3">
+    <div class="row d-flex align-items-center mb-4">
+        <div class="col-auto pe-1">
+            <p class="fw-bold fs-2 m-0">Carrito de compras</p>
+        </div>
+        <div class="col-auto px-0">
+            <div class="d-flex align-items-center justify-content-center bg-warning rounded-circle"
+                style="height: 40px;width: 40px;">
+                <img src="img/cart.png" class="p-0 m-0" height="24px" alt="">
+            </div>
+        </div>
+    </div>
+    <div *ngIf="carrito" class="row ">
+        <div class="col-sm-8">
+            <div *ngFor="let c of carrito.carritoDetalles">
+                <div class="border border-light-subtle bg-white p-3 mb-4">
+                    <div class="row">
+                        <div class="col-sm-2 p-2 d-flex align-items-center justify-content-center">
+                            <img class="p-3" src="img/{{c.producto.fotos[0].galeria.url}}" height="150px" alt="">
+                        </div>
+                        <div class="col-sm-8 p-2">
+                            <p class="mb-1">{{c.producto.marca.nombre}}</p>
+                            <p class="mb-1 lh-1 truncate-multiline"><a
+                                    routerLink="/producto-detalle/{{c.producto.nombre}}">{{c.producto.nombre}}</a></p>
+                            <p class="mb-1 text-body-tertiary">SKU: {{c.producto.sku}}</p>
+                            <p class="mb-0 fw-bold text-danger fs-4">S/
+                                {{(c.producto.precio*(1-c.producto.descuento/100)).toFixed(2)}}</p>
+                            <p class="mb-1 fw-light text-decoration-line-through">S/ {{c.producto.precio}}</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="row d-flex justify-content-center mt-2 mb-5">
+                                <div class="input-group" style="width: 130px;">
+                                    <button
+                                        class="btn btn-outline-secondary pt-0 fs-4 border border-end-0 border-warning rounded-start-pill"
+                                        type="button" id="button-addon1" (click)="restarItems(c.producto)">-</button>
+                                    <input type="text"
+                                        class="form-control mx-0 px-0 text-center shadow-none border border-start-0 border-end-0 border-warning"
+                                        placeholder="" aria-label="Example text with button addon"
+                                        aria-describedby="button-addon1" value="{{c.cantidad}}">
+                                    <button
+                                        class="btn btn-outline-secondary pt-0 mt-0 fs-4 border border-start-0 border-warning rounded-end-circle"
+                                        type="button" id="button-addon2" (click)="sumarItems(c.producto)">+</button>
+                                </div>
+                            </div>
+                            <div class="row d-flex align-items-center mb-3">
+                                <div class="col-auto pe-1">
+                                    <img src="img/basura.png" width="24px" alt="">
+                                </div>
+                                <div class="col-auto ps-1">
+                                    <p class="m-0 fw-light"><a class="text-decoration-underline"
+                                            style="cursor: pointer;" (click)="eliminarItem(c.producto)">Eliminar</a></p>
+                                </div>
+                            </div>
+                            <div class="row d-flex align-items-center">
+                                <div class="col-auto pe-1">
+                                    <img src="img/guardar-instagram.png" width="20px" alt="">
+                                </div>
+                                <div class="col-auto ps-1">
+                                    <p class="m-0 fw-light"><a routerLink="">Guardar</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="carrito.carritoDetalles.length==0">
+                <p>Tu carrito esta vacio.</p>
+            </div>
+        </div>
+        <div *ngIf="carrito.carritoDetalles.length!=0" class="col-sm-4 mb-3">
+            <div class="bg-warning px-4 py-2 rounded-1">
+                <p class="mb-0 fs-4 fw-semibold">Resumen de pedido</p>
+                <div *ngIf="itemsCarrito(carrito.carritoDetalles)==1">
+                    <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} producto</p>
+                </div>
+                <div *ngIf="itemsCarrito(carrito.carritoDetalles)==0 || itemsCarrito(carrito.carritoDetalles)>1">
+                    <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} productos</p>
+                </div>
+            </div>
+            <div class="bg-white p-4 rounded-1">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-auto">
+                        <p class="fw-light m-0 p-0">Subotal</p>
+                    </div>
+                    <div class="col-auto">
+                        <p class="fw-light m-0 p-0">S/ {{subTotalCarrito(carrito.carritoDetalles)}}</p>
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-between">
+                    <div class="col-auto">
+                        <p class="fw-light m-0 p-0">Descuento</p>
+                    </div>
+                    <div class="col-auto">
+                        <p class="fw-light m-0 p-0 text-decoration-line-through">S/
+                            {{descuentoCarrito(carrito.carritoDetalles)}}</p>
+                    </div>
+                </div>
+                <div class="row d-flex align-items-center justify-content-between">
+                    <div class="col-auto">
+                        <p class="fw-bold m-0 p-0">Total pedido</p>
+                    </div>
+                    <div class="col-auto">
+                        <p class="fw-bold m-0 p-0 text-danger fs-4">S/ {{totalCarrito(carrito.carritoDetalles)}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mx-0 my-4">
+                <button class="btn btn-warning fw-bold py-2 fs-5 rounded-5" [disabled]="usuario.nombres==''"
+                    (click)="realiarPedido()">Relizar compra</button>
+            </div>
+            <div class="row mx-0" *ngIf="usuario.nombres==''">
+                <div class="col-auto p-0 m-0">
+                    <p class="m-0 fw-light fst-italic">*Debe iniciar sesion para poder realizar su compra</p>
+                </div>
+                <div class="col-auto px-0">
+                    <a class="" routerLink="/login">Iniciar sesion</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

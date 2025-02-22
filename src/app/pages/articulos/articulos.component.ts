@@ -7,6 +7,7 @@ import { Categoria } from '../../interfaces/categoria';
 import { Router, RouterLink } from '@angular/router';
 import { Carrito } from '../../interfaces/carrito';
 import { CarritoService } from '../../services/carrito.service';
+import { SharedService } from '../../services/shared.service';
 
 declare var bootstrap: any;
 
@@ -29,7 +30,7 @@ export class ArticulosComponent implements OnInit {
     private router: Router,
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
-    private carritoService: CarritoService
+    private sharedService: SharedService
   ) { }
 
   ngOnInit(): void {
@@ -66,9 +67,21 @@ export class ArticulosComponent implements OnInit {
     });
   }
 
+  irAlCarrito() {
+    const modal = document.getElementById("myModal");
+    if (modal) {
+      const mymodal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
+      mymodal.hide();
+    }
+
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(["carrito"]);
+    });
+  }
+
   agregar(p: Producto) {
     this.item = p;
-    const itemIndex = this.carritoService.agregarCarrito({ producto: p, cantidad: 1 });
+    const itemIndex = this.sharedService.agregarItemCarrito(p, 1);
     if (itemIndex == -1) { this.tituloModal = "Tu producto ha sido añadido al carrito"; }
     else { this.tituloModal = "El producto ya existe en tu carrito"; }
     this.actualizarAgregar();

@@ -13,8 +13,13 @@ import { CommonModule } from '@angular/common';
   styleUrl: './signup.component.css'
 })
 export class SignupComponent {
-  listaDocumentos = [{ value: "DNI" }, { value: "CEXT" }];
-  public userForm!: FormGroup;
+  listaDocumentos = [
+    { value: "DNI" },
+    { value: "CE" },
+    { value: "PASAPORTE" }
+  ];
+
+  userForm!: FormGroup;
 
   constructor(
     private authService: AuthService,
@@ -60,7 +65,8 @@ export class SignupComponent {
 
   alertError(message: string) {
     Swal.fire({
-      title: message,
+      title: "Error",
+      text: message,
       icon: "error"
     });
   }

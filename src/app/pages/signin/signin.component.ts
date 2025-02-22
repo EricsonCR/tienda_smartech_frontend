@@ -4,6 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import { SharedService } from '../../services/shared.service';
+import { UsuarioService } from '../../services/usuario.service';
+import { Usuario } from '../../interfaces/usuario';
 
 @Component({
   selector: 'app-signin',
@@ -14,12 +16,14 @@ import { SharedService } from '../../services/shared.service';
 })
 export class SigninComponent {
   public authForm!: FormGroup;
+  private usuario!: Usuario;
 
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {
@@ -33,12 +37,25 @@ export class SigninComponent {
     this.authService.login(this.authForm.value).subscribe({
       next: (result) => {
         if (result.status == "200") {
-          this.authService.setEmail(this.authForm.value.email);
-          this.sharedService.updateCuenta(this.authForm.value.email);
+          this.actualizarUsuario(this.authForm.value.email);
           this.alertOK(result.message);
-          this.router.navigate([""]);
         } else {
           this.alertError(result.message);
+        }
+      },
+      error: (error) => { console.log(error); }
+    });
+  }
+
+  actualizarUsuario(email: string) {
+    this.usuarioService.buscarPorEmail(email).subscribe({
+      next: (result) => {
+        if (result.status == "OK") {
+          this.usuario = result.data;
+          if (this.usuario.email != "") {
+            this.sharedService.setUsuario(this.usuario);
+            this.router.navigate([""]);
+          }
         }
       },
       error: (error) => { console.log(error); }

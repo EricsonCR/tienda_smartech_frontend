@@ -1,10 +1,10 @@
-<div class="container bg-warning py-2 sticky-top">
+<div class="container bg-warning py-3 sticky-top">
   <div class="row justify-content-between">
     <div class="row col-sm-4">
       <div class="row col-sm">
         <a href="" class="" style="text-decoration: none;">
           <h5 class="fw-bold fs-3 text-dark d-flex align-items-center">
-            <img class="" src="img/chat-gpt.png" alt="" width="48px">SmarTech
+            <img class="" src="img/chat-gpt.png" alt="" width="48px">SMARTECH
           </h5>
         </a>
       </div>
@@ -38,24 +38,28 @@
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center" style="cursor: pointer;" data-bs-toggle="dropdown"
             aria-expanded="false">
-            <img src="img/account.png" alt="" width="24px" class="pe-1">{{nombreCuenta}}
+            <img src="img/account.png" alt="" width="24px" class="pe-1">
+            <div *ngIf="usuario.nombres!=''">{{usuario.nombres.toString().split(" ")[0]}}</div>
+            <div *ngIf="usuario.nombres==''">Cuenta</div>
           </h5>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item" routerLink="login">Iniciar
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}"><a class="dropdown-item"
+                routerLink="login">Iniciar
                 sesion</a></li>
-            <li [ngStyle]="{'display':statusLogin? 'none':'block'}"><a class="dropdown-item"
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}"><a class="dropdown-item"
                 routerLink="/registrar">Registrate</a>
             </li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Perfil</a></li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Notificaciones</a>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}" style="cursor: pointer;"><a
+                class="dropdown-item" (click)="irMisDatos()">Mis datos</a></li>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
+                href="#">Pedidos</a></li>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
+                href="#">Favoritos</a>
             </li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Pedidos</a></li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#">Favoritos</a>
-            </li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}">
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}">
               <hr class="dropdown-divider">
             </li>
-            <li [ngStyle]="{'display':statusLogin? 'block':'none'}"><a class="dropdown-item" href="#"
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item" href="#"
                 (click)="logout()">Salir</a></li>
           </ul>
         </div>
@@ -63,12 +67,14 @@
       <div class="row col-sm-auto p-0 me-4" style="cursor: pointer;">
         <div class="col-sm-auto px-1 d-flex align-items-center position-relative">
           <h5 class="fw-bold d-flex align-items-center" (click)="verCarrito()">
-            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito ({{cantidadCarrito}})
+            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
+            <div *ngIf="carrito.carritoDetalles.length>0">({{carrito.carritoDetalles.length}})</div>
           </h5>
-          <div class="div-carrito bg-white px-4 py-2" [hidden]="!statusCarrito" style="width: 450px; cursor: auto;">
+          <div class="div-carrito bg-white px-4 py-2" [hidden]="!modalCarrito" style="width: 450px; cursor: auto;">
             <div class="row d-flex justify-content-between mx-0">
               <div class="col-sm-auto px-0">
-                <small class="fw-semibold" style="font-size: 15px;">{{cantidadCarrito}} Productos en el carrito</small>
+                <small class="fw-semibold" style="font-size: 15px;">{{carrito.carritoDetalles.length}} Productos en el
+                  carrito</small>
               </div>
               <div class="col-sm-auto px-0">
                 <small class="fw-light" style="font-size: 15px;">Subtotal</small>
@@ -76,13 +82,14 @@
             </div>
             <div class="row d-flex justify-content-end mx-0 mb-3">
               <div class="col-sm-auto px-0">
-                <p class="fs-4 my-0 fw-bold">S/ {{precioTotal}}</p>
+                <p class="fs-4 my-0 fw-bold">S/ {{totalCarrito(carrito.carritoDetalles)}}</p>
               </div>
             </div>
             <div class="row mx-0 mb-3">
-              <button class="btn btn-warning fw-bold rounded-5">Ir al carrito</button>
+              <button class="btn btn-warning fw-bold rounded-5" [disabled]="carrito.carritoDetalles.length==0"
+                (click)="irAlCarrito()">Ir al carrito</button>
             </div>
-            <div *ngFor="let c of carrito.slice(0,4)">
+            <div *ngFor="let c of carrito.carritoDetalles.slice(0,4)">
               <div class="row border border-secondary-subtle mx-0 mb-3">
                 <div class="col-sm-3 d-flex align-items-center justify-content-center my-2">
                   <img class="mx-0" src="img/{{c.producto.fotos[0].galeria.url}}" height="80px" alt="">
@@ -108,8 +115,9 @@
                 </div>
               </div>
             </div>
-            <div *ngIf="carrito.length>4" class="mb-3">
-              <a href="">ver mas ({{carrito.length}})</a>
+            <div *ngIf="carrito.carritoDetalles.length>4" class="row mb-3">
+              <a class="col-sm-auto me-0" routerLink="" (click)="irAlCarrito()">ver mas</a>
+              <p class="col-sm-auto mx-0 px-0">({{carrito.carritoDetalles.length}}) productos en total</p>
             </div>
           </div>
         </div>

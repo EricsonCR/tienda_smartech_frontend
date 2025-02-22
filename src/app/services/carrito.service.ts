@@ -1,42 +1,26 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { Carrito } from '../interfaces/carrito';
+import { HttpClient } from '@angular/common/http';
+import { ControllerResponse } from '../interfaces/controller-response';
+import { environment } from '../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
 
-  private carritoSubject = new BehaviorSubject<Carrito[]>([]);
-  carrito$ = this.carritoSubject.asObservable();
+  private url = environment.urlApi + "/carrito";
 
-  agregarCarrito(carrito: Carrito): number {
-    const currentValue = this.carritoSubject.value;
-    const itemIndex = currentValue.findIndex(x => x.producto.id == carrito.producto.id);
+  constructor(
+    private http: HttpClient
+  ) { }
 
-    if (itemIndex == -1) { currentValue.push(carrito); }
-
-    this.carritoSubject.next([...currentValue]);
-    localStorage.setItem("carrito", JSON.stringify(currentValue));
-
-    return itemIndex;
+  registrar(carrito: Carrito) {
+    return this.http.post<ControllerResponse>(this.url + "/registrar", carrito);
   }
 
-  listarCarrito() { return this.carritoSubject.value; }
-
-  cargarItems() {
-    const carritosGuardado = localStorage.getItem("carrito");
-    if (carritosGuardado) { this.carritoSubject.next([...JSON.parse(carritosGuardado)]); }
+  buscarPorUsuario(id: number) {
+    return this.http.get<ControllerResponse>(this.url + "/buscarPorUsuario/" + id);
   }
 
-  cantidadTotalCarrito(): number {
-    return this.carritoSubject.value.reduce((total, item) => total + item.cantidad, 0);
-  }
-
-  precioTotalCarrito(): number {
-    return this.carritoSubject.value.reduce(
-      (subTotal, item) => subTotal + item.producto.precio * (1 - item.producto.descuento / 100), 0);
-  }
-
-  constructor() { }
 }

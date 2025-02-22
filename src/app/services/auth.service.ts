@@ -9,7 +9,7 @@ import { Auth } from '../interfaces/auth';
 })
 export class AuthService {
   private url = environment.urlApi + "/auth";
-  
+
   constructor(
     private http: HttpClient
   ) { }

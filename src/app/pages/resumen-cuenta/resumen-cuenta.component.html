@@ -1,0 +1,131 @@
+<div class="container">
+    <h2 class="fw-bold">Resumen</h2>
+    <hr class="mt-5">
+    <div class="row m-0 d-flex align-items-center py-2">
+        <div class="col-auto bg-warning rounded-circle p-2"><img src="img/account.png" width="28px" alt=""></div>
+        <div class="col-auto px-1">
+            <p class="m-0 fs-4 fw-light">Mis datos</p>
+        </div>
+    </div>
+    <div class="row m-0 py-2">
+        <div class="col-sm-6 ps-0">
+            <div class="border border-light-subtle rounded-2 p-4 bg-white">
+                <div class="mb-2">
+                    <p class="m-0 fw-bold ">Datos personales</p>
+                </div>
+                <div class="mb-0">
+                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Nombres:</strong> {{usuario.nombres +" "+
+                        usuario.apellidos}}</p>
+                </div>
+                <div class="mb-0">
+                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Doc:</strong> {{usuario.numero}}
+                        ({{usuario.documento}})</p>
+                </div>
+                <div class="mb-0">
+                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Nacimiento:</strong>:
+                        {{formatoFecha(usuario.nacimiento)}}</p>
+                </div>
+                <div class="mb-0">
+                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Cel: </strong>{{usuario.telefono}}</p>
+                </div>
+                <div class="mb-0">
+                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Email: </strong>{{usuario.email}}</p>
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                    <a class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold"
+                        (click)="irMisDatos()">Editar</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 pe-0">
+            <div class="border border-light-subtle rounded-2 p-4 bg-white">
+                <div class="mb-2">
+                    <p class="m-0 fw-bold ">Datos de seguridad</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light"><strong>Contraseña: </strong> {{"********"}}</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light fst-italic">Para cambiar la contraseña es necesario iniciar sesion</p>
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                    <button class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold">Cambiar contraseña</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row m-0 d-flex align-items-center py-2">
+        <div class="col-auto bg-warning rounded-circle p-2"><img src="img/marcador-de-posicion.png" width="28px" alt="">
+        </div>
+        <div class="col-auto px-1">
+            <p class="m-0 fs-4 fw-light">Mi libreta de direcciones</p>
+        </div>
+    </div>
+    <div class="row m-0 py-2">
+        <div class="col-sm-6 ps-0">
+            <div class="border border-light-subtle rounded-2 p-4 bg-white">
+                <div class="mb-2">
+                    <p class="m-0 fw-bold ">Direccion de entrega principal</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Nombres: Alexander Joel Diaz Ambrosio</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Doc: 55667788 (DNI)</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Cel: 999888777</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Direccion: Av. castilla 123 - Independencia</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Ref: frente al puene peatonal</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Codigo postal: 15312</p>
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                    <button class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold">Editar</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 pe-0">
+            <div class="border border-light-subtle rounded-2 p-4 bg-white">
+                <div class="mb-2">
+                    <p class="m-0 fw-bold ">Direccion de entrega #2</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Nombres: Alexander Joel Diaz Ambrosio</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Doc: 55667788 (DNI)</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Cel: 999888777</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Direccion: Av. castilla 123 - Independencia</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Ref: frente al puene peatonal</p>
+                </div>
+                <div class="mb-0">
+                    <p class="m-0 fw-light">Codigo postal: 15312</p>
+                </div>
+                <div class="d-flex justify-content-end mt-5">
+                    <button class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold">Editar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row m-0 d-flex align-items-center py-2">
+        <div class="col-auto bg-warning rounded-circle p-2"><img src="img/cart.png" width="28px" alt="">
+        </div>
+        <div class="col-auto px-1">
+            <p class="m-0 fs-4 fw-light">Mis pedidos</p>
+        </div>
+    </div>
+</div>
