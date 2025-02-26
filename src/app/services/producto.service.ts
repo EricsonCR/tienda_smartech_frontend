@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { ControllerResponse } from '../interfaces/controller-response';
-import { UrlTree } from '@angular/router';
-
 @Injectable({
   providedIn: 'root'
 })

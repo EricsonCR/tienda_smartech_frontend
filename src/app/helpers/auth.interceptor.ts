@@ -1,6 +1,5 @@
 import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
 import { tap } from 'rxjs';
 import { SharedService } from '../services/shared.service';
 

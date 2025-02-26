@@ -3,11 +3,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../interfaces/producto';
 import { CommonModule } from '@angular/common';
-import { Carrito } from '../../interfaces/carrito';
-import { CarritoService } from '../../services/carrito.service';
-import { Usuario } from '../../interfaces/usuario';
-import { AuthService } from '../../services/auth.service';
-import { UsuarioService } from '../../services/usuario.service';
 import { SharedService } from '../../services/shared.service';
 
 declare var bootstrap: any;

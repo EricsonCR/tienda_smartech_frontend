@@ -1,4 +1,3 @@
-import { Carrito } from "./carrito";
 import { Producto } from "./producto";
 
 export interface CarritoDetalle {

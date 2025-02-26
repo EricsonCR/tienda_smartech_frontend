@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Usuario } from '../../interfaces/usuario';
 import { SharedService } from '../../services/shared.service';
 import { CarritoDetalle } from '../../interfaces/carrito-detalle';
+import { share } from 'rxjs';
 
 @Component({
   selector: 'app-carrito',
@@ -35,7 +36,6 @@ export class CarritoComponent implements OnInit {
     this.sharedService.carrito.subscribe((value) => {
       this.carrito = this.sharedService.getCarrito();
     });
-
     this.usuario = this.sharedService.getUsuario();
 
   }
@@ -85,18 +85,57 @@ export class CarritoComponent implements OnInit {
   }
 
   sumarItems(p: Producto) {
-    this.sharedService.sumarItemCarrito(p);
-    this.carrito = this.sharedService.getCarrito();
+    const usuario = this.sharedService.getUsuario();
+    if (usuario.email != "") {
+      const id = this.sharedService.getCarrito().id;
+      this.carritoService.sumartItem(id, { id: 0, producto: p, cantidad: 1 }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+          else if (result.status == "NOT_FOUND") { }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    } else {
+      this.sharedService.sumarItemCarrito(p);
+      this.carrito = this.sharedService.getCarrito();
+    }
   }
 
   restarItems(p: Producto) {
-    this.sharedService.restarItemCarrito(p);
-    this.carrito = this.sharedService.getCarrito();
+    const usuario = this.sharedService.getUsuario();
+    if (usuario.email != "") {
+      const id = this.sharedService.getCarrito().id;
+      this.carritoService.restarItem(id, { id: 0, producto: p, cantidad: 1 }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+          else if (result.status == "NOT_FOUND") { }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    } else {
+      this.sharedService.restarItemCarrito(p);
+      this.carrito = this.sharedService.getCarrito();
+    }
   }
 
   eliminarItem(p: Producto) {
-    this.sharedService.eliminarItemCarrito(p);
-    this.carrito = this.sharedService.getCarrito();
+    const usuario = this.sharedService.getUsuario();
+    if (usuario.email != "") {
+      const id = this.sharedService.getCarrito().id;
+      this.carritoService.eliminarItem(id, { id: 0, producto: p, cantidad: 0 }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+          else if (result.status == "NOT_FOUND") { }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    } else {
+      this.sharedService.eliminarItemCarrito(p);
+      this.carrito = this.sharedService.getCarrito();
+    }
   }
 
   realiarPedido() {
@@ -110,10 +149,9 @@ export class CarritoComponent implements OnInit {
       cancelButtonText: "No, cancelar !",
       confirmButtonText: "Si, quiero !"
     }).then((result) => {
-
       if (result.isConfirmed) {
         let carrito = this.sharedService.getCarrito();
-        carrito.usuario = this.usuario;
+        carrito.usuario = this.sharedService.getUsuario();
         console.log(carrito);
         this.carritoService.registrar(carrito).subscribe({
           next: (result) => {

@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import { SharedService } from '../../services/shared.service';
 import { UsuarioService } from '../../services/usuario.service';
 import { Usuario } from '../../interfaces/usuario';
+import { CarritoService } from '../../services/carrito.service';
+import { Carrito } from '../../interfaces/carrito';
+import { share } from 'rxjs';
 
 @Component({
   selector: 'app-signin',
@@ -15,6 +18,7 @@ import { Usuario } from '../../interfaces/usuario';
   styleUrl: './signin.component.css'
 })
 export class SigninComponent {
+
   public authForm!: FormGroup;
   private usuario!: Usuario;
 
@@ -23,7 +27,8 @@ export class SigninComponent {
     private fb: FormBuilder,
     private router: Router,
     private sharedService: SharedService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -54,12 +59,29 @@ export class SigninComponent {
           this.usuario = result.data;
           if (this.usuario.email != "") {
             this.sharedService.setUsuario(this.usuario);
+            this.actualizarCarrito(this.usuario.id);
             this.router.navigate([""]);
           }
         }
       },
       error: (error) => { console.log(error); }
     });
+  }
+
+  actualizarCarrito(id: number) {
+    const carrito = this.sharedService.getCarrito();
+    if (carrito.carritoDetalles.length > 0) {
+      carrito.usuario = this.usuario;
+      this.carritoService.actualizar(carrito).subscribe({
+        next: (result) => { if (result.status == "OK") { this.sharedService.setCarrito(result.data); } },
+        error: (error) => { console.log(error); }
+      });
+    } else {
+      this.carritoService.buscarPorUsuario(id).subscribe({
+        next: (result) => { if (result.status == "OK") { this.sharedService.setCarrito(result.data); } },
+        error: (error) => { console.log(error); }
+      });
+    }
   }
 
   alertOK(message: string) {

@@ -1,10 +1,7 @@
 import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-import { AuthService } from '../../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { CarritoService } from '../../services/carrito.service';
 import { Carrito } from '../../interfaces/carrito';
 import { Usuario } from '../../interfaces/usuario';
 import { CarritoDetalle } from '../../interfaces/carrito-detalle';
