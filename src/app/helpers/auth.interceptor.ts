@@ -6,8 +6,9 @@ import { SharedService } from '../services/shared.service';
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const urlsRequiringAuth = [
-    "/api/carrito/",
-    "/api/usuario"
+    "/api/carrito",
+    "/api/usuario",
+    "/api/direccion"
   ];
 
   const isAuthUrl = urlsRequiringAuth.some(url => req.url.includes(url));

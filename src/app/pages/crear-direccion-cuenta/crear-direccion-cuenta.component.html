@@ -1,0 +1,104 @@
+<div class="container">
+    <div class="row mb-3 d-flex align-items-center">
+        <div class="col-auto bg-warning p-2 rounded-circle">
+            <img src="img/marcador-de-posicion.png" width="28px" alt="">
+        </div>
+        <div class="col-auto">
+            <p class="fw-light fs-5 m-0">Nueva direccion</p>
+        </div>
+    </div>
+</div>
+<hr class="my-5">
+<div class="container d-flex justify-content-center">
+    <div class="col-sm-6">
+        <form [formGroup]="direccionForm" (ngSubmit)="registrarDireccion()">
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Documento</label>
+                    <select name="" id="" class="form-select rounded-4" formControlName="documento">
+                        <option *ngFor="let d of listaDocumentos" [value]="d.value">{{d.value}}</option>
+                    </select>
+                </div>
+                <div class="col-sm-8">
+                    <label for="" class="form-label">Numero</label>
+                    <input type="text" class="form-control rounded-4" formControlName="numero">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Nombres</label>
+                    <input type="text" class="form-control rounded-4" formControlName="nombres">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Celular</label>
+                    <input type="text" class="form-control rounded-4" formControlName="celular">
+                </div>
+            </div>
+            <hr class="my-5">
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Tipo</label>
+                    <select name="" id="" class="form-select rounded-4" formControlName="via">
+                        <option *ngFor="let v of listaVias" [value]="v.value">{{v.value}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Direccion</label>
+                    <input type="text" class="form-control rounded-4" formControlName="direccion">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Interior, piso, puerta, torre, etc...</label>
+                    <input type="text" class="form-control rounded-4">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Referencia</label>
+                    <input type="text" class="form-control rounded-4" formControlName="referencia">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Distrito</label>
+                    <input type="text" class="form-control rounded-4" formControlName="distrito">
+                </div>
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Provincia</label>
+                    <input type="text" class="form-control rounded-4" formControlName="provincia">
+                </div>
+                <div class="col-sm-4">
+                    <label for="" class="form-label">Departamteno</label>
+                    <input type="text" class="form-control rounded-4" formControlName="departamento">
+                </div>
+            </div>
+            <div class="row mb-2">
+                <div class="col-sm">
+                    <label for="" class="form-label">Codigo postal</label>
+                    <input type="text" class="form-control rounded-4" formControlName="codigo_postal">
+                </div>
+            </div>
+            <div class="row mt-5 mb-2 d-flex justify-content-between">
+                <div class="row col-auto d-flex align-items-center" routerLink="/cuenta/direccion"
+                    style="cursor: pointer;">
+                    <div class="col-auto">
+                        <img src="img/atras.png" width="24px" alt="">
+                    </div>
+                    <div class="col-auto px-0">
+                        <p class="my-0">Regresar</p>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" [disabled]="direccionForm.invalid"
+                        class="btn btn-warning fs-6 fw-bold rounded-4 px-4 py-2 text-dark">Crear
+                        direccion</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -24,7 +24,6 @@ export class DatosCuentaComponent implements OnInit {
   constructor(
     private router: Router,
     private usuarioService: UsuarioService,
-    private authService: AuthService,
     private fb: FormBuilder,
     private sharedService: SharedService
   ) { }
