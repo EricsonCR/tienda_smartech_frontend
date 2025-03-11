@@ -50,6 +50,7 @@ export class HeaderComponent implements OnInit {
     this.sharedService.removeUsuario();
     this.sharedService.removeToken();
     this.sharedService.removeCarrito();
+    this.sharedService.removePedido();
     this.router.navigate(["/login"]);
   }
 
@@ -63,7 +64,7 @@ export class HeaderComponent implements OnInit {
     let total = 0;
     if (carritoDetalles.length > 0) {
       carritoDetalles.forEach(
-        item => { total += item.producto.precio * item.cantidad; }
+        item => { total += (item.producto.precio * (1 - item.producto.descuento / 100)) * item.cantidad; }
       );
       return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
@@ -85,7 +86,7 @@ export class HeaderComponent implements OnInit {
   irAlCarrito() {
     this.modalCarrito = false;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(["carrito"]);
+      this.router.navigate(["compra/carrito"]);
     });
   }
 
@@ -107,5 +108,6 @@ const UsuarioDefault: Usuario = {
   direccion: "",
   telefono: "",
   email: "",
-  nacimiento: ""
+  nacimiento: "",
+  direcciones: []
 }

@@ -46,7 +46,8 @@
                     <p class="m-0 fw-light">Codigo postal: {{d.codigo_postal}}</p>
                 </div>
                 <div class="d-flex justify-content-between mt-5">
-                    <button class="btn btn-outline-danger px-4 rounded-5 fw-bold">Eliminar</button>
+                    <button class="btn btn-outline-danger px-4 rounded-5 fw-bold"
+                        (click)="eliminar(d.id)">Eliminar</button>
                     <button routerLink="editar/{{d.id}}"
                         class="btn btn-outline-warning px-4 rounded-5 fw-bold text-dark">Editar</button>
                 </div>

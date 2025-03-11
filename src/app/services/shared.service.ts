@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { Usuario } from '../interfaces/usuario';
 import { Carrito } from '../interfaces/carrito';
 import { Producto } from '../interfaces/producto';
+import { Pedido } from '../interfaces/pedido';
+import { Direccion } from '../interfaces/direccion';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,14 @@ export class SharedService {
   }
   setToken(token: string) { localStorage.setItem("token", token); }
   removeToken() { localStorage.removeItem("token"); }
+
+  private menuCompraBS = new BehaviorSubject<number>(0);
+  menuCompra = this.menuCompraBS.asObservable();
+  updateMenuCompra(value: number) {
+    Promise.resolve().then(() => {
+      this.menuCompraBS.next(value);
+    });
+  }
 
   // Obersvable para el menu de Datos de cuenta
   private menuCuentaBS = new BehaviorSubject<number>(0);
@@ -38,16 +48,33 @@ export class SharedService {
   }
   getUsuario() {
     if (this.usuarioBS.value.nombres != "") { return this.usuarioBS.value; }
-    const usuarioJSON = localStorage.getItem("usuario");
-    if (usuarioJSON != null && usuarioJSON != undefined) {
-      try { return JSON.parse(usuarioJSON) as Usuario; }
-      catch (error) { console.log(error); }
+    if (localStorage.getItem("usuario") !== null) {
+      return JSON.parse(localStorage.getItem("usuario")!) as Usuario;
     }
     return UsuarioDefault;
   }
   removeUsuario() {
     localStorage.removeItem("usuario");
     this.usuarioBS.next(UsuarioDefault);
+  }
+
+  //Observable Pedido
+  private pedidoBS = new BehaviorSubject<Pedido>(PedidoDefault);
+  pedido = this.pedidoBS.asObservable();
+  setPedido(pedido: Pedido) {
+    this.pedidoBS.next(pedido);
+    localStorage.setItem("pedido", JSON.stringify(pedido));
+  }
+  getPedido(): Pedido {
+    if (this.pedidoBS.value.entrega != "") { return this.pedidoBS.value; }
+    if (localStorage.getItem("pedido") !== null) {
+      return JSON.parse(localStorage.getItem("pedido")!) as Pedido;
+    }
+    return PedidoDefault;
+  }
+  removePedido() {
+    localStorage.removeItem("pedido");
+    this.pedidoBS.next(PedidoDefault);
   }
 
   // Observable para Carrito
@@ -115,11 +142,43 @@ const UsuarioDefault: Usuario = {
   direccion: "",
   telefono: "",
   email: "",
-  nacimiento: ""
+  nacimiento: "",
+  direcciones: []
+};
+
+const DireccionDefault: Direccion = {
+  id: 0,
+  usuario: UsuarioDefault,
+  documento: "",
+  numero: "",
+  nombres: "",
+  celular: "",
+  via: "",
+  direccion: "",
+  referencia: "",
+  distrito: " ",
+  provincia: "",
+  departamento: "",
+  codigo_postal: 0,
 };
 
 const CarritoDefault: Carrito = {
   id: 0,
   usuario: UsuarioDefault,
   carritoDetalles: []
+};
+const PedidoDefault: Pedido = {
+  id: 0,
+  numero: "",
+  estado: "",
+  usuario: UsuarioDefault,
+  entrega: "",
+  direccion: DireccionDefault!,
+  precio_envio: 0,
+  precio_cupon: 0,
+  total: 0,
+  igv: 0,
+  comentarios: "",
+  fecha_entrega: "",
+  detalles: []
 };

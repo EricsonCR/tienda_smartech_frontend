@@ -1,0 +1,69 @@
+<div class="container px-0 my-2">
+    <div class="bg-body-tertiary">
+        <div class="row d-flex align-items-center justify-content-center p-2">
+            <div class="col-sm-6">
+                <ul class="bar">
+                    <li [ngClass]="{'active':menuCompra>=1}">Carrito</li>
+                    <li [ngClass]="{'active':menuCompra>=2}">Entrega</li>
+                    <li [ngClass]="{'active':menuCompra>=3}">Pago</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container bg-body-tertiary my-2">
+    <div class="row">
+        <div class="col-sm-8 px-0">
+            <router-outlet></router-outlet>
+        </div>
+        <div class="col-sm-4">
+            <div *ngIf="carrito.carritoDetalles.length!=0" class="">
+                <div class="bg-warning px-4 py-2 rounded-1">
+                    <p class="mb-0 fs-4 fw-semibold">Resumen de pedido</p>
+                    <div *ngIf="itemsCarrito(carrito.carritoDetalles)==1">
+                        <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} producto</p>
+                    </div>
+                    <div *ngIf="itemsCarrito(carrito.carritoDetalles)==0 || itemsCarrito(carrito.carritoDetalles)>1">
+                        <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} productos</p>
+                    </div>
+                </div>
+                <div class="bg-white p-4 rounded-1 mb-3">
+                    <div class="row d-flex justify-content-between">
+                        <div class="col-auto">
+                            <p class="fw-light m-0 p-0">Subotal</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="fw-light m-0 p-0">S/ {{subTotalConDescuento(carrito.carritoDetalles)}}</p>
+                        </div>
+                    </div>
+                    <div *ngIf="pedido.precio_envio!=0" class="row d-flex justify-content-between">
+                        <div class="col-auto">
+                            <p class="fw-light m-0 p-0">Envio (+)</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="fw-light m-0 p-0">S/
+                                {{pedido.precio_envio}}</p>
+                        </div>
+                    </div>
+                    <div class="row d-flex align-items-center justify-content-between">
+                        <div class="col-auto">
+                            <p class="fw-bold m-0 p-0">Total pedido</p>
+                        </div>
+                        <div class="col-auto">
+                            <p class="fw-bold m-0 p-0 text-danger fs-4">S/ {{totalCarrito(carrito.carritoDetalles)}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="menuCompra!=3" class="row mb-3">
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control py-2" placeholder="Codigo cupon">
+                    </div>
+                    <div class="col-sm-4 d-flex justify-content-end">
+                        <button class="btn btn-outline-warning fw-semibold py-2 px-4 text-black">Cupon</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

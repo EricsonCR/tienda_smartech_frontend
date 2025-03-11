@@ -73,12 +73,17 @@ export class SigninComponent {
     if (carrito.carritoDetalles.length > 0) {
       carrito.usuario = this.usuario;
       this.carritoService.actualizar(carrito).subscribe({
-        next: (result) => { if (result.status == "OK") { this.sharedService.setCarrito(result.data); } },
+        next: (result) => {
+          if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+          console.log("actualizar", result);
+        },
         error: (error) => { console.log(error); }
       });
     } else {
       this.carritoService.buscarPorUsuario(id).subscribe({
-        next: (result) => { if (result.status == "OK") { this.sharedService.setCarrito(result.data); } },
+        next: (result) => {
+          if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+        },
         error: (error) => { console.log(error); }
       });
     }

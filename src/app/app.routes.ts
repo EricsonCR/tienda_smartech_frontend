@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ProductosComponent } from './pages/productos/productos.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { HomeComponent } from './pages/home/home.component';
 import { authGuard } from './helpers/auth.guard';
@@ -7,13 +6,16 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { ForgotpasswordComponent } from './pages/forgotpassword/forgotpassword.component';
 import { SigninComponent } from './pages/signin/signin.component';
 import { ProductoDetalleComponent } from './pages/producto-detalle/producto-detalle.component';
-import { CarritoComponent } from './pages/carrito/carrito.component';
-import { CuentaComponent } from './pages/cuenta/cuenta.component';
-import { ResumenCuentaComponent } from './pages/resumen-cuenta/resumen-cuenta.component';
-import { DatosCuentaComponent } from './pages/datos-cuenta/datos-cuenta.component';
-import { DireccionCuentaComponent } from './pages/direccion-cuenta/direccion-cuenta.component';
-import { CrearDireccionCuentaComponent } from './pages/crear-direccion-cuenta/crear-direccion-cuenta.component';
+import { CarritoComponent } from './pages/menuCompra/carrito/carrito.component';
+import { CuentaComponent } from './pages/menuCuenta/cuenta/cuenta.component';
 import { cuentaGuard } from './helpers/cuenta.guard';
+import { ResumenComponent } from './pages/menuCuenta/resumen/resumen.component';
+import { DireccionesComponent } from './pages/menuCuenta/direcciones/direcciones.component';
+import { DatosComponent } from './pages/menuCuenta/datos/datos.component';
+import { DireccionComponent } from './pages/menuCuenta/direccion/direccion.component';
+import { CompraComponent } from './pages/menuCompra/compra/compra.component';
+import { EntregaComponent } from './pages/menuCompra/entrega/entrega.component';
+import { PagoComponent } from './pages/menuCompra/pago/pago.component';
 
 export const routes: Routes = [
     { path: "home", redirectTo: "", pathMatch: "full" },
@@ -22,18 +24,24 @@ export const routes: Routes = [
     { path: "login", component: SigninComponent, canActivate: [authGuard] },
     { path: "registrar", component: SignupComponent, canActivate: [authGuard] },
     { path: "recuperarpassword", component: ForgotpasswordComponent },
-    { path: "productos", component: ProductosComponent },
     { path: "producto-detalle/:nombre", component: ProductoDetalleComponent },
-    { path: "carrito", component: CarritoComponent },
     {
         path: "cuenta", component: CuentaComponent,
         children: [
-            { path: "resumen", component: ResumenCuentaComponent },
-            { path: "datos", component: DatosCuentaComponent },
-            { path: "direccion", component: DireccionCuentaComponent },
-            { path: "direccion/crear", component: CrearDireccionCuentaComponent },
-            { path: "direccion/editar/:usuario", component: CrearDireccionCuentaComponent }
+            { path: "resumen", component: ResumenComponent },
+            { path: "datos", component: DatosComponent },
+            { path: "direccion", component: DireccionesComponent },
+            { path: "direccion/crear", component: DireccionComponent },
+            { path: "direccion/editar/:id", component: DireccionComponent }
         ],
         canActivate: [cuentaGuard]
+    },
+    {
+        path: "compra", component: CompraComponent,
+        children: [
+            { path: "carrito", component: CarritoComponent },
+            { path: "entrega", component: EntregaComponent },
+            { path: "pago", component: PagoComponent }
+        ]
     }
 ];

@@ -15,16 +15,20 @@ export class DireccionService {
     private http: HttpClient
   ) { }
 
-  listarPorUsuario(id: number) {
-    return this.http.get<ControllerResponse>(this.url + "/listarPorUsuario/" + id);
-  }
-
   registrar(direccon: Direccion) {
     return this.http.post<ControllerResponse>(this.url + "/registrar", direccon);
   }
 
   buscarPorId(id: number) {
     return this.http.get<ControllerResponse>(this.url + "/buscarPorId/" + id);
+  }
+
+  actualizar(direccion: Direccion) {
+    return this.http.put<ControllerResponse>(this.url + "/actualizar", direccion);
+  }
+
+  eliminar(id: number) {
+    return this.http.delete<ControllerResponse>(this.url + "/eliminar/" + id);
   }
 
 }

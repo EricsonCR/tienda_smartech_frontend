@@ -1,0 +1,23 @@
+.active-entrega {
+    border: 2px solid gold;
+}
+
+.active-direccion {
+    border: 2px solid gold;
+}
+
+.active-fecha {
+    border: 2px solid gold;
+}
+
+.none-div {
+    display: none;
+}
+
+.block-div {
+    display: block;
+}
+
+.datos {
+    font-size: 15px;
+}

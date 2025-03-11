@@ -1,0 +1,13 @@
+.none-div {
+    display: none;
+}
+
+.block-div {
+    display: block;
+}
+
+.color-select {
+    background-color: #E3F2FD;
+    border: 4px solid #BBDEFB;
+    border-radius: 10px;
+}

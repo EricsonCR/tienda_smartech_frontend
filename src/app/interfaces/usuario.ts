@@ -1,3 +1,5 @@
+import { Direccion } from "./direccion";
+
 export interface Usuario {
     id: number,
     rol: string,
@@ -8,5 +10,6 @@ export interface Usuario {
     telefono: string,
     direccion: string,
     email: string,
-    nacimiento: string
+    nacimiento: string,
+    direcciones: Direccion[]
 }

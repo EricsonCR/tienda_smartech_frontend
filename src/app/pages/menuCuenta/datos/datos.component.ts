@@ -1,22 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { UsuarioService } from '../../services/usuario.service';
-import { AuthService } from '../../services/auth.service';
-import { Usuario } from '../../interfaces/usuario';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import Swal from 'sweetalert2';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Usuario } from '../../../interfaces/usuario';
 import { Router } from '@angular/router';
-import { SharedService } from '../../services/shared.service';
+import { UsuarioService } from '../../../services/usuario.service';
+import { SharedService } from '../../../services/shared.service';
+import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-datos-cuenta',
+  selector: 'app-datos',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './datos-cuenta.component.html',
-  styleUrl: './datos-cuenta.component.css'
+  templateUrl: './datos.component.html',
+  styleUrl: './datos.component.css'
 })
-export class DatosCuentaComponent implements OnInit {
-
+export class DatosComponent {
   usuario!: Usuario;
   userForm!: FormGroup;
   nacimientoUsuario: string = "";
@@ -29,8 +27,7 @@ export class DatosCuentaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initUserForm();
-    this.initUsuario();
+    this.initUserForm(usuarioDefault);
     this.getUsuario();
     this.sharedService.updateMenuCuenta(2);
   }
@@ -41,7 +38,8 @@ export class DatosCuentaComponent implements OnInit {
       this.usuarioService.buscarPorEmail(email).subscribe({
         next: (result) => {
           this.usuario = result.data;
-          this.cargarUserForm(this.usuario);
+          this.usuario.nacimiento = this.formatoFecha(result.data.nacimiento);
+          this.initUserForm(this.usuario);
         },
         error: (error) => { console.log(error); }
       });
@@ -92,41 +90,29 @@ export class DatosCuentaComponent implements OnInit {
     });
   }
 
-  initUserForm() {
+  initUserForm(usuario: Usuario) {
     this.userForm = this.fb.group({
-      nombres: ["", [Validators.required]],
-      apellidos: ["", [Validators.required]],
-      documento: ["", [Validators.required]],
-      numero: ["", [Validators.required]],
-      nacimiento: ["", [Validators.required]],
-      telefono: ["", [Validators.required]],
+      nombres: [usuario.nombres, [Validators.required]],
+      apellidos: [usuario.apellidos, [Validators.required]],
+      documento: [usuario.documento, [Validators.required]],
+      numero: [usuario.numero, [Validators.required]],
+      nacimiento: [usuario.nacimiento, [Validators.required]],
+      telefono: [usuario.telefono, [Validators.required]],
     });
-  }
-
-  cargarUserForm(user: Usuario) {
-    this.userForm.setValue({
-      nombres: user.nombres,
-      apellidos: user.apellidos,
-      documento: user.documento,
-      numero: user.numero,
-      nacimiento: this.formatoFecha(user.nacimiento),
-      telefono: user.telefono
-    });
-  }
-
-  initUsuario() {
-    this.usuario = {
-      id: 0,
-      rol: "",
-      documento: "",
-      numero: "",
-      nombres: "",
-      apellidos: "",
-      telefono: "",
-      direccion: "",
-      email: "",
-      nacimiento: ""
-    };
   }
 
 }
+
+const usuarioDefault: Usuario = {
+  id: 0,
+  rol: "",
+  documento: "",
+  numero: "",
+  nombres: "",
+  apellidos: "",
+  telefono: "",
+  direccion: "",
+  email: "",
+  nacimiento: "",
+  direcciones: []
+};

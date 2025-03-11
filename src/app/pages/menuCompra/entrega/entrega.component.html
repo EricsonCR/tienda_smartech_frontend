@@ -1,0 +1,192 @@
+<div class="container">
+    <div class="row d-flex align-items-center mb-3">
+        <div class="col-auto">
+            <p class="fw-bold fs-2 m-0">Entrega</p>
+        </div>
+        <div class="col-auto">
+            <div class="bg-warning p-1 rounded-circle">
+                <img src="img/delivery.png" width="28px" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <p>Puedes seleccionar envio a domicilio o retiro entienda.</p>
+    </div>
+    <div class="row mx-0">
+        <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
+            <div class="row bg-white mx-0 p-4 rounded-2 d-flex justify-content-between" (click)="selectEntrega(1)"
+                [ngClass]="{'active-entrega':opcionEntrega==1}" style="cursor: pointer;">
+                <div class="col-auto d-flex align-items-center">
+                    <div class="col-auto">
+                        <div class="bg-warning p-1 rounded-circle">
+                            <img src="img/delivery.png" width="24px" alt="">
+                        </div>
+                    </div>
+                    <div class="col-auto px-2">
+                        <p class="m-0 fw-semibold">Envio a domicilio</p>
+                    </div>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <div class="col-auto">
+                        <input type="radio" class="form-check-input" [checked]="opcionEntrega==1">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
+            <div class="row bg-white mx-0 p-4 rounded-2 d-flex justify-content-between" (click)="selectEntrega(2)"
+                [ngClass]="{'active-entrega':opcionEntrega==2}" style="cursor: pointer;">
+                <div class="col-auto d-flex align-items-center">
+                    <div class="col-auto">
+                        <div class="bg-warning p-1 rounded-circle">
+                            <img src="img/tienda.png" width="24px" alt="">
+                        </div>
+                    </div>
+                    <div class="col-auto px-2">
+                        <p class="m-0 fw-semibold">Retiro en tienda</p>
+                    </div>
+                </div>
+                <div class="col-auto d-flex align-items-center">
+                    <div class="col-auto">
+                        <input type="radio" class="form-check-input" [checked]="opcionEntrega==2">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
+        <div class="row mx-0">
+            <p class="fw-semibold fs-5">Direccion de envio</p>
+        </div>
+        <div class="row mx-0">
+            <div *ngFor="let d of direcciones, let i = index" class="col-sm-6 px-2 py-2">
+                <div class=" bg-white rounded-2 p-3" (click)="selectDireccion(i+1)"
+                    [ngClass]="{'active-direccion':opcionDireccion==(i+1)}" style="cursor: pointer;">
+                    <div class="">
+                        <div class="d-flex justify-content-end">
+                            <input type="radio" class="form-check-input" [checked]="opcionDireccion==(i+1)">
+                        </div>
+                        <p class="datos m-0 fw-light">{{d.nombres}}</p>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">CEL: {{d.celular}}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">{{d.documento}}:{{d.numero}}</p>
+                            </div>
+                        </div>
+                        <p class="datos m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}}</p>
+                        <p class="datos m-0 fw-light">Referencia: {{d.referencia}}</p>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">{{d.distrito}}, {{d.provincia}}, {{d.departamento}}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">CP: {{d.codigo_postal}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-0">
+            <a href="">Agregar direccion</a>
+        </div>
+    </div>
+    <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">
+        <div class="row mx-0">
+            <p class="fw-semibold fs-5">Direccion de recojo</p>
+        </div>
+        <div class="row mx-0 mb-3">
+            <div class="col-sm-4">
+                <label for="" class="form-label">Departamento</label>
+                <select name="" id="" class="form-select">
+                    <option value="Lima">Lima</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Provincia</label>
+                <select name="" id="" class="form-select">
+                    <option value="Lima">Lima</option>
+                </select>
+            </div>
+            <div class="col-sm-4">
+                <label for="" class="form-label">Distrito</label>
+                <select name="" id="" class="form-select">
+                    <option value="Lima">Comas</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mx-0 mb-3">
+            <div class="col-sm p-3 bg-white rounded-2" style="cursor: pointer;">
+                <div class="row mx-0 d-flex align-items-center">
+                    <div class="col-sm-1 d-flex justify-content-center">
+                        <img src="img/localizacion.png" width="48px" alt="">
+                    </div>
+                    <div class="col-sm-10 lh-1 text-secondary">
+                        <p class="m-0">SMARTECH Comas</p>
+                        <p class="m-0">Dirección: Av. Tupac Amaru 5855 - Urbanización Huaquillay - COMAS, Lima,Lima</p>
+                        <p class="m-0">Atencion: Lunes a Domingo de 9am a 9:00pm</p>
+                    </div>
+                    <div class="col-sm-1 d-flex justify-content-end">
+                        <input type="radio" class="form-check-input">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
+        <div class="row mx-0">
+            <p class="fw-semibold fs-5">Fechas y costos de envio</p>
+        </div>
+        <div class="row mx-0">
+            <div *ngFor="let f of fechas, let i = index" class="col-sm-3 my-1">
+                <div class="p-2 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaEnvio(i+1)"
+                    [ngClass]="{'active-fecha':opcionFechaEnvio==(i+1)}">
+                    <div class="row m-0">
+                        <small class="m-0 fw-semibold">{{obtenerDiaSemana(f.fecha)}}. {{f.fecha.getDate()}}
+                            {{obtenerMes(f.fecha)}}.</small>
+                    </div>
+                    <div class="row m-0 py-2 d-flex justify-content-between">
+                        <div class="col-auto">
+                            <p class="m-0 fw-bold">S/ {{f.precio}}</p>
+                        </div>
+                        <div class="col-auto"><input type="radio" class="form-check-input"
+                                [checked]="opcionFechaEnvio==(i+1)"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">
+        <div class="row mx-0">
+            <p class="fw-semibold fs-5">Fechas de recojo</p>
+        </div>
+        <div class="row mx-0">
+            <div *ngFor="let f of fechas.slice(4), let i = index" class="col-sm-3 my-1">
+                <div class="p-2 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaRetiro(i+1)"
+                    [ngClass]="{'active-fecha':opcionFechaRetiro==(i+1)}">
+                    <div class="row m-0 d-flex justify-content-between">
+                        <div class="col-auto mx-0 px-0">
+                            <small class="m-0 fw-semibold">{{obtenerDiaSemana(f.fecha)}}. {{f.fecha.getDate()}}
+                                {{obtenerMes(f.fecha)}}.</small>
+                        </div>
+                        <div class="col-auto mx-0 px-0">
+                            <input type="radio" class="form-check-input" [checked]="opcionFechaRetiro==(i+1)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row mx-0">
+        <p class="fw-semibold fs-5">Instrucciones de envio o recojo</p>
+        <textarea name="" id="" class="form-control mx-2" [(ngModel)]="instrucciones"></textarea>
+    </div>
+    <div class="col-auto mx-0 px-0 my-4">
+        <button class="btn btn-warning fw-bold rounded-5 py-2 px-5" (click)="continuarPedido()">Siguiente</button>
+    </div>
+</div>

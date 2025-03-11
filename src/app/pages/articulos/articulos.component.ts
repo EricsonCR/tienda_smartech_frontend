@@ -6,7 +6,6 @@ import { CategoriaService } from '../../services/categoria.service';
 import { Categoria } from '../../interfaces/categoria';
 import { Router, RouterLink } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
-import { share } from 'rxjs';
 import { CarritoService } from '../../services/carrito.service';
 
 declare var bootstrap: any;

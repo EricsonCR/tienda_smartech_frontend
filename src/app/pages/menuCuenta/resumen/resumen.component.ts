@@ -1,34 +1,37 @@
-import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Usuario } from '../../../interfaces/usuario';
 import { Router, RouterLink } from '@angular/router';
-import { Usuario } from '../../interfaces/usuario';
-import { SharedService } from '../../services/shared.service';
-import { Direccion } from '../../interfaces/direccion';
-import { DireccionService } from '../../services/direccion.service';
+import { Direccion } from '../../../interfaces/direccion';
+import { SharedService } from '../../../services/shared.service';
+import { UsuarioService } from '../../../services/usuario.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-resumen-cuenta',
+  selector: 'app-resumen',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './resumen-cuenta.component.html',
-  styleUrl: './resumen-cuenta.component.css'
+  templateUrl: './resumen.component.html',
+  styleUrl: './resumen.component.css'
 })
-export class ResumenCuentaComponent implements OnInit {
-
-  usuario!: Usuario;
+export class ResumenComponent {
+usuario!: Usuario;
   direcciones: Direccion[] = [];
 
   constructor(
     private router: Router,
     private sharedService: SharedService,
-    private direccionService: DireccionService
+    private usuarioService: UsuarioService
   ) { }
 
   ngOnInit(): void {
     this.usuario = this.sharedService.getUsuario();
-    this.direccionService.listarPorUsuario(this.usuario.id).subscribe({
+    this.usuarioService.buscarPorEmail(this.usuario.email).subscribe({
       next: (result) => {
-        if (result.status == "OK") { this.direcciones = result.data; }
+        if (result.status == "OK") {
+          this.usuario = result.data;
+          this.direcciones = result.data.direcciones as Direccion[];
+          this.sharedService.setUsuario(this.usuario);
+        }
       },
       error: (error) => { console.log(error); }
     });
@@ -47,5 +50,4 @@ export class ResumenCuentaComponent implements OnInit {
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
   }
-
 }

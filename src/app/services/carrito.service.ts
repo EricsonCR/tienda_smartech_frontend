@@ -25,7 +25,7 @@ export class CarritoService {
   }
 
   actualizar(carrito: Carrito) {
-    return this.http.post<ControllerResponse>(this.url + "/acoplar", carrito);
+    return this.http.put<ControllerResponse>(this.url + "/actualizar", carrito);
   }
 
   agregarItem(id: number, carritoDetalle: CarritoDetalle) {

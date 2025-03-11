@@ -1,14 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CarritoService } from '../../services/carrito.service';
-import { Carrito } from '../../interfaces/carrito';
-import { Producto } from '../../interfaces/producto';
+import { CarritoService } from '../../../services/carrito.service';
+import { Carrito } from '../../../interfaces/carrito';
+import { Producto } from '../../../interfaces/producto';
 import Swal from 'sweetalert2';
-import { Usuario } from '../../interfaces/usuario';
-import { SharedService } from '../../services/shared.service';
-import { CarritoDetalle } from '../../interfaces/carrito-detalle';
-import { share } from 'rxjs';
+import { Usuario } from '../../../interfaces/usuario';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-carrito',
@@ -36,52 +34,9 @@ export class CarritoComponent implements OnInit {
     this.sharedService.carrito.subscribe((value) => {
       this.carrito = this.sharedService.getCarrito();
     });
+    this.sharedService.updateMenuCompra(1);
     this.usuario = this.sharedService.getUsuario();
 
-  }
-
-  itemsCarrito(carritoDetalles: CarritoDetalle[]): number {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += item.cantidad; }
-      );
-      return total;
-    }
-    return 0;
-  }
-
-  subTotalCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += item.producto.precio * item.cantidad; }
-      );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    return "0";
-  }
-
-  descuentoCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += (item.producto.precio * (item.producto.descuento / 100)) * item.cantidad; }
-      );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    return "0";
-  }
-
-  totalCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += (item.producto.precio * (1 - item.producto.descuento / 100)) * item.cantidad; }
-      );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    return "0";
   }
 
   sumarItems(p: Producto) {
@@ -150,16 +105,16 @@ export class CarritoComponent implements OnInit {
       confirmButtonText: "Si, quiero !"
     }).then((result) => {
       if (result.isConfirmed) {
-        let carrito = this.sharedService.getCarrito();
-        carrito.usuario = this.sharedService.getUsuario();
-        console.log(carrito);
-        this.carritoService.registrar(carrito).subscribe({
-          next: (result) => {
-            if (result.status == "OK") { this.alertOK(result.message); }
-            else { this.alertError(result.message); }
-          },
-          error: (error) => { console.log(error); }
-        });
+        // let carrito = this.sharedService.getCarrito();
+        // carrito.usuario = this.sharedService.getUsuario();
+        // console.log(carrito);
+        // this.carritoService.registrar(carrito).subscribe({
+        //   next: (result) => {
+        //     if (result.status == "OK") { this.alertOK(result.message); }
+        //     else { this.alertError(result.message); }
+        //   },
+        //   error: (error) => { console.log(error); }
+        // });
       }
     });
   }

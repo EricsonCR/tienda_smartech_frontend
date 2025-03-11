@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { SharedService } from '../../services/shared.service';
+import { SharedService } from '../../../services/shared.service';
 
 @Component({
   selector: 'app-cuenta',
