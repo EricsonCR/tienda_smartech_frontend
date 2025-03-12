@@ -32,68 +32,59 @@ export class CompraComponent {
     });
 
     this.sharedService.carrito.subscribe((value) => {
-      this.carrito = this.sharedService.getCarrito();
+      this.carrito = value;
+      if (this.carrito.carritoDetalles.length > 0) { this.acoplarCarritoPedido(); }
     });
+
     this.sharedService.menuCompra.subscribe(x => this.menuCompra = x);
     this.sharedService.updateMenuCompra(1);
     this.usuario = this.sharedService.getUsuario();
 
   }
 
+  acoplarCarritoPedido() {
+    if (this.carrito.carritoDetalles.length > 0) {
+      this.pedido.pedidoDetalles = [];
+      this.carrito.carritoDetalles.forEach((item) => {
+        const precio = parseFloat((item.producto.precio * (1 - item.producto.descuento / 100)).toFixed(2));
+        this.pedido.pedidoDetalles.push({ id: 0, producto: item.producto, cantidad: item.cantidad, precio: precio });
+      });
+      this.pedido.total = this.calcularSubTotalPedido();
+      this.sharedService.setPedido(this.pedido);
+    }
+  }
+
+  calcularSubTotalPedido(): number {
+    if (this.pedido.pedidoDetalles.length > 0) {
+      let subtotal = 0;
+      this.pedido.pedidoDetalles.forEach(item => { subtotal += item.precio * item.cantidad; });
+      return parseFloat(subtotal.toFixed(2));
+    }
+    return 0;
+  }
+
   itemsCarrito(carritoDetalles: CarritoDetalle[]): number {
     if (carritoDetalles.length > 0) {
       let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += item.cantidad; }
-      );
+      carritoDetalles.forEach(item => { total += item.cantidad; });
       return total;
     }
     return 0;
   }
 
-  subTotalConDescuento(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += (item.producto.precio * (1 - item.producto.descuento / 100)) * item.cantidad; }
-      );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  subTotalPedido(): string {
+    if (this.calcularSubTotalPedido() > 0) {
+      return this.calcularSubTotalPedido().toLocaleString('es-US');
     }
     return "0";
   }
 
-  subTotalCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += item.producto.precio * item.cantidad; }
-      );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  totalPedido(): string {
+    let total: number = this.pedido.total;
+    if (this.menuCompra > 1) {
+      total = parseFloat((this.pedido.total + this.pedido.precio_envio).toFixed(2));
     }
-    return "0";
-  }
-
-  descuentoCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let descuento: number = 0;
-      carritoDetalles.forEach(
-        item => { descuento += (item.producto.precio * (item.producto.descuento / 100)) * item.cantidad; }
-      );
-      return descuento.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    return "0";
-  }
-
-  totalCarrito(carritoDetalles: CarritoDetalle[]): string {
-    if (carritoDetalles.length > 0) {
-      let total: number = 0;
-      carritoDetalles.forEach(
-        item => { total += (item.producto.precio * (1 - item.producto.descuento / 100)) * item.cantidad; }
-      );
-      total += this.pedido.precio_envio;
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    }
-    return "0";
+    return total.toLocaleString('es-US');
   }
 }
 

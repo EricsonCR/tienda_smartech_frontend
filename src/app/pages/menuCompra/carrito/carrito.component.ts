@@ -32,7 +32,7 @@ export class CarritoComponent implements OnInit {
   ngOnInit(): void {
 
     this.sharedService.carrito.subscribe((value) => {
-      this.carrito = this.sharedService.getCarrito();
+      this.carrito = value;
     });
     this.sharedService.updateMenuCompra(1);
     this.usuario = this.sharedService.getUsuario();
@@ -47,7 +47,7 @@ export class CarritoComponent implements OnInit {
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
           else if (result.status == "NOT_FOUND") { }
-          else { console.log(result); }
+          else {  }
         },
         error: (error) => { console.log(error); }
       });
@@ -65,7 +65,7 @@ export class CarritoComponent implements OnInit {
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
           else if (result.status == "NOT_FOUND") { }
-          else { console.log(result); }
+          else {  }
         },
         error: (error) => { console.log(error); }
       });
@@ -83,7 +83,7 @@ export class CarritoComponent implements OnInit {
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
           else if (result.status == "NOT_FOUND") { }
-          else { console.log(result); }
+          else { }
         },
         error: (error) => { console.log(error); }
       });
@@ -91,32 +91,6 @@ export class CarritoComponent implements OnInit {
       this.sharedService.eliminarItemCarrito(p);
       this.carrito = this.sharedService.getCarrito();
     }
-  }
-
-  realiarPedido() {
-    Swal.fire({
-      title: "Esta seguro?",
-      text: "Click en el boton SI para realizar el pedido!",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      cancelButtonText: "No, cancelar !",
-      confirmButtonText: "Si, quiero !"
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // let carrito = this.sharedService.getCarrito();
-        // carrito.usuario = this.sharedService.getUsuario();
-        // console.log(carrito);
-        // this.carritoService.registrar(carrito).subscribe({
-        //   next: (result) => {
-        //     if (result.status == "OK") { this.alertOK(result.message); }
-        //     else { this.alertError(result.message); }
-        //   },
-        //   error: (error) => { console.log(error); }
-        // });
-      }
-    });
   }
 
   alertOK(message: string) {

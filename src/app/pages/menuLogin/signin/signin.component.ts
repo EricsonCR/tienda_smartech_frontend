@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
-import { SharedService } from '../../services/shared.service';
-import { UsuarioService } from '../../services/usuario.service';
-import { Usuario } from '../../interfaces/usuario';
-import { CarritoService } from '../../services/carrito.service';
-import { Carrito } from '../../interfaces/carrito';
+import { SharedService } from '../../../services/shared.service';
+import { UsuarioService } from '../../../services/usuario.service';
+import { Usuario } from '../../../interfaces/usuario';
+import { CarritoService } from '../../../services/carrito.service';
+import { Carrito } from '../../../interfaces/carrito';
 import { share } from 'rxjs';
 
 @Component({
@@ -75,7 +75,6 @@ export class SigninComponent {
       this.carritoService.actualizar(carrito).subscribe({
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
-          console.log("actualizar", result);
         },
         error: (error) => { console.log(error); }
       });
@@ -91,16 +90,17 @@ export class SigninComponent {
 
   alertOK(message: string) {
     Swal.fire({
-      position: "center",
+      position: "top",
       icon: "success",
       title: message,
       showConfirmButton: false,
-      timer: 2500
+      timer: 1500
     });
   }
 
   alertError(message: string) {
     Swal.fire({
+      position: "top",
       title: message,
       icon: "error"
     });

@@ -33,10 +33,10 @@
                             <p class="fw-light m-0 p-0">Subotal</p>
                         </div>
                         <div class="col-auto">
-                            <p class="fw-light m-0 p-0">S/ {{subTotalConDescuento(carrito.carritoDetalles)}}</p>
+                            <p class="fw-light m-0 p-0">S/ {{subTotalPedido()}}</p>
                         </div>
                     </div>
-                    <div *ngIf="pedido.precio_envio!=0" class="row d-flex justify-content-between">
+                    <div *ngIf="menuCompra>1" class="row d-flex justify-content-between">
                         <div class="col-auto">
                             <p class="fw-light m-0 p-0">Envio (+)</p>
                         </div>
@@ -50,7 +50,7 @@
                             <p class="fw-bold m-0 p-0">Total pedido</p>
                         </div>
                         <div class="col-auto">
-                            <p class="fw-bold m-0 p-0 text-danger fs-4">S/ {{totalCarrito(carrito.carritoDetalles)}}</p>
+                            <p class="fw-bold m-0 p-0 text-danger fs-4">S/ {{totalPedido()}}</p>
                         </div>
                     </div>
                 </div>

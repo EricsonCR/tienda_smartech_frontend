@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
 
@@ -55,7 +55,7 @@ export class SignupComponent {
 
   alertOK(message: string) {
     Swal.fire({
-      position: "center",
+      position: "top",
       icon: "success",
       title: message,
       showConfirmButton: false,
@@ -65,8 +65,8 @@ export class SignupComponent {
 
   alertError(message: string) {
     Swal.fire({
-      title: "Error",
-      text: message,
+      position: "top",
+      title: message,
       icon: "error"
     });
   }

@@ -7,7 +7,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { Router, RouterLink } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
 import { FormsModule } from '@angular/forms';
-import { PedidoDetalle } from '../../../interfaces/pedido-detalle';
+import { DireccionService } from '../../../services/direccion.service';
 
 @Component({
   selector: 'app-entrega',
@@ -23,13 +23,21 @@ export class EntregaComponent implements OnInit {
   opcionFechaRetiro: number = 0;
   opcionEntrega: number = 0;
   opcionDireccion: number = 0;
-  instrucciones: string = "";
+  opcionDireccionRetiro: number = 0;
+  comentarios: string = "";
   direcciones: Direccion[] = [];
+
+  direccionesRetiro: Direccion[] = [];
+  direccionesRetiroSelect: Direccion[] = [];
+  distritos: string[] = [];
+  distritoSelect: string = "";
+
   pedido: Pedido = PedidoDefault;
 
   constructor(
     private sharedService: SharedService,
     private usuarioService: UsuarioService,
+    private direccionService: DireccionService,
     private router: Router
   ) { }
 
@@ -37,18 +45,43 @@ export class EntregaComponent implements OnInit {
     this.sharedService.updateMenuCompra(2);
     this.fechas = this.obtenerFechasDesde(new Date());
     this.getUsuario(this.sharedService.getUsuario());
+    this.getDireccionesRetiro();
+  }
+
+  getDireccionesRetiro() {
+    this.direccionService.listarPorUsuario(1).subscribe({
+      next: (result) => {
+        if (result.status == "OK") {
+          this.agregarDistritos(result.data);
+        }
+      },
+      error: (error) => { console.log(error); }
+    });
+  }
+
+  agregarDistritos(direcciones: Direccion[]) {
+    this.direccionesRetiro = direcciones;
+    direcciones.forEach((item) => {
+      if (!this.distritos.includes(item.distrito)) {
+        this.distritos.push(item.distrito);
+      }
+    });
+  }
+
+  distritoSeleccionado() {
+    const direcciones: Direccion[] = [];
+    this.direccionesRetiro.forEach((item) => {
+      if (item.distrito == this.distritoSelect) { direcciones.push(item); }
+    });
+    this.direccionesRetiroSelect = direcciones;
+    this.opcionDireccionRetiro = 0;
+    this.pedido.direccion = DireccionDefault;
+    this.sharedService.setPedido(this.pedido);
   }
 
   getPedido(p: Pedido) {
-
-    if (p.entrega != "") {
-      this.pedido = p;
-      if (this.sharedService.getCarrito().carritoDetalles.length > 0) {
-        this.pedido.detalles = [];
-        this.sharedService.getCarrito().carritoDetalles.forEach((item) => {
-          this.pedido.detalles.push({ id: 0, producto: item.producto, cantidad: item.cantidad, precio: item.producto.precio * (1 - item.producto.descuento / 100) });
-        });
-      }
+    this.pedido = p;
+    if (this.pedido.entrega != "") {
       if (this.pedido.entrega == "DELIVERY") { this.opcionEntrega = 1; }
       else if (this.pedido.entrega == "RETIRO") { this.opcionEntrega = 2; }
       const indexDireccion = this.direcciones.findIndex(x => x.id == this.pedido.direccion.id);
@@ -74,46 +107,32 @@ export class EntregaComponent implements OnInit {
   }
 
   continuarPedido() {
-    this.pedido.comentarios = this.instrucciones;
+    this.pedido.comentarios = this.comentarios;
     this.pedido.usuario = this.sharedService.getUsuario();
     this.sharedService.setPedido(this.pedido);
-    if (this.pedido.direccion.id != 0 && this.instrucciones != "" && this.pedido.usuario.id != 0) {
+    if (this.pedido.direccion.id != 0 && this.pedido.usuario.id != 0) {
       if (this.pedido.entrega == "DELIVERY" && this.pedido.precio_envio >= 40) {
-        const total = this.calcularTotal(this.pedido);
-        this.pedido.total = parseFloat(total.toFixed(2));
-        this.sharedService.setPedido(this.pedido);
         this.router.navigate(["compra/pago"]);
-      } else if (this.pedido.entrega == "RERTIRO" && this.pedido.fecha_entrega != "") {
+      } else if (this.pedido.entrega == "RETIRO" && this.pedido.fecha_entrega != "") {
         this.router.navigate(["compra/pago"]);
       }
     }
   }
 
-  calcularTotal(p: Pedido): number {
-    if (p.detalles.length > 0) {
-      let total: number = 0;
-      p.detalles.forEach((item) => {
-        total += item.precio * item.cantidad;
-      });
-      total += p.precio_envio;
-      return total;
-    }
-    return 0;
-  }
-
   selectEntrega(index: number) {
     this.opcionEntrega = index;
+    this.opcionDireccion = 0;
+    this.opcionDireccionRetiro = 0;
+    this.opcionFechaEnvio = 0;
+    this.opcionFechaRetiro = 0;
+    this.pedido.fecha_entrega = "";
+    this.pedido.precio_envio = 0;
+    this.pedido.direccion = DireccionDefault;
     if (this.opcionEntrega == 1) {
       this.pedido.entrega = "DELIVERY";
-      this.opcionFechaEnvio = 0;
-      this.pedido.fecha_entrega = "";
-      this.pedido.precio_envio = 0;
     }
     else if (this.opcionEntrega == 2) {
       this.pedido.entrega = "RETIRO";
-      this.opcionFechaRetiro = 0;
-      this.pedido.fecha_entrega = "";
-      this.pedido.precio_envio = 0;
     }
     this.sharedService.setPedido(this.pedido);
   }
@@ -122,6 +141,13 @@ export class EntregaComponent implements OnInit {
     this.pedido.direccion = this.direcciones[index - 1];
     this.sharedService.setPedido(this.pedido);
   }
+
+  selectDireccionRetiro(index: number) {
+    this.opcionDireccionRetiro = index;
+    this.pedido.direccion = this.direccionesRetiroSelect[index - 1];
+    this.sharedService.setPedido(this.pedido);
+  }
+
   selectFechaEnvio(index: number) {
     this.opcionFechaEnvio = index;
     this.pedido.fecha_entrega = this.fechas[this.opcionFechaEnvio - 1].fecha.toLocaleDateString();
@@ -201,7 +227,7 @@ const DireccionDefault: Direccion = {
 const PedidoDefault: Pedido = {
   id: 0,
   numero: "",
-  estado: "",
+  estado: "GENERADO",
   usuario: UsuarioDefault,
   entrega: "",
   direccion: DireccionDefault!,
@@ -211,5 +237,5 @@ const PedidoDefault: Pedido = {
   igv: 0,
   comentarios: "",
   fecha_entrega: "",
-  detalles: []
+  pedidoDetalles: []
 };

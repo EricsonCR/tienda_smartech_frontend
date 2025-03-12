@@ -15,6 +15,10 @@ export class DireccionService {
     private http: HttpClient
   ) { }
 
+  listarPorUsuario(id: number) {
+    return this.http.get<ControllerResponse>(this.url + "/listarPorUsuario/" + id);
+  }
+
   registrar(direccon: Direccion) {
     return this.http.post<ControllerResponse>(this.url + "/registrar", direccon);
   }

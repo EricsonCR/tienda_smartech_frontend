@@ -170,7 +170,7 @@ const CarritoDefault: Carrito = {
 const PedidoDefault: Pedido = {
   id: 0,
   numero: "",
-  estado: "",
+  estado: "GENERADO",
   usuario: UsuarioDefault,
   entrega: "",
   direccion: DireccionDefault!,
@@ -180,5 +180,5 @@ const PedidoDefault: Pedido = {
   igv: 0,
   comentarios: "",
   fecha_entrega: "",
-  detalles: []
+  pedidoDetalles: []
 };

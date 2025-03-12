@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -37,6 +37,7 @@ export class ForgotpasswordComponent implements OnInit {
 
   alertOK(message: string) {
     Swal.fire({
+      position: "top",
       title: "Cambio de password exitoso",
       text: message,
       icon: "success"
@@ -45,6 +46,7 @@ export class ForgotpasswordComponent implements OnInit {
 
   alertError(message: string) {
     Swal.fire({
+      position: "top",
       title: message,
       icon: "error"
     });

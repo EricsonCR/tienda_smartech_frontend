@@ -8,7 +8,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const urlsRequiringAuth = [
     "/api/carrito",
     "/api/usuario",
-    "/api/direccion"
+    "/api/direccion",
+    "/api/pedido"
   ];
 
   const isAuthUrl = urlsRequiringAuth.some(url => req.url.includes(url));

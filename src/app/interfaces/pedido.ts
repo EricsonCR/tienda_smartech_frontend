@@ -15,5 +15,5 @@ export interface Pedido {
     igv: number,
     comentarios: string,
     fecha_entrega: string,
-    detalles: PedidoDetalle[]
+    pedidoDetalles: PedidoDetalle[]
 }
