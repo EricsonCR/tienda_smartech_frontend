@@ -14,8 +14,9 @@ export class AuthService {
     private http: HttpClient
   ) { }
 
-  login(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/login", auth); }
-  registrar(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/registrar", auth); }
+  login(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/signin", auth); }
+  registrar(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/signup", auth); }
+  enviarEmailRegistro(email: string) { return this.http.get<ControllerResponse>(this.url + "/sendTokenSignup/" + email); }
   recuperarPassword(email: string) { return this.http.get<ControllerResponse>(this.url + "/recuperarPassword/" + email); }
 
   getToken() { return localStorage.getItem("token"); }

@@ -43,11 +43,9 @@ export class SignupComponent {
     this.authService.registrar(this.userForm.value).subscribe({
       next: (result) => {
         if (result.status == "OK") {
-          this.alertOK(result.message);
-          this.router.navigate(["/login"]);
-        } else {
-          this.alertError(result.message);
+          this.router.navigate(["/auth/signup-success"], { queryParams: { email: this.userForm.value.email } });
         }
+        else { this.alertError(result.message); }
       },
       error: (error) => { console.log(error); }
     });

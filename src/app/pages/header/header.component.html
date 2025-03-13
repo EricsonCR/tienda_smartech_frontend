@@ -43,14 +43,15 @@
             <div *ngIf="usuario.nombres==''">Cuenta</div>
           </h5>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}"><a class="dropdown-item"
-                routerLink="login">Iniciar
-                sesion</a></li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}"><a class="dropdown-item"
-                routerLink="/registrar">Registrate</a>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}">
+              <a class="dropdown-item" routerLink="auth/signin">Iniciar sesion</a>
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}" style="cursor: pointer;"><a
-                class="dropdown-item" (click)="irMisDatos()">Mis datos</a></li>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}">
+              <a class="dropdown-item" routerLink="auth/signup">Registrate</a>
+            </li>
+            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}" style="cursor: pointer;">
+              <a class="dropdown-item" (click)="irMisDatos()">Mis datos</a>
+            </li>
             <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
                 href="#">Pedidos</a></li>
             <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
@@ -70,7 +71,8 @@
             <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
             <div *ngIf="carrito.carritoDetalles.length>0">({{carrito.carritoDetalles.length}})</div>
           </h5>
-          <div class="div-carrito bg-white px-4 py-2 rounded-3" [hidden]="!modalCarrito" style="width: 450px; cursor: auto;">
+          <div class="div-carrito bg-white px-4 py-2 rounded-3" [hidden]="!modalCarrito"
+            style="width: 450px; cursor: auto;">
             <div class="row d-flex justify-content-between mx-0">
               <div class="col-sm-auto px-0">
                 <small class="fw-semibold" style="font-size: 15px;">{{carrito.carritoDetalles.length}} Productos en el

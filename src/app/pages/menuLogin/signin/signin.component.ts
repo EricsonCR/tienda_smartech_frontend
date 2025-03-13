@@ -7,8 +7,6 @@ import { SharedService } from '../../../services/shared.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Usuario } from '../../../interfaces/usuario';
 import { CarritoService } from '../../../services/carrito.service';
-import { Carrito } from '../../../interfaces/carrito';
-import { share } from 'rxjs';
 
 @Component({
   selector: 'app-signin',
@@ -41,7 +39,7 @@ export class SigninComponent {
   login() {
     this.authService.login(this.authForm.value).subscribe({
       next: (result) => {
-        if (result.status == "200") {
+        if (result.status == "OK") {
           this.actualizarUsuario(this.authForm.value.email);
           this.alertOK(result.message);
         } else {
