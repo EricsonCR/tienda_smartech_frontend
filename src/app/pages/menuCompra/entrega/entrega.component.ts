@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Direccion } from '../../../interfaces/direccion';
 import { Usuario } from '../../../interfaces/usuario';
 import { UsuarioService } from '../../../services/usuario.service';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
 import { FormsModule } from '@angular/forms';
 import { DireccionService } from '../../../services/direccion.service';

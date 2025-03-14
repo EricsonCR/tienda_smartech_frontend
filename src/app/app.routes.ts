@@ -18,7 +18,6 @@ import { EntregaComponent } from './pages/menuCompra/entrega/entrega.component';
 import { PagoComponent } from './pages/menuCompra/pago/pago.component';
 import { LoginComponent } from './pages/menuLogin/login/login.component';
 import { ValidarComponent } from './pages/menuLogin/validar/validar.component';
-import { SignupSuccessComponent } from './pages/menuLogin/signup-success/signup-success.component';
 
 export const routes: Routes = [
     { path: "home", redirectTo: "", pathMatch: "full" },
@@ -29,7 +28,6 @@ export const routes: Routes = [
         children: [
             { path: "signin", component: SigninComponent, canActivate: [authGuard] },
             { path: "signup", component: SignupComponent, canActivate: [authGuard] },
-            { path: "signup-success", component: SignupSuccessComponent, canActivate: [authGuard] },
             { path: "forgot", component: ForgotpasswordComponent },
             { path: "validatedToken/:token", component: ValidarComponent }
         ]

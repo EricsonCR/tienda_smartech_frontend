@@ -1,3 +1,46 @@
-<div class="container col-sm-6">
-    <p>{{token}}</p>
+<div class="container my-2 d-flex justify-content-center">
+    <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="estadoRespuesta" class="col-sm-6 bg-body-tertiary p-5">
+        <div class="text-center mb-5">
+            <p class="fs-3 text-secondary">Estado de registro</p>
+        </div>
+        <div class="mb-5 text-center bg-warning-subtle">
+            <p class="fw-bold fs-3">{{mensaje}}</p>
+        </div>
+        <div class="mb-5 text-center">
+            <img [hidden]="!(opcionValidacion==1)" src="img/cheque.png" width="40px" alt="">
+            <img [hidden]="!(opcionValidacion==2)" src="img/information.png" width="40px" alt="">
+            <img [hidden]="!(opcionValidacion==3)" src="img/error.png" width="40px" alt="">
+        </div>
+        <div [hidden]="!(opcionValidacion==1 || opcionValidacion==2)">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-warning fw-bold px-4 py-2" routerLink="/auth/signin">Ir a iniciar sesion</button>
+            </div>
+        </div>
+        <div [hidden]="!(opcionValidacion==3)" class="">
+            <div class="mb-3">
+                <p>Por favor escriba su email para que pueda recibir el mensaje de validacion</p>
+            </div>
+            <div class="mb-3">
+                <input type="text" class="form-control" placeholder="email" [(ngModel)]="email">
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-warning fw-bold px-4 py-2" (click)="reenviarEmail()">
+                    <div [hidden]="!estadoReenviar" class="spinner-border spinner-border-sm"></div>
+                    Reenviar email
+                </button>
+            </div>
+        </div>
+    </div>
+    <div [hidden]="!estadoRespuesta" class="col-sm-6 bg-body-tertiary p-5">
+        <div class="mb-5 text-center">
+            <p class="fs-3 text-secondary">Email enviado</p>
+        </div>
+        <div class="mb-5 text-center bg-warning-subtle">
+            <p class="fw-bold fs-3">Recibira un mensaje en su bandeja, por favor seguir los pasos para completar su
+                validacion</p>
+        </div>
+        <div class="mb-5">
+            <button class="btn btn-warning fw-bold px-4 py-2" routerLink="/auth/signin">Ir a iniciar sesion</button>
+        </div>
+    </div>
 </div>

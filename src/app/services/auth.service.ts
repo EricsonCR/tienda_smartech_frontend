@@ -17,6 +17,7 @@ export class AuthService {
   login(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/signin", auth); }
   registrar(auth: Auth) { return this.http.post<ControllerResponse>(this.url + "/signup", auth); }
   enviarEmailRegistro(email: string) { return this.http.get<ControllerResponse>(this.url + "/sendTokenSignup/" + email); }
+  validarRegistro(token: string) { return this.http.get<ControllerResponse>(this.url + "/validatedToken/" + token); }
   recuperarPassword(email: string) { return this.http.get<ControllerResponse>(this.url + "/recuperarPassword/" + email); }
 
   getToken() { return localStorage.getItem("token"); }

@@ -7,11 +7,12 @@ import { SharedService } from '../../../services/shared.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Usuario } from '../../../interfaces/usuario';
 import { CarritoService } from '../../../services/carrito.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-signin',
   standalone: true,
-  imports: [FormsModule, RouterLink, ReactiveFormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './signin.component.html',
   styleUrl: './signin.component.css'
 })
@@ -19,6 +20,10 @@ export class SigninComponent {
 
   public authForm!: FormGroup;
   private usuario!: Usuario;
+
+  email: string = "";
+  opcionReenviar: number = 0;
+  estadoReenviar: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -36,12 +41,26 @@ export class SigninComponent {
     });
   }
 
+  reenviarEmail() {
+    if (this.email != "" && this.email.includes("@") && this.email.includes(".com")) {
+      this.estadoReenviar = true;
+      this.authService.enviarEmailRegistro(this.email).subscribe({
+        next: (result) => {
+          if (result.status == "OK") { this.opcionReenviar = 2; }
+        },
+        error: (error) => { console.log(error); }
+      });
+    }
+  }
+
   login() {
     this.authService.login(this.authForm.value).subscribe({
       next: (result) => {
         if (result.status == "OK") {
           this.actualizarUsuario(this.authForm.value.email);
           this.alertOK(result.message);
+        } else if (result.status == "CONFLICT") {
+          this.opcionReenviar = 1;
         } else {
           this.alertError(result.message);
         }
@@ -84,6 +103,11 @@ export class SigninComponent {
         error: (error) => { console.log(error); }
       });
     }
+  }
+
+  irIniciarSesion() {
+    this.opcionReenviar = 0;
+    this.authForm.reset();
   }
 
   alertOK(message: string) {

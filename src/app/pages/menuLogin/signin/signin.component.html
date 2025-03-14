@@ -1,5 +1,5 @@
-<div class="container py-2 d-flex justify-content-center">
-    <div class="col-sm-6 p-5 bg-body-tertiary">
+<div class="container my-2 d-flex justify-content-center">
+    <div [hidden]="!(opcionReenviar==0)" class="col-sm-6 p-5 bg-body-tertiary">
         <div class="row mb-5">
             <div class="col-auto d-flex align-items-center">
                 <img src="img/usuario-verificado.png" width="32px" alt="">
@@ -34,5 +34,35 @@
                     type="submit">Iniciar Sesion</button>
             </div>
         </form>
+    </div>
+    <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="!(opcionReenviar==1)"
+        class="col-sm-6 p-5 bg-body-tertiary">
+        <div class="mb-5 text-center bg-warning-subtle">
+            <p class="fw-bold fs-3">Tu usuario esta registrado pero no validado</p>
+        </div>
+        <div class="mb-3">
+            <p>Por favor escriba su email para que pueda recibir el mensaje de validacion</p>
+        </div>
+        <div class="mb-3">
+            <input type="text" class="form-control" placeholder="email" [(ngModel)]="email">
+        </div>
+        <div class="">
+            <button class="btn btn-warning fw-bold px-4 py-2" (click)="reenviarEmail()">
+                <div [hidden]="!estadoReenviar" class="spinner-border spinner-border-sm"></div>
+                Reenviar email
+            </button>
+        </div>
+    </div>
+    <div [hidden]="!(opcionReenviar==2)" class="col-sm-6 bg-body-tertiary p-5">
+        <div class="mb-5 text-center">
+            <p class="fs-3 text-secondary">Email enviado</p>
+        </div>
+        <div class="mb-5 text-center bg-warning-subtle">
+            <p class="fw-bold fs-3">Recibira un mensaje en su bandeja, por favor seguir los pasos para completar su
+                validacion</p>
+        </div>
+        <div class="">
+            <button class="btn btn-warning fw-bold px-4 py-2" (click)="irIniciarSesion()">Ir a iniciar sesion</button>
+        </div>
     </div>
 </div>

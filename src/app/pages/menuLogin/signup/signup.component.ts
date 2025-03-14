@@ -20,6 +20,7 @@ export class SignupComponent {
   ];
 
   userForm!: FormGroup;
+  estadoRegistro: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -40,12 +41,15 @@ export class SignupComponent {
   }
 
   registrar() {
+    this.estadoRegistro = true;
     this.authService.registrar(this.userForm.value).subscribe({
       next: (result) => {
         if (result.status == "OK") {
-          this.router.navigate(["/auth/signup-success"], { queryParams: { email: this.userForm.value.email } });
+          this.alertOK(result.message);
+          this.router.navigate([""]);
         }
         else { this.alertError(result.message); }
+        this.estadoRegistro = false;
       },
       error: (error) => { console.log(error); }
     });
@@ -56,8 +60,9 @@ export class SignupComponent {
       position: "top",
       icon: "success",
       title: message,
-      showConfirmButton: false,
-      timer: 2500
+      text: "Se envio un mensaje a su email para confirmar su datos. Por favor verificar para completar su registro",
+      //showConfirmButton: false,
+      // timer: 2500
     });
   }
 
