@@ -61,8 +61,8 @@ export class DatosComponent {
   }
 
   actualizarUsuario() {
-    if (this.userForm.valid && this.usuario.email != "") {
-      this.usuarioService.actualizar(this.userForm.value, this.usuario.email).subscribe({
+    if (this.userForm.valid) {
+      this.usuarioService.actualizar(this.userForm.value).subscribe({
         next: (result) => {
           if (result.status == "OK") this.alertOK(result.message);
           else this.alertError(result.message);
@@ -92,6 +92,7 @@ export class DatosComponent {
 
   initUserForm(usuario: Usuario) {
     this.userForm = this.fb.group({
+      email: [usuario.email, [Validators.required, Validators.email]],
       nombres: [usuario.nombres, [Validators.required]],
       apellidos: [usuario.apellidos, [Validators.required]],
       documento: [usuario.documento, [Validators.required]],
@@ -114,5 +115,6 @@ const usuarioDefault: Usuario = {
   direccion: "",
   email: "",
   nacimiento: "",
-  direcciones: []
+  direcciones: [],
+  pedidos:[]
 };

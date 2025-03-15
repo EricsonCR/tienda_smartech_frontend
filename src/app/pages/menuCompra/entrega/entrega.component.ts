@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Direccion } from '../../../interfaces/direccion';
 import { Usuario } from '../../../interfaces/usuario';
 import { UsuarioService } from '../../../services/usuario.service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
 import { FormsModule } from '@angular/forms';
 import { DireccionService } from '../../../services/direccion.service';
@@ -12,7 +12,7 @@ import { DireccionService } from '../../../services/direccion.service';
 @Component({
   selector: 'app-entrega',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './entrega.component.html',
   styleUrl: './entrega.component.css'
 })
@@ -21,7 +21,7 @@ export class EntregaComponent implements OnInit {
   fechas: { fecha: Date, precio: number }[] = [];
   opcionFechaEnvio: number = 0;
   opcionFechaRetiro: number = 0;
-  opcionEntrega: number = 0;
+  opcionEntrega: number = 1;
   opcionDireccion: number = 0;
   opcionDireccionRetiro: number = 0;
   comentarios: string = "";
@@ -205,7 +205,8 @@ const UsuarioDefault: Usuario = {
   telefono: "",
   email: "",
   nacimiento: "",
-  direcciones: []
+  direcciones: [],
+  pedidos: []
 };
 
 const DireccionDefault: Direccion = {

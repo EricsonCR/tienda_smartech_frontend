@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
     this.sharedService.removeToken();
     this.sharedService.removeCarrito();
     this.sharedService.removePedido();
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/auth/signin"]);
   }
 
   formatearNumero(numero: number): string {
@@ -109,5 +109,6 @@ const UsuarioDefault: Usuario = {
   telefono: "",
   email: "",
   nacimiento: "",
-  direcciones: []
+  direcciones: [],
+  pedidos: []
 }

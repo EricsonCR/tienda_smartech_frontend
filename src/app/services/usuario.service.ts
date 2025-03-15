@@ -16,11 +16,11 @@ export class UsuarioService {
   ) { }
 
   buscarPorEmail(email: string) {
-    return this.http.get<ControllerResponse>(this.url + "/buscarPorEmail/" + email);
+    return this.http.get<ControllerResponse>(this.url + "/findByEmail/" + email);
   }
 
-  actualizar(usuario: Usuario, email: string) {
-    return this.http.put<ControllerResponse>(this.url + "/actualizar/" + email, usuario);
+  actualizar(usuario: Usuario) {
+    return this.http.put<ControllerResponse>(this.url + "/update", usuario);
   }
 
 }

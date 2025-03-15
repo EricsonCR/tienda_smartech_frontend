@@ -18,6 +18,7 @@ import { EntregaComponent } from './pages/menuCompra/entrega/entrega.component';
 import { PagoComponent } from './pages/menuCompra/pago/pago.component';
 import { LoginComponent } from './pages/menuLogin/login/login.component';
 import { ValidarComponent } from './pages/menuLogin/validar/validar.component';
+import { PedidosComponent } from './pages/menuCuenta/pedidos/pedidos.component';
 
 export const routes: Routes = [
     { path: "home", redirectTo: "", pathMatch: "full" },
@@ -40,7 +41,8 @@ export const routes: Routes = [
             { path: "datos", component: DatosComponent },
             { path: "direccion", component: DireccionesComponent },
             { path: "direccion/crear", component: DireccionComponent },
-            { path: "direccion/editar/:id", component: DireccionComponent }
+            { path: "direccion/editar/:id", component: DireccionComponent },
+            { path: "pedidos", component: PedidosComponent }
         ],
         canActivate: [cuentaGuard]
     },

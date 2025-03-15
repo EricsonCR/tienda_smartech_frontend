@@ -63,6 +63,7 @@ export class PagoComponent implements OnInit {
         this.pedidoService.registrar(this.pedido).subscribe({
           next: (result) => {
             if (result.status == "OK") {
+              console.log(result);
               this.getCarrito();
               this.alertOK(result.message);
               this.router.navigate([""]);

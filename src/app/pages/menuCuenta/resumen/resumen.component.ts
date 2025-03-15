@@ -5,6 +5,7 @@ import { Direccion } from '../../../interfaces/direccion';
 import { SharedService } from '../../../services/shared.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { CommonModule } from '@angular/common';
+import { Pedido } from '../../../interfaces/pedido';
 
 @Component({
   selector: 'app-resumen',
@@ -14,8 +15,10 @@ import { CommonModule } from '@angular/common';
   styleUrl: './resumen.component.css'
 })
 export class ResumenComponent {
-usuario!: Usuario;
+
+  usuario!: Usuario;
   direcciones: Direccion[] = [];
+  pedidos: Pedido[] = [];
 
   constructor(
     private router: Router,
@@ -30,10 +33,18 @@ usuario!: Usuario;
         if (result.status == "OK") {
           this.usuario = result.data;
           this.direcciones = result.data.direcciones as Direccion[];
+          this.pedidos = result.data.pedidos as Pedido[];
           this.sharedService.setUsuario(this.usuario);
+          console.log(this.pedidos);
         }
       },
-      error: (error) => { console.log(error); }
+      error: (error) => {
+        if (error.status == "403") {
+          this.sharedService.removeToken();
+          this.sharedService.removeUsuario();
+          this.router.navigate(["/auth/signin"]);
+        }
+      }
     });
     this.sharedService.updateMenuCuenta(1);
   }
@@ -49,5 +60,9 @@ usuario!: Usuario;
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
+  }
+
+  formatoMoneda(value: number): string {
+    return value.toLocaleString('es-US');
   }
 }

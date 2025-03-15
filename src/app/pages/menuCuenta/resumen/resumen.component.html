@@ -2,7 +2,7 @@
     <h2 class="fw-bold">Resumen</h2>
     <hr class="mt-5">
     <div class="row m-0 d-flex align-items-center py-2">
-        <div class="col-auto bg-warning rounded-circle p-2"><img src="img/account.png" width="28px" alt=""></div>
+        <div class="col-auto bg-warning rounded-circle p-1"><img src="img/account.png" width="28px" alt=""></div>
         <div class="col-auto px-1">
             <p class="m-0 fs-5 fw-light">Mis datos</p>
         </div>
@@ -57,7 +57,7 @@
     <hr class="mt-5">
     <div class="row m-0 d-flex align-items-center justify-content-between py-2">
         <div class="row col-auto d-flex align-items-center">
-            <div class="col-auto bg-warning rounded-circle p-2">
+            <div class="col-auto bg-warning rounded-circle p-1">
                 <img src="img/marcador-de-posicion.png" width="28px" alt="">
             </div>
             <div class="col-auto px-1">
@@ -68,7 +68,7 @@
             <a routerLink="/cuenta/direccion">Ver todas las direcciones</a>
         </div>
     </div>
-    <div *ngIf="direcciones.length>0" class="row m-0 py-2">
+    <div *ngIf="direcciones" class="row m-0 py-2">
         <div *ngFor="let d of direcciones.slice(0,2), let i = index" class="col-sm-6 px-2">
             <div class="border border-light-subtle rounded-2 p-4 bg-white">
                 <div class="mb-2">
@@ -83,18 +83,52 @@
                 <div>
                     <p>...</p>
                 </div>
-                <!-- <div class="d-flex justify-content-end mt-4">
-                    <button class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold">Editar</button>
-                </div> -->
             </div>
         </div>
     </div>
     <hr class="mt-5">
-    <div class="row m-0 d-flex align-items-center py-2">
-        <div class="col-auto bg-warning rounded-circle p-2"><img src="img/cart.png" width="28px" alt="">
+    <div class="row m-0 d-flex align-items-center py-2 justify-content-between">
+        <div class="row col-auto d-flex align-items-center">
+            <div class="col-auto bg-warning rounded-circle p-1">
+                <img src="img/cart.png" width="24px" alt="">
+            </div>
+            <div class="col-auto px-1">
+                <p class="m-0 fs-4 fw-light">Mis pedidos</p>
+            </div>
         </div>
-        <div class="col-auto px-1">
-            <p class="m-0 fs-4 fw-light">Mis pedidos</p>
+        <div class="col-auto">
+            <a routerLink="/cuenta/pedidos">Ver todos los pedidos</a>
         </div>
     </div>
+    <div *ngIf="pedidos" class="row m-0 py-2">
+        <div *ngFor="let p of pedidos, let i = index" class="pb-3">
+            <div class=" row border-light-subtle rounded-2 p-4 bg-white">
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">Nro. Pedido</p>
+                    <p class="m-0 p-1 fw-light">#{{p.numero}}</p>
+                </div>
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">Total</p>
+                    <p class="m-0 p-1 fw-light">S/ {{formatoMoneda(p.total)}}</p>
+                </div>
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">T. entrega</p>
+                    <p class="m-0 p-1 fw-light">{{p.entrega}}</p>
+                </div>
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">F. entrega</p>
+                    <p class="m-0 p-1 fw-light">{{formatoFecha(p.fecha_entrega)}}</p>
+                </div>
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">Estado</p>
+                    <p class="m-0 p-1 fw-light">{{p.estado}}</p>
+                </div>
+                <div class="col-sm-2 lh-1 m-0 p-0">
+                    <p class="m-0 p-1 fw-bold">Comprobante</p>
+                    <button class="btn btn-warning btn-sm fw-semibold p-0">generar pdf</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5">
 </div>

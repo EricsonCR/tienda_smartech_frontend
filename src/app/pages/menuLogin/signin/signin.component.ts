@@ -79,7 +79,7 @@ export class SigninComponent {
             this.actualizarCarrito(this.usuario.id);
             this.router.navigate([""]);
           }
-        }
+        } else { this.alertError(result.message); }
       },
       error: (error) => { console.log(error); }
     });
@@ -92,6 +92,7 @@ export class SigninComponent {
       this.carritoService.actualizar(carrito).subscribe({
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
+          else { this.alertError(result.message); }
         },
         error: (error) => { console.log(error); }
       });

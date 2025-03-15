@@ -58,38 +58,40 @@
     <div class="row mx-0">
         <p class="fw-semibold fs-5 my-2">Direccion</p>
     </div>
-    <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}" class="row mx-0">
-        <div *ngFor="let d of direcciones, let i = index" class="col-sm-6 p-2">
-            <div class=" bg-white rounded-2 p-3" (click)="selectDireccion(i+1)"
-                [ngClass]="{'active-direccion':opcionDireccion==(i+1)}" style="cursor: pointer;">
-                <div class="">
-                    <div class="d-flex justify-content-end">
-                        <input type="radio" class="form-check-input" [checked]="opcionDireccion==(i+1)">
-                    </div>
-                    <p class="datos m-0 fw-light">{{d.nombres}}</p>
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-auto">
-                            <p class="datos m-0 fw-light">CEL: {{d.celular}}</p>
+    <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
+        <div class="row mx-0">
+            <div *ngFor="let d of direcciones, let i = index" class="col-sm-6 p-2">
+                <div class=" bg-white rounded-2 p-3" (click)="selectDireccion(i+1)"
+                    [ngClass]="{'active-direccion':opcionDireccion==(i+1)}" style="cursor: pointer;">
+                    <div class="">
+                        <div class="d-flex justify-content-end">
+                            <input type="radio" class="form-check-input" [checked]="opcionDireccion==(i+1)">
                         </div>
-                        <div class="col-auto">
-                            <p class="datos m-0 fw-light">{{d.documento}}:{{d.numero}}</p>
+                        <p class="datos m-0 fw-light">{{d.nombres}}</p>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">CEL: {{d.celular}}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">{{d.documento}}:{{d.numero}}</p>
+                            </div>
                         </div>
-                    </div>
-                    <p class="datos m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}}</p>
-                    <p class="datos m-0 fw-light">Referencia: {{d.referencia}}</p>
-                    <div class="row d-flex justify-content-between">
-                        <div class="col-auto">
-                            <p class="datos m-0 fw-light">{{d.distrito}}, {{d.provincia}}, {{d.departamento}}</p>
-                        </div>
-                        <div class="col-auto">
-                            <p class="datos m-0 fw-light">CP: {{d.codigo_postal}}</p>
+                        <p class="datos m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}}</p>
+                        <p class="datos m-0 fw-light">Referencia: {{d.referencia}}</p>
+                        <div class="row d-flex justify-content-between">
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">{{d.distrito}}, {{d.provincia}}, {{d.departamento}}</p>
+                            </div>
+                            <div class="col-auto">
+                                <p class="datos m-0 fw-light">CP: {{d.codigo_postal}}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row mx-0 px-0">
-            <a href="">Agregar direccion</a>
+            <div class="row mx-0 px-0">
+                <a routerLink="/cuenta/direccion/crear">Agregar direccion</a>
+            </div>
         </div>
     </div>
     <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">

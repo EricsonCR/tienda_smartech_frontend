@@ -143,7 +143,8 @@ const UsuarioDefault: Usuario = {
   telefono: "",
   email: "",
   nacimiento: "",
-  direcciones: []
+  direcciones: [],
+  pedidos: []
 };
 
 const DireccionDefault: Direccion = {

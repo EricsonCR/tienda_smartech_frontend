@@ -1,4 +1,5 @@
 import { Direccion } from "./direccion";
+import { Pedido } from "./pedido";
 
 export interface Usuario {
     id: number,
@@ -11,5 +12,6 @@ export interface Usuario {
     direccion: string,
     email: string,
     nacimiento: string,
-    direcciones: Direccion[]
+    direcciones: Direccion[],
+    pedidos: Pedido[]
 }

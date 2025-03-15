@@ -92,7 +92,7 @@ export class ArticulosComponent implements OnInit {
             this.actualizarAgregar(1);
           }
           else if (result.status == "FOUND") { this.actualizarAgregar(2); }
-          else { }
+          else { console.log(result); }
         },
         error: (error) => { console.log(error); }
       });

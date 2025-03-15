@@ -47,7 +47,7 @@ export class CarritoComponent implements OnInit {
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
           else if (result.status == "NOT_FOUND") { }
-          else {  }
+          else { }
         },
         error: (error) => { console.log(error); }
       });
@@ -65,7 +65,7 @@ export class CarritoComponent implements OnInit {
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
           else if (result.status == "NOT_FOUND") { }
-          else {  }
+          else { }
         },
         error: (error) => { console.log(error); }
       });
