@@ -60,30 +60,32 @@
     </div>
     <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
         <div class="row mx-0">
-            <div *ngFor="let d of direcciones, let i = index" class="col-sm-6 p-2">
+            <div *ngFor="let d of domicilios, let i = index" class="col-sm-6 p-2">
                 <div class=" bg-white rounded-2 p-3" (click)="selectDireccion(i+1)"
                     [ngClass]="{'active-direccion':opcionDireccion==(i+1)}" style="cursor: pointer;">
                     <div class="">
                         <div class="d-flex justify-content-end">
                             <input type="radio" class="form-check-input" [checked]="opcionDireccion==(i+1)">
                         </div>
-                        <p class="datos m-0 fw-light">{{d.nombres}}</p>
+                        <p class="datos m-0 fw-light">{{d.consignatario.nombres}}</p>
                         <div class="row d-flex justify-content-between">
                             <div class="col-auto">
-                                <p class="datos m-0 fw-light">CEL: {{d.celular}}</p>
+                                <p class="datos m-0 fw-light">CEL: {{d.consignatario.celular}}</p>
                             </div>
                             <div class="col-auto">
-                                <p class="datos m-0 fw-light">{{d.documento}}:{{d.numero}}</p>
+                                <p class="datos m-0 fw-light">{{d.consignatario.documento}}:{{d.consignatario.numero}}
+                                </p>
                             </div>
                         </div>
-                        <p class="datos m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}}</p>
-                        <p class="datos m-0 fw-light">Referencia: {{d.referencia}}</p>
+                        <p class="datos m-0 fw-light">{{d.direccion.via.toLowerCase()}} {{d.direccion.nombre}}</p>
+                        <p class="datos m-0 fw-light">Referencia: {{d.direccion.referencia}}</p>
                         <div class="row d-flex justify-content-between">
                             <div class="col-auto">
-                                <p class="datos m-0 fw-light">{{d.distrito}}, {{d.provincia}}, {{d.departamento}}</p>
+                                <p class="datos m-0 fw-light">{{d.direccion.distrito}}, {{d.direccion.provincia}},
+                                    {{d.direccion.departamento}}</p>
                             </div>
                             <div class="col-auto">
-                                <p class="datos m-0 fw-light">CP: {{d.codigo_postal}}</p>
+                                <p class="datos m-0 fw-light">CP: {{d.direccion.codigo_postal}}</p>
                             </div>
                         </div>
                     </div>
@@ -126,7 +128,7 @@
                         </div>
                         <div class="col-sm-10 lh-1 text-secondary">
                             <p class="m-0">SMARTECH {{d.distrito}}</p>
-                            <p class="m-0">Dirección: {{d.direccion}} - {{d.referencia}} - {{d.distrito}},
+                            <p class="m-0">Dirección: {{d.nombre}} - {{d.referencia}} - {{d.distrito}},
                                 {{d.provincia}},{{d.departamento}}
                             </p>
                             <p class="m-0">Atencion: Lunes a Domingo de 9am a 9:00pm</p>

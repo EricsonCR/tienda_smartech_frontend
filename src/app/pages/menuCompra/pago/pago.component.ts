@@ -17,6 +17,10 @@ import { Carrito } from '../../../interfaces/carrito';
 })
 export class PagoComponent implements OnInit {
 
+  metodo_pagos: string[] = [
+    "TARJETA", "MONEDA_DIGITAL", "PAGO_EFECTIVO", "CONTRA_ENTREGA"
+  ];
+
   opcionPago: number = 1;
   pedido!: Pedido;
 
@@ -31,10 +35,12 @@ export class PagoComponent implements OnInit {
     this.sharedService.updateMenuCompra(3);
     this.pedido = this.sharedService.getPedido();
     this.pedido.fecha_entrega = this.convertirFecha(this.pedido.fecha_entrega);
+    this.pedido.metodo_pago = this.metodo_pagos[0];
   }
 
   selectPago(index: number) {
     this.opcionPago = index;
+    this.pedido.metodo_pago = this.metodo_pagos[index - 1];
   }
 
   totalPedido(p: Pedido): string {
@@ -63,11 +69,10 @@ export class PagoComponent implements OnInit {
         this.pedidoService.registrar(this.pedido).subscribe({
           next: (result) => {
             if (result.status == "OK") {
-              console.log(result);
               this.getCarrito();
               this.alertOK(result.message);
               this.router.navigate([""]);
-            }
+            } else { console.log(result); }
           },
           error: (error) => { console.log(error); }
         });

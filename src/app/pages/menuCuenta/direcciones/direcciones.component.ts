@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Usuario } from '../../../interfaces/usuario';
-import { Direccion } from '../../../interfaces/direccion';
 import { SharedService } from '../../../services/shared.service';
 import { UsuarioService } from '../../../services/usuario.service';
-import { DireccionService } from '../../../services/direccion.service';
 import Swal from 'sweetalert2';
+import { Domicilio } from '../../../interfaces/domicilio';
+import { DomicilioService } from '../../../services/domicilio.service';
 
 @Component({
   selector: 'app-direcciones',
@@ -18,12 +18,12 @@ import Swal from 'sweetalert2';
 export class DireccionesComponent {
 
   usuario!: Usuario;
-  direcciones: Direccion[] = [];
+  domicilios: Domicilio[] = [];
 
   constructor(
     private sharedService: SharedService,
     private usuarioService: UsuarioService,
-    private direccionService: DireccionService,
+    private domicilioService: DomicilioService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class DireccionesComponent {
       next: (result) => {
         if (result.status == "OK") {
           this.usuario = result.data;
-          this.direcciones = this.usuario.direcciones;
+          this.domicilios = this.usuario.domicilios;
         }
       },
       error: (error) => { console.log(error); }
@@ -47,7 +47,7 @@ export class DireccionesComponent {
   eliminar(id: number) {
     this.alertQuestion().then((result) => {
       if (result == "SI") {
-        this.direccionService.eliminar(id).subscribe({
+        this.domicilioService.eliminar(id).subscribe({
           next: (result) => {
             if (result.status == "OK") {
               this.alertOK(result.message);

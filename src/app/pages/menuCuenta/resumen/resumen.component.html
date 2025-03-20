@@ -68,17 +68,18 @@
             <a routerLink="/cuenta/direccion">Ver todas las direcciones</a>
         </div>
     </div>
-    <div *ngIf="direcciones" class="row m-0 py-2">
-        <div *ngFor="let d of direcciones.slice(0,2), let i = index" class="col-sm-6 px-2">
+    <div *ngIf="domicilios" class="row m-0 py-2">
+        <div *ngFor="let d of domicilios.slice(0,2), let i = index" class="col-sm-6 px-2">
             <div class="border border-light-subtle rounded-2 p-4 bg-white">
                 <div class="mb-2">
                     <p class="m-0 fw-bold ">Direccion de entrega #{{i+1}}</p>
                 </div>
                 <div class="mb-0">
-                    <p class="m-0 fw-light">{{d.nombres}}</p>
+                    <p class="m-0 fw-light">{{d.consignatario.nombres}}</p>
                 </div>
                 <div class="mb-0">
-                    <p class="m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}} - {{d.distrito}}</p>
+                    <p class="m-0 fw-light">{{d.direccion.via.toUpperCase()}} {{d.direccion.nombre}} -
+                        {{d.direccion.distrito}}</p>
                 </div>
                 <div>
                     <p>...</p>
@@ -101,7 +102,7 @@
         </div>
     </div>
     <div *ngIf="pedidos" class="row m-0 py-2">
-        <div *ngFor="let p of pedidos, let i = index" class="pb-3">
+        <div *ngFor="let p of pedidos.slice(0,2), let i = index" class="pb-3">
             <div class=" row border-light-subtle rounded-2 p-4 bg-white">
                 <div class="col-sm-2 lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">Nro. Pedido</p>
@@ -123,9 +124,10 @@
                     <p class="m-0 p-1 fw-bold">Estado</p>
                     <p class="m-0 p-1 fw-light">{{p.estado}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0">
-                    <p class="m-0 p-1 fw-bold">Comprobante</p>
-                    <button class="btn btn-warning btn-sm fw-semibold p-0">generar pdf</button>
+                <div class="col-sm-2 lh-1 m-0 p-0 d-flex align-items-center">
+                    <div>
+                        <button class="btn btn-warning btn-sm fw-semibold p-1 rounded-2">generar pdf</button>
+                    </div>
                 </div>
             </div>
         </div>

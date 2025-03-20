@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { Usuario } from '../../../interfaces/usuario';
 import { Router, RouterLink } from '@angular/router';
-import { Direccion } from '../../../interfaces/direccion';
 import { SharedService } from '../../../services/shared.service';
 import { UsuarioService } from '../../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Pedido } from '../../../interfaces/pedido';
+import { Domicilio } from '../../../interfaces/domicilio';
 
 @Component({
   selector: 'app-resumen',
@@ -17,7 +17,7 @@ import { Pedido } from '../../../interfaces/pedido';
 export class ResumenComponent {
 
   usuario!: Usuario;
-  direcciones: Direccion[] = [];
+  domicilios: Domicilio[] = [];
   pedidos: Pedido[] = [];
 
   constructor(
@@ -32,10 +32,9 @@ export class ResumenComponent {
       next: (result) => {
         if (result.status == "OK") {
           this.usuario = result.data;
-          this.direcciones = result.data.direcciones as Direccion[];
+          this.domicilios = result.data.domicilios as Domicilio[];
           this.pedidos = result.data.pedidos as Pedido[];
           this.sharedService.setUsuario(this.usuario);
-          console.log(this.pedidos);
         }
       },
       error: (error) => {

@@ -18,32 +18,33 @@
             </div>
         </div>
     </div>
-    <div *ngIf="direcciones" class="row m-0">
-        <div *ngFor="let d of direcciones, let i = index" class="col-sm-6 px-2 py-2">
+    <div *ngIf="domicilios" class="row m-0">
+        <div *ngFor="let d of domicilios, let i = index" class="col-sm-6 px-2 py-2">
             <div class=" bg-white rounded-2 border border-light-subtle p-4">
                 <div class="">
                     <p class="mx-0 mb-3 fw-semibold fs-5">Direccion de entrega #{{i+1}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">{{d.numero}} ({{d.documento.toLowerCase()}})</p>
+                    <p class="m-0 fw-light">{{d.consignatario.numero}} ({{d.consignatario.documento.toLowerCase()}})</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">{{d.nombres}}</p>
+                    <p class="m-0 fw-light">{{d.consignatario.nombres}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">Cel: {{d.celular}}</p>
+                    <p class="m-0 fw-light">Cel: {{d.consignatario.celular}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">{{d.via.toLowerCase()}} {{d.direccion}} - {{d.distrito}}</p>
+                    <p class="m-0 fw-light">{{d.direccion.via.toLowerCase()}} {{d.direccion.nombre}} -
+                        {{d.direccion.distrito}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">Referencia: {{d.referencia}}</p>
+                    <p class="m-0 fw-light">Referencia: {{d.direccion.referencia}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">{{d.provincia}} - {{d.departamento}}</p>
+                    <p class="m-0 fw-light">{{d.direccion.provincia}} - {{d.direccion.departamento}}</p>
                 </div>
                 <div class="">
-                    <p class="m-0 fw-light">Codigo postal: {{d.codigo_postal}}</p>
+                    <p class="m-0 fw-light">Codigo postal: {{d.direccion.codigo_postal}}</p>
                 </div>
                 <div class="d-flex justify-content-between mt-5">
                     <button class="btn btn-outline-danger px-4 rounded-5 fw-bold"

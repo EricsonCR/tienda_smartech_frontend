@@ -8,6 +8,8 @@ import { Router, RouterLink } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
 import { FormsModule } from '@angular/forms';
 import { DireccionService } from '../../../services/direccion.service';
+import { Domicilio } from '../../../interfaces/domicilio';
+import { Consignatario } from '../../../interfaces/consignatario';
 
 @Component({
   selector: 'app-entrega',
@@ -25,7 +27,7 @@ export class EntregaComponent implements OnInit {
   opcionDireccion: number = 0;
   opcionDireccionRetiro: number = 0;
   comentarios: string = "";
-  direcciones: Direccion[] = [];
+  domicilios: Domicilio[] = [];
 
   direccionesRetiro: Direccion[] = [];
   direccionesRetiroSelect: Direccion[] = [];
@@ -84,7 +86,7 @@ export class EntregaComponent implements OnInit {
     if (this.pedido.entrega != "") {
       if (this.pedido.entrega == "DELIVERY") { this.opcionEntrega = 1; }
       else if (this.pedido.entrega == "RETIRO") { this.opcionEntrega = 2; }
-      const indexDireccion = this.direcciones.findIndex(x => x.id == this.pedido.direccion.id);
+      const indexDireccion = this.domicilios.findIndex(x => x.direccion.id == this.pedido.direccion.id);
       if (indexDireccion != -1) { this.opcionDireccion = indexDireccion + 1; }
       const indexFechaEnvio = this.fechas.findIndex(x => x.fecha.getDate().toString() == this.pedido.fecha_entrega.split("/")[0]);
       if (indexFechaEnvio != -1) { this.opcionFechaEnvio = indexFechaEnvio + 1; }
@@ -98,7 +100,7 @@ export class EntregaComponent implements OnInit {
     this.usuarioService.buscarPorEmail(usuario.email).subscribe({
       next: (result) => {
         if (result.status == "OK") {
-          this.direcciones = result.data.direcciones;
+          this.domicilios = result.data.domicilios as Domicilio[];
           this.getPedido(this.sharedService.getPedido());
         }
       },
@@ -138,7 +140,8 @@ export class EntregaComponent implements OnInit {
   }
   selectDireccion(index: number) {
     this.opcionDireccion = index;
-    this.pedido.direccion = this.direcciones[index - 1];
+    this.pedido.consignatario = this.domicilios[index - 1].consignatario;
+    this.pedido.direccion = this.domicilios[index - 1].direccion;
     this.sharedService.setPedido(this.pedido);
   }
 
@@ -205,19 +208,15 @@ const UsuarioDefault: Usuario = {
   telefono: "",
   email: "",
   nacimiento: "",
-  direcciones: [],
+  domicilios: [],
   pedidos: []
 };
 
 const DireccionDefault: Direccion = {
   id: 0,
-  usuario: UsuarioDefault,
-  documento: "",
   numero: "",
-  nombres: "",
-  celular: "",
   via: "",
-  direccion: "",
+  nombre: "",
   referencia: "",
   distrito: " ",
   provincia: "",
@@ -225,13 +224,24 @@ const DireccionDefault: Direccion = {
   codigo_postal: 0,
 };
 
+const ConsignatarioDetault: Consignatario = {
+  id: 0,
+  documento: "",
+  numero: "",
+  nombres: "",
+  celular: "",
+  email: ""
+}
+
 const PedidoDefault: Pedido = {
   id: 0,
   numero: "",
   estado: "GENERADO",
   usuario: UsuarioDefault,
-  entrega: "",
-  direccion: DireccionDefault!,
+  entrega: "DELIVERY",
+  consignatario: ConsignatarioDetault,
+  direccion: DireccionDefault,
+  metodo_pago: "",
   precio_envio: 0,
   precio_cupon: 0,
   total: 0,

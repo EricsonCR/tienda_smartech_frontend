@@ -115,6 +115,6 @@ const usuarioDefault: Usuario = {
   direccion: "",
   email: "",
   nacimiento: "",
-  direcciones: [],
-  pedidos:[]
+  domicilios: [],
+  pedidos: []
 };

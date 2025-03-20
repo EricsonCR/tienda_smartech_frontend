@@ -5,6 +5,7 @@ import { Carrito } from '../interfaces/carrito';
 import { Producto } from '../interfaces/producto';
 import { Pedido } from '../interfaces/pedido';
 import { Direccion } from '../interfaces/direccion';
+import { Consignatario } from '../interfaces/consignatario';
 
 @Injectable({
   providedIn: 'root'
@@ -143,19 +144,15 @@ const UsuarioDefault: Usuario = {
   telefono: "",
   email: "",
   nacimiento: "",
-  direcciones: [],
+  domicilios: [],
   pedidos: []
 };
 
 const DireccionDefault: Direccion = {
   id: 0,
-  usuario: UsuarioDefault,
-  documento: "",
   numero: "",
-  nombres: "",
-  celular: "",
   via: "",
-  direccion: "",
+  nombre: "",
   referencia: "",
   distrito: " ",
   provincia: "",
@@ -168,18 +165,30 @@ const CarritoDefault: Carrito = {
   usuario: UsuarioDefault,
   carritoDetalles: []
 };
+
+const ConsignatarioDetault: Consignatario = {
+  id: 0,
+  documento: "",
+  numero: "",
+  nombres: "",
+  celular: "",
+  email: ""
+}
+
 const PedidoDefault: Pedido = {
   id: 0,
   numero: "",
   estado: "GENERADO",
   usuario: UsuarioDefault,
-  entrega: "",
-  direccion: DireccionDefault!,
+  entrega: "DELIVERY",
+  consignatario: ConsignatarioDetault,
+  direccion: DireccionDefault,
+  metodo_pago: "",
   precio_envio: 0,
   precio_cupon: 0,
   total: 0,
   igv: 0,
   comentarios: "",
-  fecha_entrega: "",
+  fecha_entrega: "00/00/00",
   pedidoDetalles: []
 };
