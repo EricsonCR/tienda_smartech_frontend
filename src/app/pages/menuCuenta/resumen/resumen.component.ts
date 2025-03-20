@@ -6,6 +6,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { CommonModule } from '@angular/common';
 import { Pedido } from '../../../interfaces/pedido';
 import { Domicilio } from '../../../interfaces/domicilio';
+import { PdfService } from '../../../services/pdf.service';
 
 @Component({
   selector: 'app-resumen',
@@ -23,7 +24,8 @@ export class ResumenComponent {
   constructor(
     private router: Router,
     private sharedService: SharedService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private pdfService: PdfService
   ) { }
 
   ngOnInit(): void {
@@ -46,6 +48,16 @@ export class ResumenComponent {
       }
     });
     this.sharedService.updateMenuCuenta(1);
+  }
+
+  ver_pdf(numero: string) {
+    this.pdfService.buscarPdf(numero).subscribe({
+      next: (result: Blob) => {
+        const url = window.URL.createObjectURL(result);
+        window.open(url);
+      },
+      error: (error) => { console.log(error); }
+    });
   }
 
   irMisDatos() {
