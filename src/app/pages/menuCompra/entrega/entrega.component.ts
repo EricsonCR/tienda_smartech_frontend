@@ -6,19 +6,26 @@ import { Usuario } from '../../../interfaces/usuario';
 import { UsuarioService } from '../../../services/usuario.service';
 import { Router, RouterLink } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
-import { FormsModule } from '@angular/forms';
-import { DireccionService } from '../../../services/direccion.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Domicilio } from '../../../interfaces/domicilio';
 import { Consignatario } from '../../../interfaces/consignatario';
+import { Oficina } from '../../../interfaces/oficina';
+import { OficinaService } from '../../../services/oficina.service';
 
 @Component({
   selector: 'app-entrega',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './entrega.component.html',
   styleUrl: './entrega.component.css'
 })
 export class EntregaComponent implements OnInit {
+
+  listaDocumentos = [
+    { value: "DNI" },
+    { value: "CE" },
+    { value: "PASAPORTE" }
+  ];
 
   fechas: { fecha: Date, precio: number }[] = [];
   opcionFechaEnvio: number = 0;
@@ -29,17 +36,19 @@ export class EntregaComponent implements OnInit {
   comentarios: string = "";
   domicilios: Domicilio[] = [];
 
-  direccionesRetiro: Direccion[] = [];
-  direccionesRetiroSelect: Direccion[] = [];
+  oficinasRetiro: Oficina[] = [];
+  oficinasRetiroSelect: Oficina[] = [];
   distritos: string[] = [];
   distritoSelect: string = "";
 
   pedido: Pedido = PedidoDefault;
+  consignatarioForm!: FormGroup;
 
   constructor(
     private sharedService: SharedService,
     private usuarioService: UsuarioService,
-    private direccionService: DireccionService,
+    private oficinaService: OficinaService,
+    private fb: FormBuilder,
     private router: Router
   ) { }
 
@@ -48,10 +57,21 @@ export class EntregaComponent implements OnInit {
     this.fechas = this.obtenerFechasDesde(new Date());
     this.getUsuario(this.sharedService.getUsuario());
     this.getDireccionesRetiro();
+    this.initConsignatario(ConsignatarioDetault);
+  }
+
+  initConsignatario(consignatario: Consignatario) {
+    consignatario.documento = this.listaDocumentos[0].value;
+    this.consignatarioForm = this.fb.group({
+      documento: [consignatario.documento, Validators.required],
+      numero: [consignatario.numero, Validators.required],
+      celular: [consignatario.celular, Validators.required],
+      nombres: [consignatario.nombres, Validators.required]
+    });
   }
 
   getDireccionesRetiro() {
-    this.direccionService.listarPorUsuario(1).subscribe({
+    this.oficinaService.listar().subscribe({
       next: (result) => {
         if (result.status == "OK") {
           this.agregarDistritos(result.data);
@@ -61,21 +81,21 @@ export class EntregaComponent implements OnInit {
     });
   }
 
-  agregarDistritos(direcciones: Direccion[]) {
-    this.direccionesRetiro = direcciones;
-    direcciones.forEach((item) => {
-      if (!this.distritos.includes(item.distrito)) {
-        this.distritos.push(item.distrito);
+  agregarDistritos(oficinas: Oficina[]) {
+    this.oficinasRetiro = oficinas;
+    oficinas.forEach((item) => {
+      if (!this.distritos.includes(item.direccion.distrito)) {
+        this.distritos.push(item.direccion.distrito);
       }
     });
   }
 
   distritoSeleccionado() {
-    const direcciones: Direccion[] = [];
-    this.direccionesRetiro.forEach((item) => {
-      if (item.distrito == this.distritoSelect) { direcciones.push(item); }
+    const oficinas: Oficina[] = [];
+    this.oficinasRetiro.forEach((item) => {
+      if (item.direccion.distrito == this.distritoSelect) { oficinas.push(item); }
     });
-    this.direccionesRetiroSelect = direcciones;
+    this.oficinasRetiroSelect = oficinas;
     this.opcionDireccionRetiro = 0;
     this.pedido.direccion = DireccionDefault;
     this.sharedService.setPedido(this.pedido);
@@ -109,8 +129,10 @@ export class EntregaComponent implements OnInit {
   }
 
   continuarPedido() {
+    if (this.consignatarioForm.invalid && this.opcionEntrega == 2) return;
     this.pedido.comentarios = this.comentarios;
     this.pedido.usuario = this.sharedService.getUsuario();
+    if (this.opcionEntrega == 2) this.pedido.consignatario = this.consignatarioForm.value;
     this.sharedService.setPedido(this.pedido);
     if (this.pedido.direccion.id != 0 && this.pedido.usuario.id != 0) {
       if (this.pedido.entrega == "DELIVERY" && this.pedido.precio_envio >= 40) {
@@ -147,7 +169,7 @@ export class EntregaComponent implements OnInit {
 
   selectDireccionRetiro(index: number) {
     this.opcionDireccionRetiro = index;
-    this.pedido.direccion = this.direccionesRetiroSelect[index - 1];
+    this.pedido.direccion = this.oficinasRetiroSelect[index - 1].direccion;
     this.sharedService.setPedido(this.pedido);
   }
 
@@ -250,3 +272,13 @@ const PedidoDefault: Pedido = {
   fecha_entrega: "",
   pedidoDetalles: []
 };
+
+const OficinaDefault: Oficina = {
+  id: 0,
+  nombre: "",
+  celular: "",
+  hora_inicio: "",
+  hora_fin: "",
+  usuario: UsuarioDefault,
+  direccion: DireccionDefault
+}

@@ -23,6 +23,7 @@ export class PagoComponent implements OnInit {
 
   opcionPago: number = 1;
   pedido!: Pedido;
+  estadoPago: boolean = false;
 
   constructor(
     private sharedService: SharedService,
@@ -66,6 +67,7 @@ export class PagoComponent implements OnInit {
       confirmButtonText: "Si, quiero !"
     }).then((result) => {
       if (result.isConfirmed) {
+        this.estadoPago = true;
         this.pedidoService.registrar(this.pedido).subscribe({
           next: (result) => {
             if (result.status == "OK") {

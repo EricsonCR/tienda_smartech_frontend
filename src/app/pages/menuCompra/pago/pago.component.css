@@ -11,3 +11,8 @@
     border: 4px solid #BBDEFB;
     border-radius: 10px;
 }
+
+.disabled-div {
+    pointer-events: none;
+    opacity: 0.5;
+}

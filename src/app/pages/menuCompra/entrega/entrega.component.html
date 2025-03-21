@@ -9,6 +9,7 @@
             </div>
         </div>
     </div>
+    <hr class="mt-5">
     <div class="row mx-0">
         <p class="">Puedes seleccionar envio a domicilio o retiro entienda.</p>
     </div>
@@ -54,10 +55,11 @@
             </div>
         </div>
     </div>
-    <hr>
+    <hr class="mt-5">
     <div class="row mx-0">
         <p class="fw-semibold fs-5 my-2">Direccion</p>
     </div>
+    <!-- DIRECCION DELIVERY -->
     <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
         <div class="row mx-0">
             <div *ngFor="let d of domicilios, let i = index" class="col-sm-6 p-2">
@@ -96,6 +98,7 @@
             </div>
         </div>
     </div>
+    <!-- DIRECCION RETIRO -->
     <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">
         <div class="row mx-0 my-3">
             <div class="col-sm-4">
@@ -119,7 +122,7 @@
             </div>
         </div>
         <div class="row mx-0 mb-3">
-            <div class="" *ngFor="let d of direccionesRetiroSelect, let i = index">
+            <div class="" *ngFor="let o of oficinasRetiroSelect, let i = index">
                 <div class="col-sm p-3 my-2 bg-white rounded-2" style="cursor: pointer;"
                     (click)="selectDireccionRetiro(i+1)" [ngClass]="{'active-direccion':opcionDireccionRetiro==i+1}">
                     <div class="row mx-0 d-flex align-items-center">
@@ -127,11 +130,12 @@
                             <img src="img/localizacion.png" width="48px" alt="">
                         </div>
                         <div class="col-sm-10 lh-1 text-secondary">
-                            <p class="m-0">SMARTECH {{d.distrito}}</p>
-                            <p class="m-0">Dirección: {{d.nombre}} - {{d.referencia}} - {{d.distrito}},
-                                {{d.provincia}},{{d.departamento}}
+                            <p class="m-0">{{o.nombre}}</p>
+                            <p class="m-0">Dirección: {{o.direccion.nombre}} - {{o.direccion.referencia}} -
+                                {{o.direccion.distrito}},
+                                {{o.direccion.provincia}},{{o.direccion.departamento}}
                             </p>
-                            <p class="m-0">Atencion: Lunes a Domingo de 9am a 9:00pm</p>
+                            <p class="m-0">Atencion: Lunes a Domingo de {{o.hora_inicio}} - {{o.hora_fin}}</p>
                         </div>
                         <div class="col-sm-1 d-flex justify-content-end">
                             <input type="radio" class="form-check-input" [checked]="opcionDireccionRetiro==(i+1)">
@@ -140,11 +144,47 @@
                 </div>
             </div>
         </div>
+        <hr class="mt-5">
+        <div class="row mx-0 d-flex align-items-center">
+            <div class="col-auto">
+                <p class="fw-semibold fs-5 m-0">Consignatario</p>
+            </div>
+            <div class="col-auto">
+                <p class="m-0">(Quien recogera el producto)</p>
+            </div>
+        </div>
+        <div class="row mx-0 col-sm-8 mt-3">
+            <form [formGroup]="consignatarioForm">
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="" class="form-label">Documento</label>
+                        <select name="" id="" class="form-select rounded-4" formControlName="documento">
+                            <option *ngFor="let d of listaDocumentos" [value]="d.value">{{d.value}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-8">
+                        <label for="" class="form-label">Numero</label>
+                        <input type="text" class="form-control rounded-4" formControlName="numero">
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-sm-4">
+                        <label for="" class="form-label">Celular</label>
+                        <input type="text" class="form-control rounded-4" formControlName="celular">
+                    </div>
+                    <div class="col-sm-8">
+                        <label for="" class="form-label">Nombres</label>
+                        <input type="text" class="form-control rounded-4" formControlName="nombres">
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
-    <hr>
+    <hr class="mt-5">
     <div class="row mx-0">
         <p class="fw-semibold fs-5">Fechas</p>
     </div>
+    <!-- FECHA DELIVERY -->
     <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
         <div class="row mx-0">
             <div *ngFor="let f of fechas, let i = index" class="col-sm-3 my-1">
@@ -165,6 +205,7 @@
             </div>
         </div>
     </div>
+    <!-- FECHA RECOJO -->
     <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">
         <div class="row mx-0">
             <div *ngFor="let f of fechas.slice(4), let i = index" class="col-sm-3 my-1">
@@ -183,7 +224,7 @@
             </div>
         </div>
     </div>
-    <hr>
+    <hr class="mt-5">
     <div class="row mx-0">
         <p class="fw-semibold fs-5">Instrucciones</p>
         <textarea name="" id="" class="form-control mx-2" [(ngModel)]="comentarios"></textarea>
