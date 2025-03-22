@@ -94,7 +94,7 @@
                 <img src="img/cart.png" width="24px" alt="">
             </div>
             <div class="col-auto px-1">
-                <p class="m-0 fs-4 fw-light">Mis pedidos</p>
+                <p class="m-0 fs-5 fw-light">Mis pedidos</p>
             </div>
         </div>
         <div class="col-auto">
@@ -103,28 +103,28 @@
     </div>
     <div *ngIf="pedidos" class="row m-0 py-2">
         <div *ngFor="let p of pedidos.slice(0,2), let i = index" class="pb-3">
-            <div class=" row border-light-subtle rounded-2 p-4 bg-white">
-                <div class="col-sm-2 lh-1 m-0 p-0">
+            <div class=" row d-flex justify-content-between border-light-subtle rounded-2 p-3 bg-white">
+                <div class="col-auto lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">Nro. Pedido</p>
                     <p class="m-0 p-1 fw-light">#{{p.numero}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0">
+                <div class="col-auto lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">Total</p>
                     <p class="m-0 p-1 fw-light">S/ {{formatoMoneda(p.total)}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0">
+                <div class="col-auto lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">T. entrega</p>
                     <p class="m-0 p-1 fw-light">{{p.entrega}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0">
+                <div class="col-auto lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">F. entrega</p>
                     <p class="m-0 p-1 fw-light">{{formatoFecha(p.fecha_entrega)}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0">
+                <div class="col-auto lh-1 m-0 p-0">
                     <p class="m-0 p-1 fw-bold">Estado</p>
                     <p class="m-0 p-1 fw-light">{{p.estado}}</p>
                 </div>
-                <div class="col-sm-2 lh-1 m-0 p-0 d-flex align-items-center">
+                <div class="col-auto lh-1 m-0 p-0 d-flex align-items-center">
                     <div>
                         <button (click)="ver_pdf(p.numero)" class="btn btn-warning btn-sm fw-semibold p-1 rounded-2">ver pdf</button>
                     </div>

@@ -18,4 +18,8 @@ export class PedidoService {
   registrar(pedido: Pedido) {
     return this.http.post<ControllerResponse>(this.url + "/registrar", pedido);
   }
+
+  buscarPorId(id: number) {
+    return this.http.get<ControllerResponse>(this.url + "/findById/" + id);
+  }
 }

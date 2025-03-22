@@ -41,11 +41,6 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  irMisDatos() {
-    this.sharedService.updateMenuCuenta(1);
-    this.router.navigate(["/cuenta/resumen"]);
-  }
-
   logout() {
     this.sharedService.removeUsuario();
     this.sharedService.removeToken();

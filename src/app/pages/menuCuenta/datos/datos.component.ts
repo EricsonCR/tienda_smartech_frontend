@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Usuario } from '../../../interfaces/usuario';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { UsuarioService } from '../../../services/usuario.service';
 import { SharedService } from '../../../services/shared.service';
 import Swal from 'sweetalert2';
@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-datos',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, RouterLink, ReactiveFormsModule],
   templateUrl: './datos.component.html',
   styleUrl: './datos.component.css'
 })
@@ -53,11 +53,6 @@ export class DatosComponent {
     const month = ('0' + (date.getMonth() + 1)).slice(-2);
     const day = ('0' + date.getDate()).slice(-2);
     return `${year}-${month}-${day}`;
-  }
-
-  irPaginaAnterior() {
-    this.sharedService.updateMenuCuenta(1);
-    this.router.navigate(["/cuenta/resumen"]);
   }
 
   actualizarUsuario() {

@@ -43,25 +43,27 @@
             <div *ngIf="usuario.nombres==''">Cuenta</div>
           </h5>
           <ul class="dropdown-menu dropdown-menu-end">
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}">
+            <li [hidden]="(usuario.nombres!='')">
               <a class="dropdown-item" routerLink="auth/signin">Iniciar sesion</a>
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'none':'block'}">
+            <li [hidden]="(usuario.nombres!='')">
               <a class="dropdown-item" routerLink="auth/signup">Registrate</a>
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}" style="cursor: pointer;">
-              <a class="dropdown-item" (click)="irMisDatos()">Mis datos</a>
+            <li [hidden]="(usuario.nombres=='')" style="cursor: pointer;">
+              <a class="dropdown-item" routerLink="/cuenta/resumen">Mis datos</a>
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
-                href="#">Pedidos</a></li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item"
-                href="#">Favoritos</a>
+            <li [hidden]="(usuario.nombres=='')">
+              <a class="dropdown-item" routerLink="/cuenta/pedidos">Pedidos</a>
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}">
+            <li [hidden]="(usuario.nombres=='')">
+              <a class="dropdown-item" href="#">Favoritos</a>
+            </li>
+            <li [hidden]="(usuario.nombres=='')">
               <hr class="dropdown-divider">
             </li>
-            <li [ngStyle]="{'display':usuario.nombres!=''? 'block':'none'}"><a class="dropdown-item" href="#"
-                (click)="logout()">Salir</a></li>
+            <li [hidden]="(usuario.nombres=='')">
+              <a class="dropdown-item" href="#" (click)="logout()">Salir</a>
+            </li>
           </ul>
         </div>
       </div>

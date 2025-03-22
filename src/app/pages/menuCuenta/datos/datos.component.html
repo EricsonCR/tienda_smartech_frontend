@@ -43,13 +43,15 @@
                     <input type="tel" class="form-control rounded-5 py-2 px-4" formControlName="telefono">
                 </div>
             </div>
-            <div class="row mx-0 mt-5 mb-2 d-flex justify-content-between">
-                <div class="row col-auto" (click)="irPaginaAnterior()" style="cursor: pointer;">
+            <hr class="mt-5">
+            <div class="row mx-0 mb-2 d-flex justify-content-between align-items-center">
+                <div class="row col-auto d-flex align-items-center" routerLink="/cuenta/resumen"
+                    style="cursor: pointer;">
                     <div class="col-auto">
-                        <a><img src="img/atras.png" width="24px" alt=""></a>
+                        <img src="img/atras.png" width="24px" alt="">
                     </div>
                     <div class="col-auto px-0">
-                        <p class="m-0 fw-light fs-6">Regresar</p>
+                        <p class="m-0 fw-light">Regresar</p>
                     </div>
                 </div>
                 <div class="col-auto"><button type="submit" [disabled]="userForm.invalid"

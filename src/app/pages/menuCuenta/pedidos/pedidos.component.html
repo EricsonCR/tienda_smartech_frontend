@@ -1,1 +1,43 @@
-<p>pedidos works!</p>
+<div class="container">
+    <div class="row d-flex align-items-center">
+        <h2 class="fw-bold">Mis Pedidos</h2>
+    </div>
+    <hr class="mt-5">
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>N° pedido</th>
+                    <th>Fecha</th>
+                    <th>Consignatario</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Accion</th>
+                </tr>
+            </thead>
+            <tbody class="table-light">
+                <tr *ngFor="let p of pedidos, let i = index">
+                    <td class="py-3">{{i+1}}</td>
+                    <td class="py-3">#{{p.numero}}</td>
+                    <td class="py-3">{{formatoFecha(p.fecha_entrega)}}</td>
+                    <td class="py-3">{{p.consignatario.nombres}}</td>
+                    <td class="py-3">S/ {{formatoMoneda(p.total)}}</td>
+                    <td class="py-3"><small>{{p.estado}}</small></td>
+                    <td class="py-3"><a routerLink="/cuenta/pedido/detalle/{{p.id}}"
+                            class="fw-semibold text-body-tertiary text-decoration-none">Detalle</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <hr class="mt-5">
+    <div class="row" routerLink="/cuenta/resumen" style="cursor: pointer;">
+        <div class="col-auto">
+            <img src="img/atras.png" width="24px" alt="">
+        </div>
+        <div class="col-auto px-0">
+            <p class="m-0 fw-light">Regresar</p>
+        </div>
+    </div>
+</div>

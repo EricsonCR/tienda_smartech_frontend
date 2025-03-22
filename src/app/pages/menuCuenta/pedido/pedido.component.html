@@ -1,0 +1,209 @@
+<div class="container">
+    <div class="row d-flex align-items-center">
+        <div class="col-auto">
+            <h2 class="m-0 sfw-bold">Pedido</h2>
+        </div>
+        <div class="col-auto">
+            <p class="m-0 fw-light fs-3">#{{pedido.numero}}</p>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row d-flex align-items-center">
+        <div class="col-auto bg-warning rounded-circle p-1">
+            <img src="img/circulo.png" width="28px" alt="">
+        </div>
+        <div class="col-auto">
+            <p class="m-0 fw-light fs-5">Estado del pedido</p>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <ul class="bar">
+            <li [ngClass]="{'active':estadoPedido>=1}">GENERADO</li>
+            <li [ngClass]="{'active':estadoPedido>=2}">APROBADO</li>
+            <li [ngClass]="{'active':estadoPedido>=3}">EN CAMINO</li>
+            <li [ngClass]="{'active':estadoPedido>=4}">ENTREGADO</li>
+        </ul>
+    </div>
+    <br>
+    <br>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Fecha pedido:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{formatoFecha(pedido.fecha_entrega)}}</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Tipo entrega:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.entrega}}</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Metodo pago:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.metodo_pago}}</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Comentarios:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.comentarios}}</p>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row d-flex justify-content-between align-items-center">
+        <div class="row col-auto">
+            <div class="col-auto bg-warning rounded-circle p-1">
+                <img src="img/cart.png" width="28px" alt="">
+            </div>
+            <div class="col-auto">
+                <p class="m-0 fw-light fs-5">Articulos del pedido</p>
+            </div>
+        </div>
+        <div class="row m-0 col-auto d-flex align-items-center" (click)="verComprobante(pedido.numero)"
+            style="cursor: pointer;">
+            <div class="col-auto px-1">
+                <img src="img/archivo-pdf.png" width="24px" alt="">
+            </div>
+            <div class="col-auto px-1">
+                <p class="m-0 text-primary fw-semibold">comprobante pago</p>
+            </div>
+        </div>
+    </div>
+    <div class="my-5 table-responsive">
+        <hr class="m-0">
+        <table class="table">
+            <thead class="table-light">
+                <tr>
+                    <th>SKU</th>
+                    <th>Nombre</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody class="table-light">
+                <tr *ngFor="let d of pedido.pedidoDetalles">
+                    <td>{{d.producto.sku}}</td>
+                    <td>
+                        <div class="text-truncate" style="max-width: 400px;">{{d.producto.nombre}}</div>
+                    </td>
+                    <td>{{d.cantidad}}</td>
+                    <td>S/ {{formatoMoneda(d.precio)}}</td>
+                    <td>S/ {{formatoMoneda(d.precio*d.cantidad)}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="bg-body-secondary p-2 rounded-2">
+        <div class="row m-0 d-flex justify-content-end py-1">
+            <div class="col-sm-10 text-end">
+                <p class="m-0">Subtotal</p>
+            </div>
+            <div class="col-sm-2 text-end">
+                <p class="m-0">S/ {{formatoMoneda(pedido.total)}}</p>
+            </div>
+        </div>
+        <div class="row m-0 d-flex justify-content-end py-1">
+            <div class="col-sm-10 text-end">
+                <p class="m-0">Cargos delivery</p>
+            </div>
+            <div class="col-sm-2 text-end">
+                <p class="m-0">S/ {{formatoMoneda(pedido.precio_envio)}}</p>
+            </div>
+        </div>
+        <div class="row m-0 d-flex justify-content-end py-1">
+            <div class="col-sm-10 text-end">
+                <p class="m-0 fw-bold fs-5">Importe Total</p>
+            </div>
+            <div class="col-sm-2 text-end bg-warning">
+                <p class="m-0 fw-bold fs-5">S/ {{formatoMoneda(pedido.total+pedido.precio_envio)}}</p>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row d-flex align-items-center">
+        <div class="col-auto bg-warning rounded-circle p-1">
+            <img src="img/account.png" width="28px" alt="">
+        </div>
+        <div class="col-auto">
+            <p class="m-0 fw-light fs-5">Consignatario</p>
+        </div>
+        <div class="col-auto px-0">
+            <small class="m-0 fw-light">(quien recibe o recoge el pedido)</small>
+        </div>
+    </div>
+    <br>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Documento:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.consignatario.numero}} ({{pedido.consignatario.documento}})</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Nombres:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.consignatario.nombres}}</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Celular:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.consignatario.celular}}</p>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row d-flex align-items-center">
+        <div class="col-auto bg-warning rounded-circle p-1">
+            <img src="img/localizacion.png" width="28px" alt="">
+        </div>
+        <div class="col-auto">
+            <p class="m-0 fw-light fs-5">Entrega</p>
+        </div>
+        <div class="col-auto px-0">
+            <small class="m-0 fw-light">(direccion donde se envia o recoge el pedido)</small>
+        </div>
+    </div>
+    <br>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Direccion:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{pedido.direccion.nombre}} - {{pedido.direccion.distrito}}</p>
+        </div>
+    </div>
+    <div class="row mx-0 mb-2 border-bottom border-light-subtle">
+        <div class="col-sm-2">
+            <p class="m-0 fw-semibold">Fecha entrega:</p>
+        </div>
+        <div class="col-sm-10">
+            <p class="m-0">{{formatoFecha(pedido.fecha_entrega)}}</p>
+        </div>
+    </div>
+    <hr class="mt-5">
+    <div class="row" routerLink="/cuenta/pedidos" style="cursor: pointer;">
+        <div class="col-auto">
+            <img src="img/atras.png" width="24px" alt="">
+        </div>
+        <div class="col-auto px-0">
+            <p class="m-0 fw-light">Regresar</p>
+        </div>
+    </div>
+</div>
