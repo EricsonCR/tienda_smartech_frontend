@@ -1,13 +1,11 @@
-<div class="container px-0 my-2">
-    <div class="bg-body-tertiary">
-        <div class="row d-flex align-items-center justify-content-center p-2">
-            <div class="col-sm-6">
-                <ul class="bar">
-                    <li [ngClass]="{'active':menuCompra>=1}">Carrito</li>
-                    <li [ngClass]="{'active':menuCompra>=2}">Entrega</li>
-                    <li [ngClass]="{'active':menuCompra>=3}">Pago</li>
-                </ul>
-            </div>
+<div class="container px-0 my-2 bg-body-tertiary" [hidden]="carrito.carritoDetalles.length==0">
+    <div class="row d-flex align-items-center justify-content-center p-2">
+        <div class="col-sm-6">
+            <ul class="bar">
+                <li [ngClass]="{'active':menuCompra>=1}">Carrito</li>
+                <li [ngClass]="{'active':menuCompra>=2}">Entrega</li>
+                <li [ngClass]="{'active':menuCompra>=3}">Pago</li>
+            </ul>
         </div>
     </div>
 </div>

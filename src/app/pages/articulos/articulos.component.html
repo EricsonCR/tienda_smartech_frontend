@@ -85,7 +85,7 @@
                         <img src="img/cart.png" width="24px" class="" alt="">
                     </div>
                     <div class="col-sm-auto d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">{{tituloModal}}</h4>
+                        <h4 class="fw-bold">{{tituloModal}}</h4>
                     </div>
                     <div class="spinner-border" [hidden]="estadoAgregar" role="status"></div>
                     <div class="col-sm-auto" [hidden]="!estadoAgregar">
@@ -103,11 +103,11 @@
                     </div>
                 </div>
                 <div *ngIf="item" class="col-sm-10 px-4">
-                    <p class="mb-2">{{item.marca.nombre}}</p>
-                    <p class="fw-bold fs-5 mb-2">
-                        <a routerLink="" (click)="irAlProducto(item.nombre)">{{item.nombre}}</a>
+                    <p class="mb-2 fw-bold">{{item.marca.nombre}}</p>
+                    <p class="fw-bold mb-2 text-primary text-decoration-underline" style="cursor: pointer;" (click)="irAlProducto(item.nombre)">{{item.nombre}}
                     </p>
-                    <p class="text-danger fw-bold fs-4 mb-0">S/ {{(item.precio*(1-item.descuento/100)).toFixed(2)}}</p>
+                    <p class="text-danger fw-bold fs-4 mb-0">S/
+                        {{calcularPrecio(item.precio,item.descuento)}}</p>
                     <div *ngIf="item.descuento>0">
                         <p class="text-decoration-line-through text-body-tertiary">S/ {{item.precio}}</p>
                     </div>
@@ -118,7 +118,8 @@
                         class="btn btn-outline-warning rounded-5 px-4 py-2 fw-bold text-dark"
                         data-bs-dismiss="modal">Seguir comprando</button></div>
                 <div class="col-auto">
-                    <button (click)="irAlCarrito()" type="button" class="btn btn-warning rounded-5 px-5 py-2 fw-bold">Ir al carrito</button>
+                    <button (click)="irAlCarrito()" type="button" class="btn btn-warning rounded-5 px-5 py-2 fw-bold">Ir
+                        al carrito</button>
                 </div>
             </div>
         </div>

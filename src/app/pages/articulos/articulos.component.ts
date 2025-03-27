@@ -105,6 +105,13 @@ export class ArticulosComponent implements OnInit {
     }
   }
 
+  calcularPrecio(precio: number, descuento: number): string {
+    let total: number = 0;
+    total = precio * (1 - descuento / 100);
+    total = parseFloat(total.toFixed(2));
+    return total.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

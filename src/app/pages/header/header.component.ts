@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { Carrito } from '../../interfaces/carrito';
 import { Usuario } from '../../interfaces/usuario';
 import { CarritoDetalle } from '../../interfaces/carrito-detalle';
+import { Producto } from '../../interfaces/producto';
+import { CarritoService } from '../../services/carrito.service';
 
 declare var bootstrap: any;
 
@@ -24,7 +26,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private eRef: ElementRef,
     private router: Router,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -49,19 +52,23 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/auth/signin"]);
   }
 
-  formatearNumero(numero: number): string {
-    return numero.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-  }
-
   verCarrito() { this.modalCarrito = !this.modalCarrito; }
 
-  totalCarrito(carritoDetalles: CarritoDetalle[]) {
+  calcularPrecio(precio: number, descuento: number): string {
+    let total: number = 0;
+    total = precio * (1 - descuento / 100);
+    total = parseFloat(total.toFixed(2));
+    return total.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  calcularTotal(carritoDetalles: CarritoDetalle[]) {
     let total = 0;
     if (carritoDetalles.length > 0) {
       carritoDetalles.forEach(
         item => { total += (item.producto.precio * (1 - item.producto.descuento / 100)) * item.cantidad; }
       );
-      return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      total = parseFloat(total.toFixed(2));
+      return total.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
     return "0";
   }
@@ -83,6 +90,29 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(["compra/carrito"]);
     });
+  }
+
+  eliminarItem(p: Producto) {
+    const email: string = this.sharedService.getUsuario().email;
+    if (email != "") {
+      console.log("eliminar en bd y local storage");
+      const id: number = this.sharedService.getCarrito().id;
+      this.carritoService.eliminarItem(id, { id: 0, producto: p, cantidad: 0 }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") {
+            this.carrito = result.data as Carrito;
+            this.sharedService.setCarrito(this.carrito);
+          }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+
+    } else {
+      console.log("eliminar en local storage");
+      this.sharedService.eliminarItemCarrito(p);
+      this.carrito = this.sharedService.getCarrito();
+    }
   }
 
   @HostListener('document:click', ['$event'])

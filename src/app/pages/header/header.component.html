@@ -86,7 +86,7 @@
             </div>
             <div class="row d-flex justify-content-end mx-0 mb-3">
               <div class="col-sm-auto px-0">
-                <p class="fs-4 my-0 fw-bold">S/ {{totalCarrito(carrito.carritoDetalles)}}</p>
+                <p class="fs-4 my-0 fw-bold">S/ {{calcularTotal(carrito.carritoDetalles)}}</p>
               </div>
             </div>
             <div class="row mx-0 mb-3">
@@ -94,9 +94,9 @@
                 (click)="irAlCarrito()">Ir al carrito</button>
             </div>
             <div *ngFor="let c of carrito.carritoDetalles.slice(0,4)">
-              <div class="row border border-secondary-subtle mx-0 mb-3">
+              <div class="row border border-light-subtle rounded-2 mx-0 mb-2">
                 <div class="col-sm-3 d-flex align-items-center justify-content-center my-2">
-                  <img class="mx-0" src="img/{{c.producto.fotos[0].galeria.url}}" height="80px" alt="">
+                  <img class="mx-0" src="img/{{c.producto.fotos[0].galeria.url}}" height="60px" alt="">
                 </div>
                 <div class="col-sm-9 px-0">
                   <div class="">
@@ -107,13 +107,16 @@
                       <a routerLink="" (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
                     </p>
                   </div>
-                  <div class="row mx-0 d-flex justify-content-between">
+                  <div class="row mx-0 my-2 d-flex justify-content-between align-items-center">
                     <div class="col-sm-auto px-0">
-                      <p class="text-danger fw-bold" style="font-size: 17px;">S/
-                        {{(c.producto.precio*(1-c.producto.descuento/100)).toFixed(2)}}</p>
+                      <p class="m-0 text-danger fw-bold" style="font-size: 17px;">S/
+                        {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
                     </div>
                     <div class="col-sm-auto">
-                      <img src="img/eliminar.png" alt="" width="24px">
+                      <p class="m-0 text-body-secondary fw-light">cant.: {{c.cantidad}}</p>
+                    </div>
+                    <div class="col-sm-auto" style="cursor: pointer;" (click)="eliminarItem(c.producto)">
+                      <img src="img/eliminar.png" alt="" width="20px">
                     </div>
                   </div>
                 </div>
