@@ -20,6 +20,7 @@ import { LoginComponent } from './pages/menuLogin/login/login.component';
 import { ValidarComponent } from './pages/menuLogin/validar/validar.component';
 import { PedidosComponent } from './pages/menuCuenta/pedidos/pedidos.component';
 import { PedidoComponent } from './pages/menuCuenta/pedido/pedido.component';
+import { FavoritosComponent } from './pages/menuCuenta/favoritos/favoritos.component';
 
 export const routes: Routes = [
     { path: "home", redirectTo: "", pathMatch: "full" },
@@ -44,7 +45,8 @@ export const routes: Routes = [
             { path: "direccion/crear", component: DireccionComponent },
             { path: "direccion/editar/:id", component: DireccionComponent },
             { path: "pedidos", component: PedidosComponent },
-            { path: "pedido/detalle/:id", component: PedidoComponent }
+            { path: "pedido/detalle/:id", component: PedidoComponent },
+            { path: "favoritos", component: FavoritosComponent }
         ],
         canActivate: [cuentaGuard]
     },

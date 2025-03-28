@@ -62,8 +62,9 @@
                                         <button class="btn bg-warning fw-semibold rounded-4 px-4" data-bs-toggle="modal"
                                             data-bs-target="#myModal" (click)="agregar(p)">Agregar al carrito</button>
                                     </div>
-                                    <div class="col-auto d-flex align-items-center p-0 m-0">
-                                        <a href=""><img src="img/corazon.png" alt="" width="24px"></a>
+                                    <div class="col-auto d-flex align-items-center p-0 m-0" (click)="agregarFavorito(p)"
+                                        style="cursor: pointer;">
+                                        <img src="img/corazon.png" alt="" width="24px">
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +105,8 @@
                 </div>
                 <div *ngIf="item" class="col-sm-10 px-4">
                     <p class="mb-2 fw-bold">{{item.marca.nombre}}</p>
-                    <p class="fw-bold mb-2 text-primary text-decoration-underline" style="cursor: pointer;" (click)="irAlProducto(item.nombre)">{{item.nombre}}
+                    <p class="fw-bold mb-2 text-primary text-decoration-underline" style="cursor: pointer;"
+                        (click)="irAlProducto(item.nombre)">{{item.nombre}}
                     </p>
                     <p class="text-danger fw-bold fs-4 mb-0">S/
                         {{calcularPrecio(item.precio,item.descuento)}}</p>

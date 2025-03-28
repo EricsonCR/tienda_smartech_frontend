@@ -111,5 +111,6 @@ const usuarioDefault: Usuario = {
   email: "",
   nacimiento: "",
   domicilios: [],
-  pedidos: []
+  pedidos: [],
+  favoritos: []
 };

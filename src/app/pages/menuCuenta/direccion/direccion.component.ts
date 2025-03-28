@@ -142,7 +142,8 @@ const UsuarioDefault: Usuario = {
   email: "",
   nacimiento: "",
   domicilios: [],
-  pedidos: []
+  pedidos: [],
+  favoritos: []
 };
 
 const DireccionDefault: Direccion = {

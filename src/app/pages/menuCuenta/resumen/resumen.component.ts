@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { Pedido } from '../../../interfaces/pedido';
 import { Domicilio } from '../../../interfaces/domicilio';
 import { PdfService } from '../../../services/pdf.service';
+import { Favorito } from '../../../interfaces/favorito';
+import { FavoritoService } from '../../../services/favorito.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-resumen',
@@ -20,12 +23,14 @@ export class ResumenComponent {
   usuario!: Usuario;
   domicilios: Domicilio[] = [];
   pedidos: Pedido[] = [];
+  favoritos: Favorito[] = [];
 
   constructor(
     private router: Router,
     private sharedService: SharedService,
     private usuarioService: UsuarioService,
-    private pdfService: PdfService
+    private pdfService: PdfService,
+    private favoritoService: FavoritoService
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +41,7 @@ export class ResumenComponent {
           this.usuario = result.data;
           this.domicilios = result.data.domicilios as Domicilio[];
           this.pedidos = result.data.pedidos as Pedido[];
+          this.favoritos = result.data.favoritos as Favorito[];
           this.sharedService.setUsuario(this.usuario);
         }
       },
@@ -60,6 +66,20 @@ export class ResumenComponent {
     });
   }
 
+  agregarAlCarrito(productoId: number) {
+
+  }
+
+  eliminarFavorito(favoritoId: number) {
+    this.favoritoService.eliminar(favoritoId).subscribe({
+      next: (result) => {
+        if (result.status == "OK") { this.alertOK(result.message); this.ngOnInit(); }
+        else { console.log(result); }
+      },
+      error: (error) => { console.log(error); }
+    });
+  }
+
   irMisDatos() {
     this.router.navigate(["/cuenta/datos"]);
   }
@@ -74,6 +94,29 @@ export class ResumenComponent {
   }
 
   formatoMoneda(value: number): string {
-    return value.toLocaleString('es-US');
+    return value.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  calcularPrecio(precio: number, descuento: number): string {
+    let total: number = precio * (1 - descuento / 100);
+    return this.formatoMoneda(total);
+  }
+
+  alertOK(message: string) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  alertError(message: string) {
+    Swal.fire({
+      title: "Error",
+      text: message,
+      icon: "error"
+    });
   }
 }

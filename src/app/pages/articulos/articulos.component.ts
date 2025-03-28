@@ -7,6 +7,10 @@ import { Categoria } from '../../interfaces/categoria';
 import { Router, RouterLink } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { CarritoService } from '../../services/carrito.service';
+import { FavoritoService } from '../../services/favorito.service';
+import { Usuario } from '../../interfaces/usuario';
+import { Favorito } from '../../interfaces/favorito';
+import Swal from 'sweetalert2';
 
 declare var bootstrap: any;
 
@@ -24,13 +28,15 @@ export class ArticulosComponent implements OnInit {
   productos!: Producto[];
   categorias!: Categoria[];
   estadoAgregar: boolean = false;
+  estadoAlertProducto: boolean = false;
 
   constructor(
     private router: Router,
     private productoService: ProductoService,
     private categoriaService: CategoriaService,
     private sharedService: SharedService,
-    private carritoService: CarritoService
+    private carritoService: CarritoService,
+    private favoritoService: FavoritoService
   ) { }
 
   ngOnInit(): void {
@@ -53,6 +59,26 @@ export class ArticulosComponent implements OnInit {
       },
       error: (error) => { console.log(error); }
     });
+  }
+
+  agregarFavorito(p: Producto) {
+    const usuarioId: number = this.sharedService.getUsuario().id;
+    const productoId = p.id;
+    if (usuarioId != 0 && productoId != 0) {
+      let usuario: Usuario = this.sharedService.getUsuario();
+      let producto: Producto = p;
+      producto.id = productoId;
+      const favorito: Favorito = { id: 0, producto: producto, usuario: usuario };
+      this.favoritoService.registrar(favorito).subscribe({
+        next: (result) => {
+          if (result.status == "OK") { this.alertOK(result.message); }
+          else { this.alertInfo(result.message); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    } else if (usuarioId == 0) {
+      console.log("debe iniciar sesion para agregar favoritos");
+    }
   }
 
   irAlProducto(nombre: string) {
@@ -125,4 +151,60 @@ export class ArticulosComponent implements OnInit {
     this.estadoAgregar = true;
   }
 
+  alertOK(message: string) {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+  alertInfo(message: string) {
+    Swal.fire({
+      position: "center",
+      icon: "info",
+      title: message,
+    });
+  }
+
+  alertError(message: string) {
+    Swal.fire({
+      title: "Error",
+      text: message,
+      icon: "error"
+    });
+  }
+
+}
+
+const UsuarioDefault: Usuario = {
+  id: 0,
+  documento: "",
+  numero: "",
+  rol: "",
+  nombres: "",
+  apellidos: "",
+  direccion: "",
+  telefono: "",
+  email: "",
+  nacimiento: "",
+  domicilios: [],
+  pedidos: [],
+  favoritos: []
+}
+
+const ProductoDefault: Producto = {
+  id: 0,
+  sku: "",
+  nombre: "",
+  descripcion: "",
+  slogan: "",
+  stock: 0,
+  precio: 0,
+  descuento: 0,
+  categoria: undefined!,
+  marca: undefined!,
+  fotos: [],
+  especificaciones: []
 }
