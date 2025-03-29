@@ -2,12 +2,12 @@
     position: absolute;
     top: 50px;
     right: 0vw;
+    width: 450px;
     box-shadow: 0px 0px 15px 0px black;
 }
 
 @media screen and (max-width: 1200px) {
-    .h5categoria,
-    .h5smartech {
-        display: none;
+    .div-carrito {
+        width: 350px;
     }
 }

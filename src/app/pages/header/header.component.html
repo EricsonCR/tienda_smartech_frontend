@@ -1,14 +1,14 @@
 <div class="container bg-warning py-3 sticky-top">
-  <div class="row justify-content-between">
-    <div class="row col-sm-4">
-      <div class="row col-sm">
+  <div class="row justify-content-between mx-2">
+    <div class="row col-sm-4 px-0">
+      <div class="row col-sm my-1 px-0">
         <a href="" class="" style="text-decoration: none;">
           <h5 class="fw-bold fs-3 text-dark d-flex align-items-center">
             <img class="" src="img/chat-gpt.png" alt="" width="48px">SMARTECH
           </h5>
         </a>
       </div>
-      <div class="row col-sm-auto d-flex justify-content-end divcategoria">
+      <div class="row col-sm-auto d-flex justify-content-end my-1">
         <div class="col-sm-auto ps-1 d-flex align-items-center" style="cursor:pointer;">
           <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
             <img src="img/lista.png" alt="" width="24px" class="pe-1">Categorias
@@ -28,12 +28,12 @@
         </div>
       </div>
     </div>
-    <div class="col-sm-4 p-0">
-      <div class="">
-        <input type="search" class="form-control bg" placeholder="¿Que estás buscando?">
+    <div class="col-sm-4 p-0 mx-0 my-1">
+      <div class="px-0 mx-0">
+        <input type="search" class="form-control" placeholder="¿Que estás buscando?">
       </div>
     </div>
-    <div class="row col-sm-4">
+    <div class="row col-sm-4 my-1">
       <div class="row col-sm-auto p-0 divcuenta me-4">
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center" style="cursor: pointer;" data-bs-toggle="dropdown"
@@ -67,14 +67,13 @@
           </ul>
         </div>
       </div>
-      <div class="row col-sm-auto p-0 me-4" style="cursor: pointer;">
+      <div class="row col-sm-auto p-0 me-4 my-1" style="cursor: pointer;">
         <div class="col-sm-auto px-1 d-flex align-items-center position-relative">
           <h5 class="fw-bold d-flex align-items-center" (click)="verCarrito()">
             <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
             <div *ngIf="carrito.carritoDetalles.length>0">({{carrito.carritoDetalles.length}})</div>
           </h5>
-          <div class="div-carrito bg-white px-4 py-2 rounded-3" [hidden]="!modalCarrito"
-            style="width: 450px; cursor: auto;">
+          <div class="div-carrito bg-white px-4 py-2 rounded-3" [hidden]="!modalCarrito">
             <div class="row d-flex justify-content-between mx-0">
               <div class="col-sm-auto px-0">
                 <small class="fw-semibold" style="font-size: 15px;">{{carrito.carritoDetalles.length}} Productos en el
@@ -129,7 +128,7 @@
           </div>
         </div>
       </div>
-      <div class="row col-sm-auto p-0 divpedido">
+      <div class="row col-sm-auto p-0 my-1">
         <div class="col-sm-auto px-1 d-flex align-items-center">
           <h5 class="fw-bold d-flex align-items-center">
             <img src="img/delivery.png" alt="" width="24px" class="pe-1 py-0">Pedidos
