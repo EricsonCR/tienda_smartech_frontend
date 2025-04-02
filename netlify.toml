@@ -5,10 +5,15 @@
   force = true
 
 [[redirects]]
+  from = "/auth/validatedToken/*"
+  to = "/index.html"
+  status = 200
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  
+
 [[headers]]
   for = "/*" # Aplica a todas las rutas
   [headers.values]
