@@ -74,7 +74,7 @@ export class CompraComponent {
 
   subTotalPedido(): string {
     if (this.calcularSubTotalPedido() > 0) {
-      return this.calcularSubTotalPedido().toLocaleString('es-US');
+      return this.calcularSubTotalPedido().toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
     return "0";
   }
@@ -84,7 +84,7 @@ export class CompraComponent {
     if (this.menuCompra > 1) {
       total = parseFloat((this.pedido.total + this.pedido.precio_envio).toFixed(2));
     }
-    return total.toLocaleString('es-US');
+    return total.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 }
 

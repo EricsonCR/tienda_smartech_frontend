@@ -52,7 +52,7 @@ export class PedidosComponent implements OnInit {
 
   formatoMoneda(value: number): string {
     value = parseFloat(value.toFixed(2));
-    return value.toLocaleString('es-US');
+    return value.toLocaleString('es-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
   }
 
 }

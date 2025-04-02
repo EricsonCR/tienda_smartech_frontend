@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Carrito } from '../interfaces/carrito';
 import { HttpClient } from '@angular/common/http';
 import { ControllerResponse } from '../interfaces/controller-response';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { CarritoDetalle } from '../interfaces/carrito-detalle';
 
 @Injectable({
