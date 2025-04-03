@@ -7,6 +7,8 @@ import { Producto } from '../../../interfaces/producto';
 import Swal from 'sweetalert2';
 import { Usuario } from '../../../interfaces/usuario';
 import { SharedService } from '../../../services/shared.service';
+import { FavoritoService } from '../../../services/favorito.service';
+import { Favorito } from '../../../interfaces/favorito';
 
 @Component({
   selector: 'app-carrito',
@@ -26,7 +28,8 @@ export class CarritoComponent implements OnInit {
 
   constructor(
     private carritoService: CarritoService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private favoritoService: FavoritoService
   ) { }
 
   ngOnInit(): void {
@@ -90,6 +93,29 @@ export class CarritoComponent implements OnInit {
     } else {
       this.sharedService.eliminarItemCarrito(p);
       this.carrito = this.sharedService.getCarrito();
+    }
+  }
+
+  guardarItem(p: Producto) {
+    const usuarioId: number = this.sharedService.getUsuario().id;
+    const productoId = p.id;
+    if (usuarioId != 0 && productoId != 0) {
+      let usuario: Usuario = this.sharedService.getUsuario();
+      let producto: Producto = p;
+      producto.id = productoId;
+      const favorito: Favorito = { id: 0, producto: producto, usuario: usuario };
+      this.favoritoService.registrar(favorito).subscribe({
+        next: (result) => {
+          if (result.status == "OK" || result.status == "FOUND") {
+            this.eliminarItem(p);
+            this.alertOK(result.message);
+          }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    } else if (usuarioId == 0) {
+      console.log("debe iniciar sesion para agregar favoritos");
     }
   }
 

@@ -4,6 +4,7 @@ import { ProductoService } from '../../services/producto.service';
 import { Producto } from '../../interfaces/producto';
 import { CommonModule } from '@angular/common';
 import { SharedService } from '../../services/shared.service';
+import { CarritoService } from '../../services/carrito.service';
 
 declare var bootstrap: any;
 
@@ -27,7 +28,8 @@ export class ProductoDetalleComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private productoService: ProductoService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -72,20 +74,49 @@ export class ProductoDetalleComponent implements OnInit {
 
   agregar(p: Producto) {
     this.item = p;
-    const itemIndex = this.sharedService.agregarItemCarrito(p, this.cantidadItem);
-    if (itemIndex == -1) { this.tituloModal = "Tu producto ha sido añadido al carrito"; }
-    else { this.tituloModal = "El producto ya existe en tu carrito"; }
-    this.actualizarAgregar();
+    const usuario = this.sharedService.getUsuario();
+
+    if (usuario.email != "") {
+      const id = this.sharedService.getCarrito().id;
+      this.carritoService.agregarItem(id, { id: 0, producto: p, cantidad: this.cantidadItem }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") {
+            this.sharedService.setCarrito(result.data);
+            this.actualizarAgregar(1);
+          }
+          else if (result.status == "FOUND") { this.actualizarAgregar(2); }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    }
+    else {
+      let itemIndex: number = 0;
+      itemIndex = this.sharedService.agregarItemCarrito(p, this.cantidadItem);
+      if (itemIndex == -1) { this.actualizarAgregar(1); }
+      else { this.actualizarAgregar(2); }
+    }
+    // this.item = p;
+    // const itemIndex = this.sharedService.agregarItemCarrito(p, this.cantidadItem);
+    // if (itemIndex == -1) { this.tituloModal = "Tu producto ha sido añadido al carrito"; }
+    // else { this.tituloModal = "El producto ya existe en tu carrito"; }
+    // this.actualizarAgregar();
   }
 
   async delay(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async actualizarAgregar() {
+  async actualizarAgregar(mode: number) {
+    if (mode == 1) { this.tituloModal = "Tu producto ha sido añadido al carrito"; }
+    else if (mode == 2) { this.tituloModal = "El producto ya existe en tu carrito"; }
+    else if (mode == 0) { console.log("Error al agregar item en base datos"); }
     this.estadoAgregar = false;
-    await this.delay(1000);
+    await this.delay(500);
     this.estadoAgregar = true;
+    // this.estadoAgregar = false;
+    // await this.delay(1000);
+    // this.estadoAgregar = true;
   }
 
 }

@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SharedService } from '../../../services/shared.service';
 
 @Component({
@@ -23,7 +23,8 @@ export class CuentaComponent implements OnInit {
   opcion: number = 0;
 
   constructor(
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -32,5 +33,12 @@ export class CuentaComponent implements OnInit {
 
   seleccionarOpcion(op: number) {
     this.opcion = op;
+  }
+  logout() {
+    this.sharedService.removeUsuario();
+    this.sharedService.removeToken();
+    this.sharedService.removeCarrito();
+    this.sharedService.removePedido();
+    this.router.navigate(["/auth/signin"]);
   }
 }
