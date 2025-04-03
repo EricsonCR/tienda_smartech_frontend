@@ -10,6 +10,8 @@ import { PdfService } from '../../../services/pdf.service';
 import { Favorito } from '../../../interfaces/favorito';
 import { FavoritoService } from '../../../services/favorito.service';
 import Swal from 'sweetalert2';
+import { CarritoService } from '../../../services/carrito.service';
+import { Producto } from '../../../interfaces/producto';
 
 @Component({
   selector: 'app-resumen',
@@ -30,7 +32,8 @@ export class ResumenComponent {
     private sharedService: SharedService,
     private usuarioService: UsuarioService,
     private pdfService: PdfService,
-    private favoritoService: FavoritoService
+    private favoritoService: FavoritoService,
+    private carritoService: CarritoService
   ) { }
 
   ngOnInit(): void {
@@ -49,6 +52,8 @@ export class ResumenComponent {
         if (error.status == "403") {
           this.sharedService.removeToken();
           this.sharedService.removeUsuario();
+          this.sharedService.removeCarrito();
+          this.sharedService.removePedido();
           this.router.navigate(["/auth/signin"]);
         }
       }
@@ -66,8 +71,22 @@ export class ResumenComponent {
     });
   }
 
-  agregarAlCarrito(productoId: number) {
-
+  agregarAlCarrito(favoritoId: number, p: Producto) {
+    const usuario: Usuario = this.sharedService.getUsuario();
+    if (usuario.email != "") {
+      const id = this.sharedService.getCarrito().id;
+      this.carritoService.agregarItem(id, { id: 0, producto: p, cantidad: 1 }).subscribe({
+        next: (result) => {
+          if (result.status == "OK") {
+            this.sharedService.setCarrito(result.data);
+            this.eliminarFavorito(favoritoId);
+          }
+          else if (result.status == "FOUND") { this.eliminarFavorito(p.id); }
+          else { console.log(result); }
+        },
+        error: (error) => { console.log(error); }
+      });
+    }
   }
 
   eliminarFavorito(favoritoId: number) {

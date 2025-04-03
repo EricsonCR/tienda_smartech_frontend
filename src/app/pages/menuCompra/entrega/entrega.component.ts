@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
-import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
 import { Direccion } from '../../../interfaces/direccion';
 import { Usuario } from '../../../interfaces/usuario';
 import { UsuarioService } from '../../../services/usuario.service';
-import { Router, RouterLink } from '@angular/router';
 import { Pedido } from '../../../interfaces/pedido';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Domicilio } from '../../../interfaces/domicilio';
@@ -27,11 +27,14 @@ export class EntregaComponent implements OnInit {
     { value: "PASAPORTE" }
   ];
 
+  estadoAlert: boolean = false;
+  mensajeAlert: string = "Hola Mundo";
+
   fechas: { fecha: Date, precio: number }[] = [];
   opcionFechaEnvio: number = 0;
   opcionFechaRetiro: number = 0;
-  opcionEntrega: number = 1;
-  opcionDireccion: number = 0;
+  opcionEntrega: number = 0;
+  opcionDireccionEnvio: number = 0;
   opcionDireccionRetiro: number = 0;
   comentarios: string = "";
   domicilios: Domicilio[] = [];
@@ -107,7 +110,7 @@ export class EntregaComponent implements OnInit {
       if (this.pedido.entrega == "DELIVERY") { this.opcionEntrega = 1; }
       else if (this.pedido.entrega == "RETIRO") { this.opcionEntrega = 2; }
       const indexDireccion = this.domicilios.findIndex(x => x.direccion.id == this.pedido.direccion.id);
-      if (indexDireccion != -1) { this.opcionDireccion = indexDireccion + 1; }
+      if (indexDireccion != -1) { this.opcionDireccionEnvio = indexDireccion + 1; }
       const indexFechaEnvio = this.fechas.findIndex(x => x.fecha.getDate().toString() == this.pedido.fecha_entrega.split("/")[0]);
       if (indexFechaEnvio != -1) { this.opcionFechaEnvio = indexFechaEnvio + 1; }
       const indexFechaRetiro = this.fechas.findIndex(x => x.fecha.getDate().toString() == this.pedido.fecha_entrega.split("/")[0]);
@@ -129,28 +132,37 @@ export class EntregaComponent implements OnInit {
   }
 
   continuarPedido() {
-    if (this.consignatarioForm.invalid && this.opcionEntrega == 2) return;
     this.pedido.comentarios = this.comentarios;
     this.pedido.usuario = this.sharedService.getUsuario();
-    if (this.opcionEntrega == 2) this.pedido.consignatario = this.consignatarioForm.value;
-    this.sharedService.setPedido(this.pedido);
-    if (this.pedido.direccion.id != 0 && this.pedido.usuario.id != 0) {
-      if (this.pedido.entrega == "DELIVERY" && this.pedido.precio_envio >= 40) {
-        this.router.navigate(["compra/pago"]);
-      } else if (this.pedido.entrega == "RETIRO" && this.pedido.fecha_entrega != "") {
-        this.router.navigate(["compra/pago"]);
-      }
+
+    if (this.pedido.entrega == "DEFAULT") { this.estadoAlert = true; this.mensajeAlert = "Selecciona Envio o Retiro"; return; }
+    if (this.pedido.direccion.id == 0) { this.estadoAlert = true; this.mensajeAlert = "Selecciona Direccion"; return; }
+
+    if (this.pedido.entrega == "DELIVERY") {
+      if (this.pedido.precio_envio == 0) { this.estadoAlert = true; this.mensajeAlert = "Precio envio delivery debe ser mayor S/ 0.00"; return; }
+    } else if (this.pedido.entrega == "RETIRO") {
+      if (this.consignatarioForm.invalid) { this.estadoAlert = true; this.mensajeAlert = "Campos del formulario consgignatario falta completar"; return; }
+      if (this.pedido.precio_envio > 0) { this.estadoAlert = true; this.mensajeAlert = "Precio envio delivery deber ser S/ 0.00"; return; }
+      this.pedido.consignatario = this.consignatarioForm.value;
+
     }
+
+    if (this.pedido.consignatario.id == 0) { this.estadoAlert = true; this.mensajeAlert = "Selecciona Consignatario"; return; }
+    if (this.pedido.fecha_entrega == "") { this.estadoAlert = true; this.mensajeAlert = "Selecciona feha entrega"; return; }
+
+    this.sharedService.setPedido(this.pedido);
+    this.router.navigate(["compra/pago"]);
   }
 
   selectEntrega(index: number) {
     this.opcionEntrega = index;
-    this.opcionDireccion = 0;
+    this.opcionDireccionEnvio = 0;
     this.opcionDireccionRetiro = 0;
     this.opcionFechaEnvio = 0;
     this.opcionFechaRetiro = 0;
     this.pedido.fecha_entrega = "";
     this.pedido.precio_envio = 0;
+    this.pedido.consignatario = ConsignatarioDetault;
     this.pedido.direccion = DireccionDefault;
     if (this.opcionEntrega == 1) {
       this.pedido.entrega = "DELIVERY";
@@ -160,8 +172,8 @@ export class EntregaComponent implements OnInit {
     }
     this.sharedService.setPedido(this.pedido);
   }
-  selectDireccion(index: number) {
-    this.opcionDireccion = index;
+  selectDireccionEnvio(index: number) {
+    this.opcionDireccionEnvio = index;
     this.pedido.consignatario = this.domicilios[index - 1].consignatario;
     this.pedido.direccion = this.domicilios[index - 1].direccion;
     this.sharedService.setPedido(this.pedido);
@@ -217,6 +229,10 @@ export class EntregaComponent implements OnInit {
     return fechas;
   }
 
+  cerrarAlert() {
+    this.estadoAlert = false;
+  }
+
 }
 
 const UsuarioDefault: Usuario = {
@@ -261,7 +277,7 @@ const PedidoDefault: Pedido = {
   numero: "",
   estado: "GENERADO",
   usuario: UsuarioDefault,
-  entrega: "DELIVERY",
+  entrega: "DEFAULT",
   consignatario: ConsignatarioDetault,
   direccion: DireccionDefault,
   metodo_pago: "",

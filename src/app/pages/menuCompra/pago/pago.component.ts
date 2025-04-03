@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { SharedService } from '../../../services/shared.service';
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { Pedido } from '../../../interfaces/pedido';
 import Swal from 'sweetalert2';
 import { PedidoService } from '../../../services/pedido.service';
@@ -24,12 +24,14 @@ export class PagoComponent implements OnInit {
   opcionPago: number = 1;
   pedido!: Pedido;
   estadoPago: boolean = false;
+  private isRedirecting = false; // Flag para evitar bucles
 
   constructor(
     private sharedService: SharedService,
     private pedidoService: PedidoService,
     private carritoService: CarritoService,
-    private router: Router
+    private router: Router,
+    private location: Location
   ) { }
 
   ngOnInit(): void {

@@ -181,7 +181,7 @@ const PedidoDefault: Pedido = {
   numero: "",
   estado: "GENERADO",
   usuario: UsuarioDefault,
-  entrega: "DELIVERY",
+  entrega: "DEFAULT",
   consignatario: ConsignatarioDetault,
   direccion: DireccionDefault,
   metodo_pago: "",
