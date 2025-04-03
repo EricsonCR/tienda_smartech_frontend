@@ -71,7 +71,7 @@ export class ArticulosComponent implements OnInit {
       const favorito: Favorito = { id: 0, producto: producto, usuario: usuario };
       this.favoritoService.registrar(favorito).subscribe({
         next: (result) => {
-          if (result.status == "OK") { this.alertOK(result.message); }
+          if (result.status == "OK") { this.alertOK("Producto agregado a favoritos"); }
           else { this.alertInfo(result.message); }
         },
         error: (error) => { console.log(error); }

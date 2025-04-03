@@ -30,8 +30,7 @@ export class PagoComponent implements OnInit {
     private sharedService: SharedService,
     private pedidoService: PedidoService,
     private carritoService: CarritoService,
-    private router: Router,
-    private location: Location
+    private router: Router
   ) { }
 
   ngOnInit(): void {

@@ -81,7 +81,7 @@ export class ResumenComponent {
             this.sharedService.setCarrito(result.data);
             this.eliminarFavorito(favoritoId);
           }
-          else if (result.status == "FOUND") { this.eliminarFavorito(p.id); }
+          else if (result.status == "FOUND") { this.eliminarFavorito(favoritoId); }
           else { console.log(result); }
         },
         error: (error) => { console.log(error); }

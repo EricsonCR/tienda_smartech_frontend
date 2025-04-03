@@ -43,7 +43,7 @@ export class FavoritosComponent implements OnInit {
             this.sharedService.setCarrito(result.data);
             this.eliminarFavorito(favoritoId);
           }
-          else if (result.status == "FOUND") { this.eliminarFavorito(p.id); }
+          else if (result.status == "FOUND") { this.eliminarFavorito(favoritoId); }
           else { console.log(result); }
         },
         error: (error) => { console.log(error); }
@@ -54,7 +54,7 @@ export class FavoritosComponent implements OnInit {
   eliminarFavorito(favoritoId: number) {
     this.favoritoService.eliminar(favoritoId).subscribe({
       next: (result) => {
-        if (result.status == "OK") { this.alertOK(result.message); this.ngOnInit(); }
+        if (result.status == "OK") { this.alertOK("Producto agregado al carrito y eliminado de favoritos"); this.ngOnInit(); }
         else { console.log(result); }
       },
       error: (error) => { console.log(error); }
@@ -87,8 +87,7 @@ export class FavoritosComponent implements OnInit {
       position: "center",
       icon: "success",
       title: message,
-      showConfirmButton: false,
-      timer: 1500
+      timer: 3000
     });
   }
 
