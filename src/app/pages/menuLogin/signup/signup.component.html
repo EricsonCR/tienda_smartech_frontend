@@ -1,49 +1,55 @@
-<div class="container py-2 d-flex justify-content-center">
-    <div class="col-sm-5 p-5 bg-body-tertiary" [ngClass]="{'disabled-div':estadoRegistro}">
-        <div class="mb-5 row">
-            <div class="col-sm-auto"><img src="img/agregar-usuario.png" width="32px" alt=""></div>
-            <div class="col-sm-auto px-0 d-flex align-items-end">
-                <h4>Crear cuenta</h4>
+<div class="container">
+    <div class="container col-lg-6 col-ms-5 col-sm-6 py-2 px-0">
+        <div class="py-5 px-4 rounded-2 bg-body-tertiary" [ngClass]="{'disabled-div':estadoRegistro}">
+            <div class="d-flex flex-row align-items-center mb-3">
+                <div class="col-sm-auto"><img src="img/agregar-usuario.png" width="32px" alt=""></div>
+                <div class="col-sm-auto px-0 d-flex align-items-end">
+                    <h4 class="m-0">Crear cuenta</h4>
+                </div>
             </div>
+            <form [formGroup]="userForm" (ngSubmit)="registrar()">
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <label for="" class="form-label">Documento</label>
+                        <select class="form-select" formControlName="documento">
+                            <option *ngFor="let d of listaDocumentos" [value]="d.value">{{ d.value }}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label for="" class="form-label">Numero</label>
+                        <input type="text" class="form-control" formControlName="numero">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label">Nombres</label>
+                        <input type="text" class="form-control" formControlName="nombres">
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label">Apellidos</label>
+                        <input type="text" class="form-control" formControlName="apellidos">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-control" formControlName="email">
+                    </div>
+                    <div class="col-lg-6 mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" class="form-control" formControlName="password">
+                    </div>
+                </div>
+                <div class="d-flex flex-row justify-content-between mt-3">
+                    <a routerLink="/auth/signin" class="">
+                        <img src="img/atras.png" alt="" width="24px" class="mx-2">Volver
+                    </a>
+                    <button class="btn btn-warning fw-semibold px-4 py-2" type="submit" [disabled]="userForm.invalid">
+                        <span [hidden]="!estadoRegistro" class="spinner-border spinner-border-sm"></span>
+                        Crear cuenta
+                    </button>
+                </div>
+            </form>
         </div>
-        <form [formGroup]="userForm" (ngSubmit)="registrar()">
-            <div class="mb-2 row">
-                <div class="col-sm-4">
-                    <label for="" class="form-label">Documento</label>
-                    <select class="form-select" formControlName="documento">
-                        <option *ngFor="let d of listaDocumentos" [value]="d.value">{{ d.value }}</option>
-                    </select>
-                </div>
-                <div class="col-sm-8">
-                    <label for="" class="form-label">Numero</label>
-                    <input type="text" class="form-control" formControlName="numero">
-                </div>
-            </div>
-            <div class="mb-2">
-                <label class="form-label">Nombres</label>
-                <input type="text" class="form-control" formControlName="nombres">
-            </div>
-            <div class="mb-2">
-                <label class="form-label">Apellidos</label>
-                <input type="text" class="form-control" formControlName="apellidos">
-            </div>
-            <div class="mb-2">
-                <label class="form-label">Email</label>
-                <input type="email" class="form-control" formControlName="email">
-            </div>
-            <div class="mb-5">
-                <label class="form-label">Password</label>
-                <input type="password" class="form-control" formControlName="password">
-            </div>
-            <div class="mb-2 mt-4 d-flex justify-content-between align-items-center">
-                <a routerLink="/auth/signin" class="">
-                    <img src="img/atras.png" alt="" width="24px" class="mx-2">Volver
-                </a>
-                <button class="btn btn-warning fw-semibold px-4 py-2" type="submit" [disabled]="userForm.invalid">
-                    <span [hidden]="!estadoRegistro" class="spinner-border spinner-border-sm"></span>
-                    Crear cuenta
-                </button>
-            </div>
-        </form>
     </div>
 </div>

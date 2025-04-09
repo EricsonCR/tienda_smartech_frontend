@@ -101,7 +101,7 @@ export class ArticulosComponent implements OnInit {
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(["carrito"]);
+      this.router.navigate(["/compra/carrito"]);
     });
   }
 

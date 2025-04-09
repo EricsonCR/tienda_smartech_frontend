@@ -1,119 +1,78 @@
 <div class="container my-2 bg-white">
-    <div class="row py-4">
-        <div class="col-sm">
-            <div *ngIf="producto">
-                <div class="row">
-                    <div class="col-sm-2">
-                        <div class="list-group">
-                            <div *ngFor="let foto of producto.fotos">
-                                <a routerLink="#" class="list-group-item list-group-item-action">
-                                    <img src="img/{{foto.galeria.url}}" class="" height="48px" alt="...">
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-10 p-0 m-0">
-                        <div class="col-sm-12">
-                            <div *ngIf="producto">
-                                <div *ngIf="producto.descuento > 0">
-                                    <button type="button"
-                                        class="btn btn-danger fw-semibold">-{{producto.descuento}}%</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-12">
-                            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-                                <div class="carousel-inner text-center">
-                                    <div *ngFor="let foto of producto.fotos; let i = index">
-                                        <div class="carousel-item" [class.active]="i==0">
-                                            <img src="img/{{foto.galeria.url}}" class="" height="450px" alt="...">
-                                        </div>
-                                    </div>
-                                </div>
-                                <button class="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
+    <div *ngIf="producto" class="row">
+        <!-- CARRUSEL IMAGENES -->
+        <div class="col-lg-6 col-md-6 col-sm-6 d-flex flex-column align-items-center justify-content-center">
+            <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner text-center m-0 p-0">
+                    <div *ngFor="let foto of producto.fotos; let i = index">
+                        <div class="carousel-item" [class.active]="i==0">
+                            <img src="img/{{foto.galeria.url}}" class="img-producto" alt="">
                         </div>
                     </div>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon"></span>
+                </button>
+                <button class="carousel-control-next m-0 p-0" type="button" data-bs-target="#carouselExampleAutoplaying"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon m-0 p-0"></span>
+                </button>
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-center">
+                <ul class="list-group list-group-horizontal">
+                    <li *ngFor="let f of producto.fotos" class="list-group-item">
+                        <a routerLink="#"><img class="foto-galeria" src="img/{{f.galeria.url}}" alt=""></a>
+                    </li>
+                </ul>
             </div>
         </div>
-        <div *ngIf="producto" class="col-sm">
-            <p class="py-0 my-2">{{producto.marca.nombre}}</p>
-            <h2 class="fw-bold py-0 my-2">{{producto.nombre}}</h2>
-            <p class="my-2">{{producto.sku}}</p>
-            <div class="row mt-3">
-                <div class="col-sm-auto text-danger fw-semibold fs-4">
-                    <p class="my-0">S/ {{(producto.precio*(1-producto.descuento/100)).toFixed(2)}}</p>
-                </div>
-                <div class="col-sm-auto d-flex align-items-center ps-0">
-                    <p class="my-0">Oferta</p>
-                </div>
+        <!-- DATOS DEL PRODUCTO -->
+        <div class="col-lg-6 col-md-6 col-sm-6 d-flex flex-column">
+            <p class="m-0 p-0 fw-semibold pb-3">{{producto.marca.nombre}}</p>
+            <h2 class="m-0 p-0 fw-bold pb-1">{{producto.nombre}}</h2>
+            <p class="m-0 p-0 fw-light pb-3">{{producto.sku}}</p>
+            <div class="d-flex flex-row align-items-center pb-3">
+                <p class="m-0 px-1 text-danger fw-bold fs-4">S/ {{calcularPrecio(producto.precio,producto.descuento)}}
+                </p>
+                <p class="m-0 px-2 fw-light text-decoration-line-through">S/ {{producto.precio}}</p>
             </div>
-            <p class="fw-light text-decoration-line-through">S/ {{producto.precio}}</p>
-            <div class="row d-flex">
-                <div class="col-sm-auto">
-                    <div class="input-group" style="width: 135px;">
-                        <button
-                            class="btn btn-outline-secondary pt-0 fs-4 border border-end-0 border-warning rounded-start-pill"
-                            type="button" id="button-addon1" (click)="restarItems()">-</button>
-                        <input type="text"
-                            class="form-control text-center shadow-none border border-start-0 border-end-0 border-warning"
-                            placeholder="" aria-label="Example text with button addon" aria-describedby="button-addon1"
-                            value="{{cantidadItem}}">
-                        <button
-                            class="btn btn-outline-secondary pt-0 mt-0 fs-4 border border-start-0 border-warning rounded-end-circle"
-                            type="button" id="button-addon2" (click)="sumarItems()">+</button>
+            <div class="d-flex flex-row align-items-center">
+                <div class="input-group pe-3">
+                    <button class="btn-menos" (click)="restarItems()"><i class="bi bi-dash"></i></button>
+                    <input type="text" class="form-control input-cantidad" value="{{cantidadItem}}">
+                    <button class="btn-mas" (click)="sumarItems()"><i class="bi bi-plus"></i></button>
+                </div>
+                <button class="btn btn-warning rounded-2 fw-bold" data-bs-toggle="modal" data-bs-target="#myModal"
+                    (click)="agregar(producto)">Agregar al carrito</button>
+                <a routerLink="#" class="ps-3"><i class="bi bi-suit-heart"></i></a>
+            </div>
+            <hr>
+            <div class="d-flex flex-row justify-content-between align-items-center pt-2">
+                <div class="col-lg-6 d-flex flex-row align-items-center">
+                    <a href="" class="bg-warning rounded-circle py-1 px-2"><i class="bi bi-cart3"></i></a>
+                    <div class="d-flex flex-column lh-1 ms-2">
+                        <p class="m-0 p-0">Envio a domicilio</p>
+                        <a href="">consultar</a>
                     </div>
                 </div>
-                <div class="col-sm-auto mx-0 px-2">
-                    <button class="btn btn-warning fw-bold px-5 py-2 rounded-5" data-bs-toggle="modal"
-                        data-bs-target="#myModal" (click)="agregar(producto)">Agregar al
-                        carrito</button>
-                </div>
-                <div class="col-sm-auto d-flex align-items-center">
-                    <img src="img/corazon.png" alt="" width="24px">
-                </div>
-            </div>
-            <hr class="text-body-tertiarymb-4">
-            <div class="row mb-3">
-                <div class="col-sm-auto">
-                    <img src="img/entrega-rapida.png" class="bg-warning rounded-5 p-1" alt="" width="40px">
-                </div>
-                <div class="col-sm-auto d-flex align-items-center px-0">
-                    <div class="row">
-                        <small class="col-sm-12 lh-1" style="width: 200px;">Disponible envio a domicilio <a
-                                href="">consultar</a></small>
+                <div class="col-lg-6 d-flex flex-row align-items-center">
+                    <a href="" class="bg-warning rounded-circle py-1 px-2"><i class="bi bi-shop"></i></a>
+                    <div class="d-flex flex-column lh-1 ms-2">
+                        <p class="m-0 p-0">Retiro en tienda</p>
+                        <a href="">consultar</a>
                     </div>
                 </div>
             </div>
-            <div class="row mb-3">
-                <div class="col-sm-auto">
-                    <img src="img/tienda.png" class="bg-warning rounded-5 p-1" alt="" width="40px">
-                </div>
-                <div class="col-sm-auto d-flex align-items-center px-0">
-                    <div class="row">
-                        <small class="col-sm-12 lh-1" style="width: 250px;">Disponible retiro en tienda y
-                            lockers <a href="">consultar</a></small>
-                    </div>
-                </div>
+            <p class="m-0 pt-4">{{producto.slogan}}</p>
+            <hr>
+            <p class="m-0 p-0 fw-semibold">Compartir</p>
+            <div class="d-flex flex-row align-items-center">
+                <a routerLink="" class=""><img src="img/social.png" class="" alt="" width="24px"></a>
+                <a routerLink="" class="px-2"><img src="img/gmail.png" class="" alt="" width="24px"></a>
+                <a routerLink="" class=""><img src="img/whatsapp2.png" class="" alt="" width="24px"></a>
             </div>
-            <p><small>{{producto.slogan}}</small></p>
-            <hr class="text-body-tertiary mb-3">
-            <p class="text-secondary fw-semibold mb-1">Compartir en</p>
-            <div class="row d-flex align-items-center">
-                <div class="col-sm-auto"><img src="img/social.png" class="" alt="" width="28px"></div>
-                <div class="col-sm-auto px-0"><img src="img/gmail.png" class="" alt="" width="24px"></div>
-                <div class="col-sm-auto"><img src="img/whatsapp2.png" class="" alt="" width="24px"></div>
-            </div>
+            <br>
         </div>
     </div>
 </div>
@@ -143,38 +102,40 @@
         </div>
         <div *ngIf="producto" class="col-sm-10">
             <h2 class="fw-bold">{{producto.marca.nombre}}</h2>
-            <p>{{producto.descripcion}}</p>
+            <p class="m-0 p-0 texto">{{producto.descripcion}}</p>
         </div>
     </div>
 </div>
 <div *ngIf="activeDetalle=='div2'" class="container bg-body-tertiary my-2">
     <div class="row py-4 px-4">
-        <div class="col-sm">
-            <div *ngFor="let e of producto.especificaciones.slice(0,6)" class="row py-2">
-                <div class="col-sm-4 fw-semibold">{{e.nombre}}</div>
-                <div class="col-sm-8">{{e.descripcion}}</div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+            <div *ngFor="let e of producto.especificaciones.slice(0,6)" class="row py-2 d-flex align-items-center">
+                <div class="col-lg-4 col-md-4 colsm-4 col-6 fw-semibold">{{e.nombre}}</div>
+                <div class="col-lg-8 col-md-8 colsm-8 col-6">{{e.descripcion}}</div>
             </div>
         </div>
-        <div class="col-sm">
-            <div *ngFor="let e of producto.especificaciones.slice(6,12)" class="row py-2">
-                <div class="col-sm-4 fw-semibold">{{e.nombre}}</div>
-                <div class="col-sm-8">{{e.descripcion}}</div>
+        <div class="col-lg-6 col-md-6 col-sm-6 col-6">
+            <div *ngFor="let e of producto.especificaciones.slice(6,12)" class="row py-2 d-flex align-items-center">
+                <div class="col-lg-4 col-md-4 colsm-4 col-6 fw-semibold">{{e.nombre}}</div>
+                <div class="col-lg-8 col-md-8 colsm-8 col-6">{{e.descripcion}}</div>
             </div>
         </div>
     </div>
 </div>
 <div *ngIf="activeDetalle=='div3'" class="container bg-body-tertiary my-2">
-    <div class="row py-4 px-4">
-        <h2 class="fw-bold">Cambios y Devoluciones</h2>
-        <p class="lh-1 text-body-secondary mb-4">Recuerda que cuentas con 10 días calendarios luego de haber recibido tu
+    <div class="row p-2">
+        <h2 class="fw-semibold">Cambios y Devoluciones</h2>
+        <p class="lh-1 text-body-secondary mb-4 texto">Recuerda que cuentas con 10 días calendarios luego de haber
+            recibido tu
             compra,
             para solicitar el cambio o
             devolución de tu producto. Realízalo acercándote a la tienda más cercana. La relación de tiendas se
             encuentra aquí. Si tu producto es de gran dimensión, contáctanos al (01)200-2890 LaCuracao opción 4, para
             coordinar el recojo. Para que conozcas los requisitos, opciones de cambio y mayor información puedes
             ingresar aquí.</p>
-        <h2 class="fw-bold  mt-4">Garantía de Fábrica</h2>
-        <p class="lh-1 text-body-secondary mb-4">Recuerda que cuentas con 10 días calendarios luego de haber recibido tu
+        <h2 class="fw-semibold  mt-4">Garantía de Fábrica</h2>
+        <p class="lh-1 text-body-secondary mb-4 texto">Recuerda que cuentas con 10 días calendarios luego de haber
+            recibido tu
             compra,
             Todos los productos comercializados en lacuracao.pe cuentan con una garantía de fabricación, cuya vigencia y
             beneficios dependen del tipo de producto adquirido. Cabe mencionar que cada fabricante determinará los
@@ -186,22 +147,22 @@
 </div>
 <div class="container my-2 bg-dark">
     <div class="row py-4">
-        <div class="col-sm-3 text-center">
+        <div class="col-sm-3 text-center py-2">
             <img src="img/tienda.png" class="bg-warning rounded-5 p-2 mb-2" alt="" width="48px">
             <h6 class="text-white py-0 my-0">RETIRA TU COMPRA EN TIENDA</h6>
             <small class="text-light py-0 my-0 opacity-75">en mas de 200 puntos a nivel nacional</small>
         </div>
-        <div class="col-sm-3 text-center">
+        <div class="col-sm-3 text-center py-2">
             <img src="img/entrega-rapida.png" class="bg-warning rounded-5 p-2 mb-2" alt="" width="48px">
             <h6 class="text-white py-0 my-0">ENVÍOS A TODO EL PERU</h6>
             <small class="text-light py-0 my-0 opacity-75">mas de 1800 distritos</small>
         </div>
-        <div class="col-sm-3 text-center">
+        <div class="col-sm-3 text-center py-2">
             <img src="img/atencion-al-cliente.png" class="bg-warning rounded-5 p-2 mb-2" alt="" width="48px">
             <h6 class="text-white my-0 py-0">ATENCIÓN AL CLIENTE</h6>
             <small class="text-light py-0 my-0 opacity-75">(01) 2002870</small>
         </div>
-        <div class="col-sm-3 text-center">
+        <div class="col-sm-3 text-center py-2">
             <img src="img/casilleros.png" class="bg-warning rounded-5 p-2 mb-2" alt="" width="48px">
             <h6 class="text-white">RETIRO EN LOCKERS</h6>
             <small class="text-light py-0 my-0 opacity-75">Retira tu compra en lockers las 24hs</small>
@@ -209,51 +170,36 @@
     </div>
 </div>
 
-<div class="modal fade" id="myModal" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+
+<div class="modal fade" id="myModal" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content bg-body-tertiary p-2">
-            <div class="row d-flex justify-content-between mx-2 py-4">
-                <div class="col-auto row d-flex align-items-center">
-                    <div class="col-sm-auto rounded-circle bg-warning d-flex align-items-center justify-content-center"
-                        style="width: 40px; height: 40px;">
-                        <img src="img/cart.png" width="24px" class="" alt="">
-                    </div>
-                    <div class="col-sm-auto d-flex align-items-center">
-                        <h4 class="modal-title" id="myModalLabel">{{tituloModal}}</h4>
-                    </div>
-                    <div class="spinner-border" [hidden]="estadoAgregar" role="status"></div>
-                    <div class="col-sm-auto" [hidden]="!estadoAgregar">
-                        <img src="img/cheque.png" class="" width="40px" alt="">
-                    </div>
-                </div>
-                <div class="col-auto"><button type="button" class="btn-close fs-5" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+            <div class="d-flex align-items-center justify-content-end mb-3">
+                <button type="button" class="btn-close fs-5" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="d-flex flex-row align-items-center justify-content-start mb-3">
+                <div class="p-1 bg-warning rounded-circle"><img src="img/cart.png" width="24px" class="" alt=""></div>
+                <p class="m-0 px-2 fw-bold fs-5">{{tituloModal}}</p>
+                <div class="spinner-border" [hidden]="estadoAgregar" role="status"></div>
+                <div class="col-sm-auto" [hidden]="!estadoAgregar">
+                    <img src="img/cheque.png" class="" width="24px" alt="">
                 </div>
             </div>
-            <div class="row mx-2 p-4 border border-light-subtle">
-                <div class="col-sm-2 d-flex align-items-center justify-content-center">
-                    <div *ngIf="item">
-                        <img src="img/{{item.fotos[0].galeria.url}}" alt="" height="150px">
-                    </div>
-                </div>
-                <div *ngIf="item" class="col-sm-10 px-4">
-                    <p class="mb-2">{{item.marca.nombre}}</p>
-                    <p class="fw-bold fs-5 mb-2">
-                        <a routerLink="" (click)="irAlProducto(item.nombre)">{{item.nombre}}</a>
-                    </p>
-                    <p class="text-danger fw-bold fs-4 mb-0">S/ {{(item.precio*(1-item.descuento/100)).toFixed(2)}}</p>
-                    <div *ngIf="item.descuento>0">
-                        <p class="text-decoration-line-through text-body-tertiary">S/ {{item.precio}}</p>
-                    </div>
+            <div class="d-flex flex-row align-items-center justify-content-center border border-light-subtle mb-3"
+                *ngIf="item">
+                <div class="p-2"><img src="img/{{item.fotos[0].galeria.url}}" alt="" width="80px"></div>
+                <div class="d-flex flex-column">
+                    <p class="m-0 pb-2 fw-bold">{{item.marca.nombre}}</p>
+                    <p class="m-0 pb-2 text-primary fw-bold text-decoration-underline lh-1"
+                        (click)="irAlProducto(item.nombre)">{{item.nombre}}</p>
+                    <p class="m-0 p-0 text-danger fw-bold fs-4">S/ {{calcularPrecio(item.precio,item.descuento)}}</p>
+                    <p class="m-0 pb-2 fw-light text-decoration-line-through">S/ {{item.precio}}</p>
                 </div>
             </div>
-            <div class="row d-flex justify-content-end mx-2 p-4">
-                <div class="col-auto"><button type="button"
-                        class="btn btn-outline-warning rounded-5 px-4 py-2 fw-bold text-dark"
-                        data-bs-dismiss="modal">Seguir comprando</button></div>
-                <div class="col-auto">
-                    <button (click)="irAlCarrito()" type="button" class="btn btn-warning rounded-5 px-5 py-2 fw-bold">Ir al carrito</button>
-                </div>
+            <div class="d-flex flex-row align-items-center justify-content-between mb-3">
+                <button data-bs-dismiss="modal" class="btn btn-outline-warning rounded-2 text-dark fw-bold">Seguir
+                    comprando</button>
+                <button class="btn btn-warning rounded-2 fw-bold" (click)="irAlCarrito()">Ir al carrito</button>
             </div>
         </div>
     </div>

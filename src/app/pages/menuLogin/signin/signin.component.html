@@ -1,71 +1,78 @@
-<div class="container my-2 d-flex justify-content-center">
-    <div [hidden]="!(opcionReenviar==0)" class="col-sm-6 p-5 bg-body-tertiary">
-        <div class="row mb-5">
-            <div class="col-auto d-flex align-items-center">
-                <img src="img/usuario-verificado.png" width="32px" alt="">
+<div class="container">
+    <div class="container col-lg-6 col-ms-5 col-sm-6 py-2 px-0">
+        <div [hidden]="!(opcionReenviar==0)" class="py-5 px-2 rounded-2 bg-body-tertiary">
+            <div class="row mb-5">
+                <div class="col-auto d-flex align-items-center">
+                    <img src="img/usuario-verificado.png" width="32px" alt="">
+                </div>
+                <div class="col-auto d-flex align-items-center p-0">
+                    <h4 class="fw-semibold m-0">Iniciar Sesion en SmarTech</h4>
+                </div>
             </div>
-            <div class="col-auto d-flex align-items-center p-0">
-                <h4 class="fw-semibold m-0">Iniciar Sesion en SmarTech</h4>
-            </div>
+            <form [formGroup]="authForm" (ngSubmit)="login()">
+                <div class="mb-3">
+                    <div class="position-relative">
+                        <input type="text" class="form-control rounded-4 px-4 py-2" formControlName="email"
+                            placeholder="nombre@dominio.com">
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <div class="position-relative">
+                        <input type="password" class="form-control rounded-4 px-4 py-2" formControlName="password"
+                            placeholder="contraseña">
+                    </div>
+                </div>
+                <div class="mb-3 d-flex justify-content-between">
+                    <div>
+                        <a routerLink="/auth/forgot">¿Olvidaste tu contraseña?</a>
+                    </div>
+                    <div>
+                        <a routerLink="/auth/signup">¡Crear cuenta!</a>
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <button class="btn btn-warning px-5 py-2 rounded-4 fw-semibold" [disabled]="authForm.invalid"
+                        type="submit">Iniciar Sesion</button>
+                </div>
+            </form>
         </div>
-        <form [formGroup]="authForm" (ngSubmit)="login()">
+        <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="!(opcionReenviar==1)"
+            class="py-5 px-2 rounded-2 bg-body-tertiary">
+            <div class="mb-5 text-center bg-warning-subtle">
+                <p class="fw-bold fs-3">Tu usuario esta registrado pero no validado</p>
+            </div>
             <div class="mb-3">
-                <div class="position-relative">
-                    <input type="text" class="form-control rounded-4 px-4 py-2" formControlName="email"
-                        placeholder="nombre@dominio.com">
-                </div>
+                <p>Por favor escriba su email para que pueda recibir el mensaje de validacion</p>
             </div>
             <div class="mb-3">
-                <div class="position-relative">
-                    <input type="password" class="form-control rounded-4 px-4 py-2" formControlName="password"
-                        placeholder="contraseña">
-                </div>
+                <input type="text" class="form-control" placeholder="email" [(ngModel)]="email">
             </div>
-            <div class="mb-3 d-flex justify-content-between">
-                <div>
-                    <a routerLink="/auth/forgot">¿Olvidaste tu contraseña?</a>
-                </div>
-                <div>
-                    <a routerLink="/auth/signup">¡Crear cuenta!</a>
-                </div>
+            <div class="mt-5 d-flex align-items-center justify-content-between">
+                <a (click)="irIniciarSesion()" class="">
+                    <img src="img/atras.png" alt="" width="24px" class="mx-2">Volver
+                </a>
+                <button class="btn btn-warning fw-bold px-4 py-2" (click)="reenviarEmail()">
+                    <div [hidden]="!estadoReenviar" class="spinner-border spinner-border-sm"></div>
+                    Reenviar email
+                </button>
             </div>
-            <div class="mt-5">
-                <button class="btn btn-warning px-5 py-2 rounded-4 fw-semibold" [disabled]="authForm.invalid"
-                    type="submit">Iniciar Sesion</button>
+        </div>
+        <div [hidden]="!(opcionReenviar==2)" class="py-5 px-2 rounded-2 bg-body-tertiary">
+            <div class="mb-5 text-center">
+                <p class="fs-3 text-secondary">Email enviado</p>
             </div>
-        </form>
-    </div>
-    <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="!(opcionReenviar==1)"
-        class="col-sm-6 p-5 bg-body-tertiary">
-        <div class="mb-5 text-center bg-warning-subtle">
-            <p class="fw-bold fs-3">Tu usuario esta registrado pero no validado</p>
-        </div>
-        <div class="mb-3">
-            <p>Por favor escriba su email para que pueda recibir el mensaje de validacion</p>
-        </div>
-        <div class="mb-3">
-            <input type="text" class="form-control" placeholder="email" [(ngModel)]="email">
-        </div>
-        <div class="mt-5 d-flex align-items-center justify-content-between">
-            <a (click)="irIniciarSesion()" class="">
-                <img src="img/atras.png" alt="" width="24px" class="mx-2">Volver
-            </a>
-            <button class="btn btn-warning fw-bold px-4 py-2" (click)="reenviarEmail()">
-                <div [hidden]="!estadoReenviar" class="spinner-border spinner-border-sm"></div>
-                Reenviar email
-            </button>
-        </div>
-    </div>
-    <div [hidden]="!(opcionReenviar==2)" class="col-sm-6 bg-body-tertiary p-5">
-        <div class="mb-5 text-center">
-            <p class="fs-3 text-secondary">Email enviado</p>
-        </div>
-        <div class="mb-5 text-center bg-warning-subtle">
-            <p class="fw-bold fs-3">Recibira un mensaje en su bandeja, por favor seguir los pasos para completar su
-                validacion</p>
-        </div>
-        <div class="">
-            <button class="btn btn-warning fw-bold px-4 py-2" (click)="irIniciarSesion()">Ir a iniciar sesion</button>
+            <div class="mb-5 text-center bg-warning-subtle">
+                <p class="fw-bold fs-3">Recibira un mensaje en su bandeja, por favor seguir los pasos para completar su
+                    validacion</p>
+            </div>
+            <div class="">
+                <button class="btn btn-warning fw-bold px-4 py-2" (click)="irIniciarSesion()">Ir a iniciar
+                    sesion</button>
+            </div>
         </div>
     </div>
 </div>
+
+<!-- <div class="container my-2 d-flex justify-content-center">
+    
+</div> -->

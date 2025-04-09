@@ -48,6 +48,13 @@ export class ProductoDetalleComponent implements OnInit {
   sumarItems() { this.cantidadItem++; }
   restarItems() { if (this.cantidadItem > 0) { this.cantidadItem--; } }
 
+  calcularPrecio(precio: number, descuento: number): string {
+    let total: number = 0;
+    total = precio * (1 - descuento / 100);
+    total = parseFloat(total.toFixed(2));
+    return total.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
   irAlProducto(nombre: string) {
     const modal = document.getElementById("myModal");
     if (modal) {
@@ -68,7 +75,7 @@ export class ProductoDetalleComponent implements OnInit {
     }
 
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(["carrito"]);
+      this.router.navigate(["/compra/carrito"]);
     });
   }
 
