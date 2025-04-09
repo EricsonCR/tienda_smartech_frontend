@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row d-flex align-items-center">
+    <div class="row d-flex align-items-center mt-3">
         <div class="col-auto">
             <h2 class="m-0 sfw-bold">Pedido</h2>
         </div>
@@ -85,18 +85,18 @@
         <table class="table">
             <thead class="table-light">
                 <tr>
-                    <th>SKU</th>
+                    <th class="td-nombre">SKU</th>
                     <th>Nombre</th>
-                    <th>Cantidad</th>
+                    <th>cantidad</th>
                     <th>Precio</th>
                     <th>Subtotal</th>
                 </tr>
             </thead>
             <tbody class="table-light">
                 <tr *ngFor="let d of pedido.pedidoDetalles">
-                    <td>{{d.producto.sku}}</td>
+                    <td class="td-nombre">{{d.producto.sku}}</td>
                     <td>
-                        <div class="text-truncate" style="max-width: 400px;">{{d.producto.nombre}}</div>
+                        <div class="text-truncate nombre-producto">{{d.producto.nombre}}</div>
                     </td>
                     <td>{{d.cantidad}}</td>
                     <td>S/ {{formatoMoneda(d.precio)}}</td>
@@ -107,27 +107,27 @@
     </div>
     <div class="bg-body-secondary p-2 rounded-2">
         <div class="row m-0 d-flex justify-content-end py-1">
-            <div class="col-sm-10 text-end">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-8 text-end">
                 <p class="m-0">Subtotal</p>
             </div>
-            <div class="col-sm-2 text-end">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-4 text-end">
                 <p class="m-0">S/ {{formatoMoneda(pedido.total)}}</p>
             </div>
         </div>
         <div class="row m-0 d-flex justify-content-end py-1">
-            <div class="col-sm-10 text-end">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-8 text-end">
                 <p class="m-0">Cargos delivery</p>
             </div>
-            <div class="col-sm-2 text-end">
+            <div class="col-lg-3 col-md-4 col-sm-4 col-4 text-end">
                 <p class="m-0">S/ {{formatoMoneda(pedido.precio_envio)}}</p>
             </div>
         </div>
         <div class="row m-0 d-flex justify-content-end py-1">
-            <div class="col-sm-10 text-end">
+            <div class="col-lg-9 col-md-8 col-sm-8 col-8 text-end">
                 <p class="m-0 fw-bold fs-5">Importe Total</p>
             </div>
-            <div class="col-sm-2 text-end bg-warning">
-                <p class="m-0 fw-bold fs-5">S/ {{formatoMoneda(pedido.total+pedido.precio_envio)}}</p>
+            <div class="col-lg-3 col-md-4 col-sm-4 col-4 text-end bg-warning d-flex align-items-center justify-content-end">
+                <p class="m-0 fw-bold fs-6">S/ {{formatoMoneda(pedido.total+pedido.precio_envio)}}</p>
             </div>
         </div>
     </div>

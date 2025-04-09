@@ -1,19 +1,25 @@
-<div class="container bg-warning py-3 sticky-top">
-  <div class="row justify-content-between mx-2">
-    <div class="row col-sm-4 px-0">
-      <div class="row col-sm my-1 px-0">
-        <a href="" class="" style="text-decoration: none;">
-          <h5 class="fw-bold fs-3 text-dark d-flex align-items-center">
-            <img class="" src="img/chat-gpt.png" alt="" width="48px">SMARTECH
-          </h5>
-        </a>
-      </div>
-      <div class="row col-sm-auto d-flex justify-content-end my-1">
-        <div class="col-sm-auto ps-1 d-flex align-items-center" style="cursor:pointer;">
-          <h5 class="fw-bold d-flex align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="img/lista.png" alt="" width="24px" class="pe-1">Categorias
-          </h5>
-          <ul class="dropdown-menu">
+<nav class="navbar navbar-expand-md bg-warning sticky-top">
+  <div class="container px-1">
+
+    <a class="navbar-brand d-flex align-items-center m-0" routerLink="">
+      <img src="img/chat-gpt.png" alt="Logo" width="32px" class="m-0 p-0">
+      <div class="brand"><span class="fw-bold">SMARTECH</span></div>
+    </a>
+
+    <button class="navbar-toggler" type="button" (click)="toggleMenu($event)">
+      <span class="navbar-toggler-icon  text-dark fw-bold"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarCollapse"
+      [ngClass]="{'show': mostrarMenu}">
+      <ul class="navbar-nav">
+        <!-- Menu Categorías -->
+        <li class="nav-item dropdown">
+          <a class="nav-link m-0" href="#" id="mCategoria" data-bs-toggle="dropdown">
+            <i class="bi bi-list border-2 border border-dark rounded-2 px-1"></i>
+            <p class="menu-categoria m-0 p-0 fw-bold text-dark">Categorias</p>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="mCategoria">
             <li><a class="dropdown-item" href="#">Zona Gamer</a></li>
             <li><a class="dropdown-item" href="#">Celular</a></li>
             <li><a class="dropdown-item" href="#">Computador</a></li>
@@ -25,116 +31,104 @@
             <li><a class="dropdown-item" href="#">SmartWatch</a></li>
             <li><a class="dropdown-item" href="#">Accesorios</a></li>
           </ul>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-4 p-0 mx-0 my-1">
-      <div class="px-0 mx-0">
-        <input type="search" class="form-control" placeholder="¿Que estás buscando?">
-      </div>
-    </div>
-    <div class="row col-sm-4 my-1">
-      <div class="row col-sm-auto p-0 divcuenta me-4">
-        <div class="col-sm-auto px-1 d-flex align-items-center">
-          <h5 class="fw-bold d-flex align-items-center" style="cursor: pointer;" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            <img src="img/account.png" alt="" width="24px" class="pe-1">
-            <div *ngIf="usuario.nombres!=''">{{usuario.nombres.toString().split(" ")[0]}}</div>
-            <div *ngIf="usuario.nombres==''">Cuenta</div>
-          </h5>
-          <ul class="dropdown-menu dropdown-menu-end">
-            <li [hidden]="(usuario.nombres!='')">
-              <a class="dropdown-item" routerLink="auth/signin">Iniciar sesion</a>
-            </li>
-            <li [hidden]="(usuario.nombres!='')">
-              <a class="dropdown-item" routerLink="auth/signup">Registrate</a>
-            </li>
-            <li [hidden]="(usuario.nombres=='')" style="cursor: pointer;">
-              <a class="dropdown-item" routerLink="/cuenta/resumen">Mis datos</a>
-            </li>
-            <li [hidden]="(usuario.nombres=='')">
-              <a class="dropdown-item" routerLink="/cuenta/pedidos">Pedidos</a>
-            </li>
-            <li [hidden]="(usuario.nombres=='')">
-              <a class="dropdown-item" routerLink="/cuenta/favoritos">Favoritos</a>
-            </li>
-            <li [hidden]="(usuario.nombres=='')">
-              <hr class="dropdown-divider">
-            </li>
-            <li [hidden]="(usuario.nombres=='')">
-              <a class="dropdown-item" href="#" (click)="logout()">Salir</a>
-            </li>
+        </li>
+
+        <!-- Campo de búsqueda -->
+        <li class="nav-item d-flex align-items-center w-100">
+          <div class="input-group search-bar">
+            <input type="text" class="form-control shadow-none rounded-start-4" placeholder="¿Que estás buscando?">
+            <span class="input-group-text rounded-end-4"><i class="bi bi-search"></i></span>
+          </div>
+        </li>
+        <!-- Menu cuenta -->
+        <li class="nav-item dropdown">
+          <a class="nav-link m-0" href="#" id="menuLogin" data-bs-toggle="dropdown">
+            <i class="bi bi-person-circle text-dark"></i>
+            <p class="m-0 p-0 fw-bold text-dark" [hidden]="usuario.nombres!=''">Cuenta</p>
+            <p class="m-0 p-0 fw-bold text-dark" [hidden]="usuario.nombres==''">{{obtenerNombreUsuario()}}</p>
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="menuLogin">
+            <div [hidden]="usuario.nombres!=''">
+              <a class="dropdown-item" routerLink="auth/signin" (click)="cerrarNavbar()">Iniciar sesion</a>
+              <a class="dropdown-item" routerLink="auth/signup" (click)="cerrarNavbar()">Registrate</a>
+            </div>
+            <div [hidden]="usuario.nombres==''">
+              <li><a class="dropdown-item" href="#" routerLink="/cuenta/resumen" (click)="cerrarNavbar()">Mis datos</a>
+              </li>
+              <li><a class="dropdown-item" href="#" routerLink="/cuenta/pedidos" (click)="cerrarNavbar()">Pedidos</a>
+              </li>
+              <li><a class="dropdown-item" href="#" routerLink="/cuenta/favoritos"
+                  (click)="cerrarNavbar()">Favoritos</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" href="#" (click)="logout()">salir</a></li>
+            </div>
           </ul>
-        </div>
-      </div>
-      <div class="row col-sm-auto p-0 me-4 my-1" style="cursor: pointer;">
-        <div class="col-sm-auto px-1 d-flex align-items-center position-relative">
-          <h5 class="fw-bold d-flex align-items-center" (click)="verCarrito()">
-            <img src="img/cart.png" alt="" width="24px" class="pe-1">Carrito
-            <div *ngIf="carrito.carritoDetalles.length>0">({{carrito.carritoDetalles.length}})</div>
-          </h5>
-          <div class="div-carrito bg-white px-4 py-2 rounded-3" [hidden]="!modalCarrito">
-            <div class="row d-flex justify-content-between mx-0">
-              <div class="col-sm-auto px-0">
-                <small class="fw-semibold" style="font-size: 15px;">{{carrito.carritoDetalles.length}} Productos en el
-                  carrito</small>
-              </div>
-              <div class="col-sm-auto px-0">
-                <small class="fw-light" style="font-size: 15px;">Subtotal</small>
+        </li>
+        <!-- Menu carrito -->
+        <li class="nav-item position-relative">
+          <a href="#" class="nav-link d-flex align-items-center m-0" (click)="togglePopup($event, carrito)">
+            <i class="bi bi-cart3"></i>
+            <div class="d-flex flex-row">
+              <p class="m-0 p-0 fw-bold text-dark">Carrito</p>
+              <div [hidden]="carrito.carritoDetalles.length==0">
+                <p class="m-0 p-0 text-danger fw-bold">({{carrito.carritoDetalles.length}})</p>
               </div>
             </div>
-            <div class="row d-flex justify-content-end mx-0 mb-3">
-              <div class="col-sm-auto px-0">
-                <p class="fs-4 my-0 fw-bold">S/ {{calcularTotal(carrito.carritoDetalles)}}</p>
+          </a>
+
+          <!-- Contenido "Carrito" -->
+          <div class="popup-carrito" [ngClass]="{'visible': mostrarPopup}">
+            <div class="d-flex flex-row justify-content-between my-2">
+              <div class="d-flex flex-row fw-light">
+                <p class="m-0 p-0">{{carrito.carritoDetalles.length}}</p>
+                <p class="m-0 ps-1">Productos en carrito</p>
+              </div>
+              <div>
+                <p class="m-0 p-0 fw-semibold">Subtotal</p>
               </div>
             </div>
-            <div class="row mx-0 mb-3">
-              <button class="btn btn-warning fw-bold rounded-5" [disabled]="carrito.carritoDetalles.length==0"
-                (click)="irAlCarrito()">Ir al carrito</button>
+            <div class="d-flex flex-row justify-content-end my-2">
+              <p class="m-0 p-0 fw-bold fs-5">S/ {{calcularTotal(carrito.carritoDetalles)}}</p>
+            </div>
+            <div class="d-grid my-2">
+              <button class="btn btn-warning fw-bold rounded-4" (click)="irAlCarrito()">Ir al carrito</button>
             </div>
             <div *ngFor="let c of carrito.carritoDetalles.slice(0,4)">
-              <div class="row border border-light-subtle rounded-2 mx-0 mb-2">
-                <div class="col-sm-3 d-flex align-items-center justify-content-center my-2">
-                  <img class="mx-0" src="img/{{c.producto.fotos[0].galeria.url}}" height="60px" alt="">
+              <div class="d-flex flex-row border border-light-subtle rounded-2 my-2">
+                <div class="p-1 d-flex align-items-center">
+                  <img src="img/{{c.producto.fotos[0].galeria.url}}" height="60px" alt="">
                 </div>
-                <div class="col-sm-9 px-0">
-                  <div class="">
-                    <p class="my-1 fw-light" style="font-size: 14px;">{{c.producto.marca.nombre}}</p>
-                  </div>
-                  <div class="mx-0">
-                    <p class="my-1 px-0 fw-semibold lh-1" style="font-size: 14px;">
-                      <a routerLink="" (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
-                    </p>
-                  </div>
-                  <div class="row mx-0 my-2 d-flex justify-content-between align-items-center">
-                    <div class="col-sm-auto px-0">
-                      <p class="m-0 text-danger fw-bold" style="font-size: 17px;">S/
-                        {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
-                    </div>
-                    <div class="col-sm-auto">
-                      <p class="m-0 text-body-secondary fw-light">cant.: {{c.cantidad}}</p>
-                    </div>
-                    <div class="col-sm-auto" style="cursor: pointer;" (click)="eliminarItem(c.producto)">
-                      <img src="img/eliminar.png" alt="" width="20px">
-                    </div>
+                <div class="d-flex flex-column w-100 p-1">
+                  <p class="m-0 pb-1 fw-bold">{{c.producto.marca.nombre}}</p>
+                  <a routerLink="" class="lh-1 fw-semibold pb-1"
+                    (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
+                  <div class="d-flex align-items-center pb-1">
+                    <p class="m-0 p-0 text-danger fw-bold flex-grow-1">S/
+                      {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
+                    <p class="m-0 px-4 fw-semibold">cant.: {{c.cantidad}}</p>
+                    <a href="#" class="d-flex align-items-center" (click)="eliminarItem(c.producto)"><img class=""
+                        src="img/eliminar.png" height="20px" alt=""></a>
                   </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="carrito.carritoDetalles.length>4" class="row mb-3">
-              <a class="col-sm-auto me-0" routerLink="" (click)="irAlCarrito()">ver mas</a>
-              <p class="col-sm-auto mx-0 px-0">({{carrito.carritoDetalles.length}}) productos en total</p>
+            <div class="d-flex">
+              <p class="m-0 p-0">{{obtenerTotalItems(carrito.carritoDetalles)}}</p>
+              <p class="m-0 ps-1 pe-2">productos en total</p>
+              <a routerLink="" (click)="irAlCarrito()">ver todo</a>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row col-sm-auto p-0 my-1">
-        <div class="col-sm-auto px-1 d-flex align-items-center">
-          <h5 class="fw-bold d-flex align-items-center">
-            <img src="img/delivery.png" alt="" width="24px" class="pe-1 py-0">Pedidos
-          </h5>
-        </div>
-      </div>
+        </li>
+        <!-- Menu seguimiento -->
+        <li class="nav-item">
+          <a class="nav-link m-0 d-flex align-items-center" href="#">
+            <i class="bi bi-box-seam"></i>
+            <p class="m-0 p-0 fw-bold text-dark">Seguimiento</p>
+          </a>
+        </li>
+      </ul>
     </div>
   </div>
-</div>
+</nav>

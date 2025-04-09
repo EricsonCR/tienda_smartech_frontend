@@ -1,32 +1,32 @@
 <div class="container">
-    <h2 class="fw-bold">Mis Favoritos</h2>
+    <h2 class="fw-bold mt-3">Mis Favoritos</h2>
     <hr class="my-4">
     <div *ngIf="favoritos" class="mt-2">
-        <div *ngFor="let f of favoritos" class="row mx-0 my-2 bg-white p-2 border border-light-subtle rounded-2">
-            <div class="col-sm-2 d-flex align-items-center justify-content-center">
+        <div *ngFor="let f of favoritos"
+            class="d-flex flex-row align-items-center mx-0 my-2 bg-white p-2 border border-light-subtle rounded-2">
+            <div class="p-1">
                 <img src="img/{{f.producto.fotos[0].galeria.url}}" height="70px" alt="">
             </div>
-            <div class="col-sm-8">
-                <p class="m-0 fw-light">{{f.producto.marca.nombre}}</p>
-                <p class="m-0 text-primary text-decoration-underline fw-semibold lh-1">{{f.producto.nombre}}</p>
-                <div class="row mt-2">
-                    <div class="col-auto">
-                        <p class="m-0 text-danger fw-bold fs-5">S/
+            <div class="d-flex flex-column w-100 p-2">
+                <p class="m-0 fw-bold pb-1">{{f.producto.marca.nombre}}</p>
+                <p class="m-0 text-primary text-decoration-underline fw-semibold lh-1 pb-2">{{f.producto.nombre}}</p>
+                <div class="d-flex flex-row align-items-center">
+                    <div class="d-flex flex-column lh-1">
+                        <p class="m-0 p-0 text-danger fw-bold fs-5">S/
                             {{calcularPrecio(f.producto.precio,f.producto.descuento)}}</p>
+                        <p class="m-0 p-0 text-decoration-line-through fw-light">S/ {{formatoMoneda(f.producto.precio)}}
+                        </p>
                     </div>
-                    <div class="col-auto d-flex align-items-center">
-                        <p class="m-0 text-decoration-line-through fw-light">S/ {{formatoMoneda(f.producto.precio)}}</p>
+                    <div class="d-flex flex-grow-1 justify-content-end">
+                        <div class="bg-warning rounded-circle p-1 mx-2 d-flex align-items-center"
+                            (click)="agregarAlCarrito(f.producto, f.id)">
+                            <a routerLink="#"><img src="img/cart.png" height="24px" alt=""></a>
+                        </div>
+                        <div class="bg-warning rounded-circle p-1 mx-2 d-flex align-items-center"
+                            (click)="eliminarFavorito(f.id)">
+                            <a routerLink="#"><img src="img/basura.png" height="24px" alt=""></a>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-2 d-flex align-items-center justify-content-evenly">
-                <div class="bg-warning rounded-circle p-1 mx-2" style="cursor: pointer;"
-                    (click)="agregarAlCarrito(f.producto, f.id)">
-                    <img src="img/cart.png" height="24px" alt="">
-                </div>
-                <div class="bg-warning rounded-circle p-1 mx-2" style="cursor: pointer;"
-                    (click)="eliminarFavorito(f.id)">
-                    <img src="img/basura.png" height="24px" alt="">
                 </div>
             </div>
         </div>

@@ -15,7 +15,7 @@
     </div>
     <div class="row mx-0">
         <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
-            <div class="row bg-white mx-0 p-4 rounded-2 d-flex justify-content-between" (click)="selectEntrega(1)"
+            <div class="row bg-white mx-0 p-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(1)"
                 [ngClass]="{'active-entrega':opcionEntrega==1}" style="cursor: pointer;">
                 <div class="col-auto d-flex align-items-center">
                     <div class="col-auto">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
-            <div class="row bg-white mx-0 p-4 rounded-2 d-flex justify-content-between" (click)="selectEntrega(2)"
+            <div class="row bg-white mx-0 p-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(2)"
                 [ngClass]="{'active-entrega':opcionEntrega==2}" style="cursor: pointer;">
                 <div class="col-auto d-flex align-items-center">
                     <div class="col-auto">
@@ -187,19 +187,14 @@
     <!-- FECHA DELIVERY -->
     <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
         <div class="row mx-0">
-            <div *ngFor="let f of fechas, let i = index" class="col-sm-3 my-1">
-                <div class="p-2 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaEnvio(i+1)"
+            <div *ngFor="let f of fechas, let i = index" class="col-lg-3 col-md-4 col-sm-6 col-6 my-1">
+                <div class="p-3 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaEnvio(i+1)"
                     [ngClass]="{'active-fecha':opcionFechaEnvio==(i+1)}">
-                    <div class="row m-0">
-                        <small class="m-0 fw-semibold">{{obtenerDiaSemana(f.fecha)}}. {{f.fecha.getDate()}}
-                            {{obtenerMes(f.fecha)}}.</small>
-                    </div>
-                    <div class="row m-0 py-2 d-flex justify-content-between">
-                        <div class="col-auto">
-                            <p class="m-0 fw-bold">S/ {{f.precio}}</p>
-                        </div>
-                        <div class="col-auto"><input type="radio" class="form-check-input"
-                                [checked]="opcionFechaEnvio==(i+1)"></div>
+                    <div class="d-flex flex-row justify-content-between">
+                        <p class="m-0 p-0 fw-light">{{obtenerDiaSemana(f.fecha)}}. {{f.fecha.getDate()}}
+                            {{obtenerMes(f.fecha)}}</p>
+                        <p class="m-0 p-0 fw-bold">S/ {{f.precio}}</p>
+                        <input type="radio" class="form-check-input" [checked]="opcionFechaEnvio==(i+1)">
                     </div>
                 </div>
             </div>
@@ -208,7 +203,7 @@
     <!-- FECHA RECOJO -->
     <div [ngClass]="{'none-div':opcionEntrega!=2,'block-div':opcionEntrega==2}">
         <div class="row mx-0">
-            <div *ngFor="let f of fechas.slice(4), let i = index" class="col-sm-3 my-1">
+            <div *ngFor="let f of fechas.slice(4), let i = index" class="col-lg-3 col-md-4 col-sm-6 col-6 my-1">
                 <div class="p-2 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaRetiro(i+1)"
                     [ngClass]="{'active-fecha':opcionFechaRetiro==(i+1)}">
                     <div class="row m-0 d-flex justify-content-between">

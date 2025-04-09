@@ -10,25 +10,19 @@
         </div>
     </div>
     <div class="bg-white mb-2 rounded-4 border border-light-subtle">
-        <div class="row mx-0 p-4 d-flex align-items-center justify-content-between" style="cursor: pointer;"
+        <div class="row mx-0 p-3 d-flex align-items-center justify-content-between" style="cursor: pointer;"
             (click)="selectPago(1)" [ngClass]="{'color-select':opcionPago==1}">
-            <div class="col-auto row px-0">
-                <div class="col-auto d-flex align-items-center">
-                    <p class="m-0 fw-bold">Pago con tarjeta credito o debito</p>
-                </div>
-                <div class="col-auto">
-                    <img src="img/visa.png" width="40px" alt="">
-                </div>
-                <div class="col-auto">
-                    <img src="img/mastercard.png" width="40px" alt="">
-                </div>
-                <div class="col-auto">
-                    <img src="img/american-express.png" width="40px" alt="">
+            <div class="d-flex flex-row align-items-center">
+                <p class="m-0 fw-bold">Pago con tarjeta credito o debito</p>
+                <img class="px-1" src="img/visa.png" width="32px" alt="">
+                <img class="px-1" src="img/mastercard.png" width="32px" alt="">
+                <img class="px-1" src="img/american-express.png" width="32px" alt="">
+                <div class="d-flex flex-grow-1 justify-content-end">
+                    <input type="radio" class="form-check-input" [checked]="opcionPago==1">
                 </div>
             </div>
-            <div class="col-auto"><input type="radio" class="form-check-input" [checked]="opcionPago==1"></div>
         </div>
-        <div class="p-4" [ngClass]="{'none-div':opcionPago!=1,'block-div':opcionPago==1}">
+        <div class="p-3" [ngClass]="{'none-div':opcionPago!=1,'block-div':opcionPago==1}">
             <div class="mb-3">
                 <label for="" class="form-label">Numero de tarjeta</label>
                 <input type="text" class="form-control bg-light-subtle" placeholder="xxxx-xxxx-xxxx-xxxx">
@@ -62,46 +56,37 @@
         </div>
     </div>
     <div class="bg-white mb-2 rounded-4 border border-light-subtle">
-        <div class="row mx-0 p-4 d-flex align-items-center justify-content-between" style="cursor: pointer;"
+        <div class="row mx-0 p-3 d-flex align-items-center justify-content-between" style="cursor: pointer;"
             (click)="selectPago(2)" [ngClass]="{'color-select':opcionPago==2}">
-            <div class="col-auto row px-0">
-                <div class="col-auto d-flex align-items-center">
-                    <p class="m-0 fw-bold">Pago en tienda</p>
-                </div>
-                <div class="col-auto"><img src="img/tienda-retiro.png" width="40px" alt=""></div>
+            <div class="d-flex flex-row align-items-center">
+                <p class="m-0 fw-bold">Pago en tienda</p>
+                <img class="px-1" src="img/tienda-retiro.png" width="32px" alt="">
+                <div class="d-flex flex-grow-1 justify-content-end"><input type="radio" class="form-check-input"
+                        [checked]="opcionPago==2"></div>
             </div>
-            <div class="col-auto"><input type="radio" class="form-check-input" [checked]="opcionPago==2"></div>
         </div>
     </div>
     <div class="bg-white mb-2 rounded-4 border border-light-subtle">
-        <div class="row mx-0 p-4 d-flex align-items-center justify-content-between" style="cursor: pointer;"
+        <div class="row mx-0 p-3 d-flex align-items-center justify-content-between" style="cursor: pointer;"
             (click)="selectPago(3)" [ngClass]="{'color-select':opcionPago==3}">
-            <div class="col-auto row px-0">
-                <div class="col-auto d-flex align-items-center">
-                    <p class="m-0 fw-bold">Pago efectivo</p>
-                </div>
-                <div class="col-auto">
-                    <img src="img/pagoefectivo.png" width="40px" alt="">
-                </div>
+            <div class="d-flex flex-row align-items-center">
+                <p class="m-0 fw-bold">Pago efectivo</p>
+                <img class="px-1" src="img/pagoefectivo.png" width="32px" alt="">
+                <div class="d-flex justify-content-end flex-grow-1"><input type="radio" class="form-check-input"
+                        [checked]="opcionPago==3"></div>
             </div>
-            <div class="col-auto"><input type="radio" class="form-check-input" [checked]="opcionPago==3"></div>
         </div>
     </div>
     <div class="bg-white mb-2 rounded-4 border border-light-subtle">
-        <div class="row mx-0 p-4 d-flex align-items-center justify-content-between" style="cursor: pointer;"
+        <div class="row mx-0 p-3 d-flex align-items-center justify-content-between" style="cursor: pointer;"
             (click)="selectPago(4)" [ngClass]="{'color-select':opcionPago==4}">
-            <div class="col-auto row px-0">
-                <div class="col-auto d-flex align-items-center">
-                    <p class="m-0 fw-bold">Pago con moneda digital</p>
-                </div>
-                <div class="col-auto">
-                    <img src="img/yape.png" width="40px" alt="">
-                </div>
-                <div class="col-auto">
-                    <img src="img/plin.png" width="40px" alt="">
-                </div>
+            <div class="d-flex flex-row align-items-center">
+                <p class="m-0 fw-bold">Pago con moneda digital</p>
+                <img class="px-1" src="img/yape.png" width="40px" alt="">
+                <img class="px-1" src="img/plin.png" width="40px" alt="">
+                <div class="d-flex justify-content-end flex-grow-1"><input type="radio" class="form-check-input"
+                        [checked]="opcionPago==4"></div>
             </div>
-            <div class="col-auto"><input type="radio" class="form-check-input" [checked]="opcionPago==4"></div>
         </div>
     </div>
     <hr>

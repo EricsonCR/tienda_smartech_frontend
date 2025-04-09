@@ -1,13 +1,141 @@
-.div-carrito {
-    position: absolute;
-    top: 50px;
-    right: 0vw;
-    width: 450px;
-    box-shadow: 0px 0px 15px 0px black;
+.navbar {
+    width: 100%;
 }
 
-@media screen and (max-width: 1200px) {
-    .div-carrito {
-        width: 350px;
+.navbar-brand {
+    font-size: 20px;
+}
+
+.popup-carrito {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 350px;
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    z-index: 1050;
+
+}
+
+.popup-carrito.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+}
+
+.bi {
+    font-size: 18px;
+    margin-right: 4px;
+    color: black;
+    font-weight: bold;
+}
+
+.brand,
+.menu-categoria {
+    display: block;
+}
+
+.dropdown-menu {
+    background-color: white;
+    border: solid 1px #BDC3C7;
+}
+
+.dropdown-item {
+    color: black;
+}
+
+.dropdown-item:hover {
+    background-color: #ECF0F1;
+}
+
+.bi-list {
+    font-size: 20px;
+}
+
+.search-bar {
+    width: 480px;
+    max-width: 100%;
+    padding: 10px 0;
+}
+
+.search-bar span {
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-bar {
+        width: 200px;
+        padding: 0;
+    }
+
+    .brand,
+    .menu-categoria {
+        display: none;
+    }
+
+    .popup-carrito {
+        left: -220px;
+        width: 400px;
+    }
+}
+
+@media (min-width: 992px) {
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-bar {
+        width: 300px;
+        padding: 0;
+    }
+
+    .brand,
+    .menu-categoria {
+        display: block;
+    }
+
+    .popup-carrito {
+        left: -220px;
+        width: 450px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .navbar-nav {
+        display: flex;
+        align-items: center;
+    }
+
+    .search-bar {
+        width: 500px;
+        padding: 0;
+    }
+
+    .brand,
+    .menu-categoria {
+        display: block;
+    }
+
+    .popup-carrito {
+        left: -220px;
+        width: 450px;
     }
 }

@@ -1,5 +1,5 @@
 <div class="container">
-    <div class="row d-flex align-items-center">
+    <div class="row d-flex align-items-center mt-2">
         <h2 class="fw-bold">Mis Pedidos</h2>
     </div>
     <hr class="mt-5">
@@ -9,10 +9,10 @@
                 <tr>
                     <th>#</th>
                     <th>N° pedido</th>
-                    <th>Fecha</th>
-                    <th>Consignatario</th>
+                    <th class="td-pedido">Fecha</th>
+                    <th class="td-pedido">Consignatario</th>
                     <th>Total</th>
-                    <th>Estado</th>
+                    <th class="td-pedido">Estado</th>
                     <th>Accion</th>
                 </tr>
             </thead>
@@ -20,12 +20,12 @@
                 <tr *ngFor="let p of pedidos, let i = index">
                     <td class="py-3">{{i+1}}</td>
                     <td class="py-3">#{{p.numero}}</td>
-                    <td class="py-3">{{formatoFecha(p.fecha_entrega)}}</td>
-                    <td class="py-3">{{p.consignatario.nombres}}</td>
+                    <td class="py-3 td-pedido">{{formatoFecha(p.fecha_entrega)}}</td>
+                    <td class="py-3 td-pedido">{{p.consignatario.nombres}}</td>
                     <td class="py-3">S/ {{formatoMoneda(p.total)}}</td>
-                    <td class="py-3"><small>{{p.estado}}</small></td>
+                    <td class="py-3 td-pedido"><small>{{p.estado}}</small></td>
                     <td class="py-3"><a routerLink="/cuenta/pedido/detalle/{{p.id}}"
-                            class="fw-semibold text-body-tertiary text-decoration-none">Detalle</a>
+                            class="btn btn-warning btn-sm fw-bold text-dark">Detalle</a>
                     </td>
                 </tr>
             </tbody>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { CommonModule } from '@angular/common';
@@ -19,7 +19,9 @@ declare var bootstrap: any;
 })
 export class HeaderComponent implements OnInit {
 
-  modalCarrito: boolean = false;
+  mostrarPopup: boolean = false;
+  mostrarMenu: boolean = false;
+
   carrito!: Carrito;
   usuario: Usuario = UsuarioDefault;
 
@@ -52,7 +54,13 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/auth/signin"]);
   }
 
-  verCarrito() { this.modalCarrito = !this.modalCarrito; }
+  obtenerNombreUsuario(): string {
+    return this.usuario.nombres.toString().split(" ")[0];
+  }
+
+  obtenerTotalItems(items: CarritoDetalle[]) {
+    return items.length;
+  }
 
   calcularPrecio(precio: number, descuento: number): string {
     let total: number = 0;
@@ -79,14 +87,14 @@ export class HeaderComponent implements OnInit {
       const mymodal = bootstrap.Modal.getInstance(modal) || new bootstrap.Modal(modal);
       mymodal.hide();
     }
-    this.modalCarrito = false;
+    this.mostrarPopup = false;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(['producto-detalle', nombre]);
     });
   }
 
   irAlCarrito() {
-    this.modalCarrito = false;
+    this.mostrarPopup = false;
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
       this.router.navigate(["compra/carrito"]);
     });
@@ -115,12 +123,51 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  @HostListener('document:click', ['$event'])
-  clickOut(event: Event) {
-    if (!this.eRef.nativeElement.contains(event.target)) {
-      this.modalCarrito = false;
-    }
+  togglePopup(event: Event, car: Carrito) {
+    if (car.carritoDetalles.length == 0) { return; }
+    event.preventDefault();
+    event.stopPropagation();
+    this.mostrarPopup = !this.mostrarPopup;
+
+    const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+    dropdowns.forEach((dropdown) => {
+      dropdown.classList.remove('show');
+    });
   }
+
+  toggleMenu(event: Event) {
+    event.preventDefault();
+    event.stopPropagation();
+    this.mostrarMenu = !this.mostrarMenu;
+  }
+
+  cerrarPopup() {
+    this.mostrarPopup = false;
+  }
+  cerrarMenu() {
+    this.mostrarMenu = false;
+  }
+
+
+  @HostListener('document:click', ['$event'])
+  cerrarSiClickFuera(event: Event) {
+    const menu = document.querySelector('.navbar-collapse');
+    const navbarToggler = document.querySelector('.navbar-toggler');
+    const popup = document.querySelector('.popup-carrito');
+
+    if (this.mostrarPopup && popup && !popup.contains(event.target as Node)) {
+      this.cerrarPopup();
+    }
+    if (this.mostrarMenu && menu && !menu.contains(event.target as Node) && event.target !== navbarToggler) {
+      this.cerrarMenu();
+    }
+
+  }
+
+  cerrarNavbar() {
+    this.mostrarMenu = false;
+  }
+
 }
 
 const UsuarioDefault: Usuario = {

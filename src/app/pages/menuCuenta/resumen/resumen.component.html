@@ -1,5 +1,6 @@
 <div class="container">
-    <h2 class="fw-bold">Resumen</h2>
+    <h2 class="fw-bold mt-2">Resumen</h2>
+    <!-- MIS DATOS -->
     <hr class="mt-5">
     <div class="row m-0 d-flex align-items-center py-2">
         <div class="col-auto bg-warning rounded-circle p-1"><img src="img/account.png" width="28px" alt=""></div>
@@ -8,123 +9,94 @@
         </div>
     </div>
     <div class="row m-0 py-2">
-        <div class="col-sm-6 px-2">
-            <div class="border border-light-subtle rounded-2 p-4 bg-white">
-                <div class="mb-2">
-                    <p class="m-0 fw-bold ">Datos personales</p>
-                </div>
-                <div class="mb-0">
-                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Nombres:</strong> {{usuario.nombres +" "+
-                        usuario.apellidos}}</p>
-                </div>
-                <div class="mb-0">
-                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Doc:</strong> {{usuario.numero}}
-                        ({{usuario.documento}})</p>
-                </div>
-                <div class="mb-0">
-                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Nacimiento:</strong>:
-                        {{formatoFecha(usuario.nacimiento)}}</p>
-                </div>
-                <div class="mb-0">
-                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Cel: </strong>{{usuario.telefono}}</p>
-                </div>
-                <div class="mb-0">
-                    <p *ngIf="usuario" class="m-0 fw-light"><strong>Email: </strong>{{usuario.email}}</p>
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                    <a class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold"
-                        (click)="irMisDatos()">Editar</a>
+        <div class="col-lg-6 col-sm-6 p-2">
+            <div class="d-flex flex-column border border-light-subtle rounded-2 p-3 bg-white">
+                <p class="m-0 pb-2 fw-bold ">Datos personales</p>
+                <p *ngIf="usuario" class="m-0 fw-light"><strong>Nombres:</strong> {{usuario.nombres +" "+
+                    usuario.apellidos}}</p>
+                <p *ngIf="usuario" class="m-0 fw-light"><strong>Doc:</strong> {{usuario.numero}}
+                    ({{usuario.documento}})</p>
+                <p *ngIf="usuario" class="m-0 fw-light"><strong>Nacimiento:</strong>:
+                    {{formatoFecha(usuario.nacimiento)}}</p>
+                <p *ngIf="usuario" class="m-0 fw-light"><strong>Cel: </strong>{{usuario.telefono}}</p>
+                <p *ngIf="usuario" class="m-0 fw-light"><strong>Email: </strong>{{usuario.email}}</p>
+                <div class="d-flex flex-row justify-content-end pt-2">
+                    <button class="btn btn-outline-warning rounded-3 text-dark fw-bold"
+                        (click)="irMisDatos()">Editar</button>
                 </div>
             </div>
         </div>
-        <div class="col-sm-6 px-2">
-            <div class="border border-light-subtle rounded-2 p-4 bg-white">
-                <div class="mb-2">
-                    <p class="m-0 fw-bold ">Datos de seguridad</p>
-                </div>
-                <div class="mb-0">
-                    <p class="m-0 fw-light"><strong>Contraseña: </strong> {{"********"}}</p>
-                </div>
-                <div class="mb-0">
-                    <p class="m-0 fw-light fst-italic">Para cambiar la contraseña es necesario iniciar sesion</p>
-                </div>
-                <div class="d-flex justify-content-end mt-4">
-                    <button class="btn btn-outline-warning rounded-5 px-4 text-dark fw-bold">Cambiar contraseña</button>
+        <div class="col-lg-6  col-sm-6 p-2">
+            <div class="d-flex flex-column border border-light-subtle rounded-2 p-3 bg-white">
+                <p class="m-0 fw-bold ">Datos de seguridad</p>
+                <p class="m-0 fw-light"><strong>Contraseña: </strong> {{"********"}}</p>
+                <p class="m-0 fw-light fst-italic">Para cambiar la contraseña es necesario iniciar sesion</p>
+                <div class="d-flex flex-row justify-content-end pt-2">
+                    <button class="btn btn-outline-warning rounded-3 text-dark fw-bold">Cambiar contraseña</button>
                 </div>
             </div>
         </div>
     </div>
+    <!-- MIS DIRECCIONES -->
     <hr class="mt-5">
-    <div class="row m-0 d-flex align-items-center justify-content-between py-2">
-        <div class="row col-auto d-flex align-items-center">
-            <div class="col-auto bg-warning rounded-circle p-1">
-                <img src="img/marcador-de-posicion.png" width="28px" alt="">
-            </div>
-            <div class="col-auto px-1">
-                <p class="m-0 fs-5 fw-light">Mi libreta de direcciones</p>
-            </div>
+    <div class="d-flex flex-row align-items-center justify-content-between m-0 py-2">
+        <div class="col-auto bg-warning rounded-circle p-1">
+            <img src="img/marcador-de-posicion.png" width="28px" alt="">
         </div>
-        <div class="col-auto">
-            <a routerLink="/cuenta/direccion">Ver todas las direcciones</a>
+        <p class="m-0 ps-1 fs-5 fw-light">Mis direcciones</p>
+        <div class="d-flex flex-row flex-grow-1 justify-content-end">
+            <a routerLink="/cuenta/direccion/crear">agregar direccion</a>
         </div>
     </div>
     <div *ngIf="domicilios" class="row m-0 py-2">
-        <div *ngFor="let d of domicilios.slice(0,2), let i = index" class="col-sm-6 px-2">
-            <div class="border border-light-subtle rounded-2 p-4 bg-white">
-                <div class="mb-2">
-                    <p class="m-0 fw-bold ">Direccion de entrega #{{i+1}}</p>
-                </div>
-                <div class="mb-0">
-                    <p class="m-0 fw-light">{{d.consignatario.nombres}}</p>
-                </div>
-                <div class="mb-0">
-                    <p class="m-0 fw-light">{{d.direccion.via.toUpperCase()}} {{d.direccion.nombre}} -
-                        {{d.direccion.distrito}}</p>
-                </div>
-                <div>
-                    <p>...</p>
-                </div>
+        <div *ngFor="let d of domicilios.slice(0,2), let i = index" class="col-sm-6 p-2">
+            <div class="d-flex flex-column border border-light-subtle rounded-2 p-3 bg-white">
+                <p class="m-0 fw-bold ">Direccion de entrega #{{i+1}}</p>
+                <p class="m-0 fw-light">{{d.consignatario.nombres}}</p>
+                <p class="m-0 fw-light">{{d.direccion.via.toUpperCase()}} {{d.direccion.nombre}} -
+                    {{d.direccion.distrito}}</p>
+                <p>...</p>
             </div>
         </div>
     </div>
+    <div class="row m-0">
+        <a routerLink="/cuenta/direccion">Ver todas las direcciones ({{domicilios.length}})</a>
+    </div>
+    <!-- MIS PEDIDOS -->
     <hr class="mt-5">
-    <div class="row m-0 d-flex align-items-center py-2 justify-content-between">
-        <div class="row col-auto d-flex align-items-center">
-            <div class="col-auto bg-warning rounded-circle p-1">
-                <img src="img/cart.png" width="24px" alt="">
-            </div>
-            <div class="col-auto px-1">
-                <p class="m-0 fs-5 fw-light">Mis pedidos</p>
-            </div>
+    <div class="d-flex flex-row align-items-center m-0 d-flex align-items-center py-2 justify-content-between">
+        <div class="col-auto bg-warning rounded-circle p-1">
+            <img src="img/cart.png" width="24px" alt="">
         </div>
-        <div class="col-auto">
+        <p class="m-0 ps-1 fs-5 fw-light">Mis pedidos</p>
+        <div class="d-flex flex-row flex-grow-1 justify-content-end">
             <a routerLink="/cuenta/pedidos">Ver todos los pedidos ({{pedidos.length}})</a>
         </div>
     </div>
-    <div *ngIf="pedidos" class="row m-0 py-2">
+    <div *ngIf="pedidos" class="row m-0 py-1">
         <div *ngFor="let p of pedidos.slice(0,2), let i = index" class="pb-3">
-            <div class=" row d-flex justify-content-between border border-light-subtle rounded-2 p-3 bg-white">
-                <div class="col-auto lh-1 m-0 p-0">
-                    <p class="m-0 p-1 fw-bold">Nro. Pedido</p>
+            <div class="d-flex row justify-content-between border border-light-subtle rounded-2 p-1 bg-white">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2">
+                    <p class="m-0 p-1 fw-bold">Nro</p>
                     <p class="m-0 p-1 fw-light">#{{p.numero}}</p>
                 </div>
-                <div class="col-auto lh-1 m-0 p-0">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2">
                     <p class="m-0 p-1 fw-bold">Total</p>
                     <p class="m-0 p-1 fw-light">S/ {{formatoMoneda(p.total)}}</p>
                 </div>
-                <div class="col-auto lh-1 m-0 p-0">
-                    <p class="m-0 p-1 fw-bold">T. entrega</p>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2">
+                    <p class="m-0 p-1 fw-bold">Entrega</p>
                     <p class="m-0 p-1 fw-light">{{p.entrega}}</p>
                 </div>
-                <div class="col-auto lh-1 m-0 p-0">
-                    <p class="m-0 p-1 fw-bold">F. entrega</p>
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2">
+                    <p class="m-0 p-1 fw-bold">Fecha</p>
                     <p class="m-0 p-1 fw-light">{{formatoFecha(p.fecha_entrega)}}</p>
                 </div>
-                <div class="col-auto lh-1 m-0 p-0">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2">
                     <p class="m-0 p-1 fw-bold">Estado</p>
                     <p class="m-0 p-1 fw-light">{{p.estado}}</p>
                 </div>
-                <div class="col-auto lh-1 m-0 p-0 d-flex align-items-center">
+                <div class="col-lg-2 col-md-4 col-sm-6 col-6 lh-1 m-0 py-2 d-flex align-items-center">
                     <div>
                         <button (click)="ver_pdf(p.numero)"
                             class="btn btn-warning btn-sm fw-bold p-1 rounded-2">comprobante</button>
@@ -133,6 +105,7 @@
             </div>
         </div>
     </div>
+    <!-- MIS FAVORITOS -->
     <hr class="mt-5">
     <div class="row m-0 d-flex align-items-center py-2 justify-content-between">
         <div class="row col-auto d-flex align-items-center">
@@ -149,31 +122,25 @@
     </div>
     <div *ngIf="favoritos" class="mt-2">
         <div *ngFor="let f of favoritos.slice(0,2)"
-            class="row mx-0 my-2 bg-white p-2 border border-light-subtle rounded-2">
-            <div class="col-sm-2 d-flex align-items-center justify-content-center">
-                <img src="img/{{f.producto.fotos[0].galeria.url}}" height="70px" alt="">
-            </div>
-            <div class="col-sm-8">
-                <p class="m-0 fw-light">{{f.producto.marca.nombre}}</p>
-                <p class="m-0 text-primary text-decoration-underline fw-semibold lh-1">{{f.producto.nombre}}</p>
-                <div class="row mt-2">
-                    <div class="col-auto">
+            class="d-flex flex-row align-items-center mx-0 my-2 bg-white p-2 border border-light-subtle rounded-2">
+            <img src="img/{{f.producto.fotos[0].galeria.url}}" height="60px" alt="">
+            <div class="d-flex flex-column w-100 p-2">
+                <p class="m-0 fw-bold pb-1">{{f.producto.marca.nombre}}</p>
+                <p class="m-0 text-primary pb-2 text-decoration-underline fw-semibold lh-1">{{f.producto.nombre}}</p>
+                <div class="d-flex flex-row">
+                    <div class="d-f flex-column lh-1">
                         <p class="m-0 text-danger fw-bold fs-5">S/
                             {{calcularPrecio(f.producto.precio,f.producto.descuento)}}</p>
-                    </div>
-                    <div class="col-auto d-flex align-items-center">
                         <p class="m-0 text-decoration-line-through fw-light">S/ {{formatoMoneda(f.producto.precio)}}</p>
                     </div>
-                </div>
-            </div>
-            <div class="col-sm-2 d-flex align-items-center justify-content-evenly">
-                <div class="bg-warning rounded-circle p-1 mx-2" style="cursor: pointer;"
-                    (click)="agregarAlCarrito(f.id,f.producto)">
-                    <img src="img/cart.png" height="24px" alt="">
-                </div>
-                <div class="bg-warning rounded-circle p-1 mx-2" style="cursor: pointer;"
-                    (click)="eliminarFavorito(f.id)">
-                    <img src="img/basura.png" height="24px" alt="">
+                    <div class="d-flex flex-grow-1 justify-content-end align-items-center">
+                        <div class="px-2" (click)="agregarAlCarrito(f.id,f.producto)">
+                            <a routerLink="#"><img src="img/cart.png" height="24px" alt=""></a>
+                        </div>
+                        <div class="px-2" (click)="agregarAlCarrito(f.id,f.producto)">
+                            <a routerLink="#"><img src="img/basura.png" height="24px" alt=""></a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -42,6 +42,15 @@ export class CarritoComponent implements OnInit {
 
   }
 
+  formatoMoneda(value: number): string {
+    return value.toLocaleString("es-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  obtenerPrecio(producto: Producto): string {
+    let total = parseFloat((producto.precio * (1 - producto.descuento / 100)).toFixed(2));
+    return this.formatoMoneda(total);
+  }
+
   sumarItems(p: Producto) {
     const usuario = this.sharedService.getUsuario();
     if (usuario.email != "") {
@@ -85,8 +94,7 @@ export class CarritoComponent implements OnInit {
       this.carritoService.eliminarItem(id, { id: 0, producto: p, cantidad: 0 }).subscribe({
         next: (result) => {
           if (result.status == "OK") { this.sharedService.setCarrito(result.data); }
-          else if (result.status == "NOT_FOUND") { }
-          else { }
+          else { console.log(result); }
         },
         error: (error) => { console.log(error); }
       });
