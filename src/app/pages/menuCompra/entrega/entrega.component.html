@@ -1,12 +1,12 @@
 <div class="container">
-    <div class="row d-flex align-items-center mb-3">
-        <div class="col-auto">
-            <p class="fw-bold fs-2 m-0">Entrega</p>
-        </div>
-        <div class="col-auto">
+    <div class="row d-flex align-items-center my-3">
+        <div class="col-auto px-3">
             <div class="bg-warning p-1 rounded-circle">
                 <img src="img/delivery.png" width="28px" alt="">
             </div>
+        </div>
+        <div class="col-auto p-0">
+            <p class="fw-bold fs-2 m-0">Entrega</p>
         </div>
     </div>
     <hr class="mt-5">
@@ -15,7 +15,7 @@
     </div>
     <div class="row mx-0">
         <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
-            <div class="row bg-white mx-0 p-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(1)"
+            <div class="row bg-white mx-0 px-2 py-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(1)"
                 [ngClass]="{'active-entrega':opcionEntrega==1}" style="cursor: pointer;">
                 <div class="col-auto d-flex align-items-center">
                     <div class="col-auto">
@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="col-sm-6 mx-0 p-2" style="height: 100px;">
-            <div class="row bg-white mx-0 p-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(2)"
+            <div class="row bg-white mx-0 px-2 py-3 rounded-2 d-flex justify-content-between" (click)="selectEntrega(2)"
                 [ngClass]="{'active-entrega':opcionEntrega==2}" style="cursor: pointer;">
                 <div class="col-auto d-flex align-items-center">
                     <div class="col-auto">
@@ -182,7 +182,7 @@
     </div>
     <hr class="mt-5">
     <div class="row mx-0">
-        <p class="fw-semibold fs-5">Fechas</p>
+        <p class="fw-semibold fs-5">Fechas y precio delivery</p>
     </div>
     <!-- FECHA DELIVERY -->
     <div [ngClass]="{'none-div':opcionEntrega!=1,'block-div':opcionEntrega==1}">
@@ -191,7 +191,7 @@
                 <div class="p-3 bg-white rounded-2" style="cursor: pointer;" (click)="selectFechaEnvio(i+1)"
                     [ngClass]="{'active-fecha':opcionFechaEnvio==(i+1)}">
                     <div class="d-flex flex-row justify-content-between">
-                        <p class="m-0 p-0 fw-light">{{obtenerDiaSemana(f.fecha)}}. {{f.fecha.getDate()}}
+                        <p class="m-0 p-0 fw-light">{{f.fecha.getDate()}}
                             {{obtenerMes(f.fecha)}}</p>
                         <p class="m-0 p-0 fw-bold">S/ {{f.precio}}</p>
                         <input type="radio" class="form-check-input" [checked]="opcionFechaEnvio==(i+1)">
