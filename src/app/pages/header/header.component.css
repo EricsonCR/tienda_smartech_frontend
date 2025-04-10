@@ -5,6 +5,19 @@
     font-weight: bold;
 }
 
+.text-size1 {
+    font-size: 0.8rem;
+}
+
+.two-lineas {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    height: 1em;
+}
+
 .manito {
     cursor: pointer;
 }
