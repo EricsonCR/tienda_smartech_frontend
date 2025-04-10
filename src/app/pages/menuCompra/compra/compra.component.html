@@ -17,15 +17,15 @@
         <div class="col-sm-4 menu-resumen">
             <div *ngIf="carrito.carritoDetalles.length!=0" class="">
                 <div class="bg-warning px-4 py-2 rounded-1">
-                    <p class="mb-0 fs-4 fw-semibold">Resumen de pedido</p>
+                    <p class="mb-0 fs-5 fw-semibold">Resumen de pedido</p>
                     <div *ngIf="itemsCarrito(carrito.carritoDetalles)==1">
-                        <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} producto</p>
+                        <p class="mt-0 text-size1">{{itemsCarrito(carrito.carritoDetalles)}} producto</p>
                     </div>
                     <div *ngIf="itemsCarrito(carrito.carritoDetalles)==0 || itemsCarrito(carrito.carritoDetalles)>1">
-                        <p class="mt-0">{{itemsCarrito(carrito.carritoDetalles)}} productos</p>
+                        <p class="mt-0 text-size1">{{itemsCarrito(carrito.carritoDetalles)}} productos</p>
                     </div>
                 </div>
-                <div class="bg-white p-4 rounded-1 mb-3">
+                <div class="bg-white p-4 rounded-1 mb-3 text-size1">
                     <div class="row d-flex justify-content-between">
                         <div class="col-auto">
                             <p class="fw-light m-0 p-0">Subotal</p>
@@ -34,7 +34,7 @@
                             <p class="fw-light m-0 p-0">S/ {{subTotalPedido()}}</p>
                         </div>
                     </div>
-                    <div *ngIf="menuCompra>1" class="row d-flex justify-content-between">
+                    <div *ngIf="menuCompra>1" class="row d-flex justify-content-between" text-size1>
                         <div class="col-auto">
                             <p class="fw-light m-0 p-0">Envio (+)</p>
                         </div>
@@ -45,19 +45,20 @@
                     </div>
                     <div class="row d-flex align-items-center justify-content-between">
                         <div class="col-auto">
-                            <p class="fw-bold m-0 p-0">Total pedido</p>
+                            <p class="fw-bold m-0 p-0 text-size1">Total pedido</p>
                         </div>
                         <div class="col-auto">
-                            <p class="fw-bold m-0 p-0 text-danger fs-4">S/ {{totalPedido()}}</p>
+                            <p class="fw-bold m-0 p-0 text-danger fs-5">S/ {{totalPedido()}}</p>
                         </div>
                     </div>
                 </div>
                 <div *ngIf="menuCompra!=3" class="row mb-3">
-                    <div class="col-sm-8">
-                        <input type="text" class="form-control py-2" placeholder="Codigo cupon">
+                    <div class="col-sm-8 pb-2">
+                        <input type="text" class="form-control py-2  text-size1" placeholder="Codigo cupon">
                     </div>
-                    <div class="col-sm-4 d-flex justify-content-end">
-                        <button class="btn btn-outline-warning fw-semibold py-2 px-4 text-black">Cupon</button>
+                    <div class="col-sm-4 d-flex justify-content-end pb-2">
+                        <button
+                            class="btn btn-outline-warning fw-semibold py-2 px-4 text-black  text-size1">Cupon</button>
                     </div>
                 </div>
 

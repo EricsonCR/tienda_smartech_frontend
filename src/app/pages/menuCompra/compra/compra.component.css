@@ -60,6 +60,10 @@
     background-color: #f1c40f;
 }
 
+.text-size1 {
+    font-size: 0.8rem;
+}
+
 @media (max-width: 992px) {
     .col-sm-8,
     .col-sm-4 {
