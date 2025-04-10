@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { Router, RouterLink, RouterModule } from '@angular/router';
 import { SharedService } from '../../services/shared.service';
 import { CommonModule } from '@angular/common';
@@ -128,6 +128,7 @@ export class HeaderComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.mostrarPopup = !this.mostrarPopup;
+    console.log(this.carrito);
 
     const dropdowns = document.querySelectorAll('.dropdown-menu.show');
     dropdowns.forEach((dropdown) => {
@@ -135,37 +136,16 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  toggleMenu(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
-    this.mostrarMenu = !this.mostrarMenu;
-  }
-
   cerrarPopup() {
     this.mostrarPopup = false;
   }
-  cerrarMenu() {
-    this.mostrarMenu = false;
-  }
-
 
   @HostListener('document:click', ['$event'])
   cerrarSiClickFuera(event: Event) {
-    const menu = document.querySelector('.navbar-collapse');
-    const navbarToggler = document.querySelector('.navbar-toggler');
     const popup = document.querySelector('.popup-carrito');
-
     if (this.mostrarPopup && popup && !popup.contains(event.target as Node)) {
       this.cerrarPopup();
     }
-    if (this.mostrarMenu && menu && !menu.contains(event.target as Node) && event.target !== navbarToggler) {
-      this.cerrarMenu();
-    }
-
-  }
-
-  cerrarNavbar() {
-    this.mostrarMenu = false;
   }
 
 }

@@ -1,134 +1,121 @@
-<nav class="navbar navbar-expand-md bg-warning sticky-top">
-  <div class="container px-1">
-
-    <a class="navbar-brand d-flex align-items-center m-0" routerLink="">
-      <img src="img/chat-gpt.png" alt="Logo" width="32px" class="m-0 p-0">
-      <div class="brand"><span class="fw-bold">SMARTECH</span></div>
-    </a>
-
-    <button class="navbar-toggler" type="button" (click)="toggleMenu($event)">
-      <span class="navbar-toggler-icon  text-dark fw-bold"></span>
-    </button>
-
-    <div class="collapse navbar-collapse justify-content-center align-items-center" id="navbarCollapse"
-      [ngClass]="{'show': mostrarMenu}">
-      <ul class="navbar-nav">
-        <!-- Menu Categorías -->
-        <li class="nav-item dropdown">
-          <a class="nav-link m-0" href="#" id="mCategoria" data-bs-toggle="dropdown">
-            <i class="bi bi-list border-2 border border-dark rounded-2 px-1"></i>
-            <p class="menu-categoria m-0 p-0 fw-bold text-dark">Categorias</p>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="mCategoria">
-            <li><a class="dropdown-item" href="#">Zona Gamer</a></li>
-            <li><a class="dropdown-item" href="#">Celular</a></li>
-            <li><a class="dropdown-item" href="#">Computador</a></li>
-            <li><a class="dropdown-item" href="#">Laptop</a></li>
-            <li><a class="dropdown-item" href="#">Audifono</a></li>
-            <li><a class="dropdown-item" href="#">Teclado</a></li>
-            <li><a class="dropdown-item" href="#">Mouse</a></li>
-            <li><a class="dropdown-item" href="#">Audio</a></li>
-            <li><a class="dropdown-item" href="#">SmartWatch</a></li>
-            <li><a class="dropdown-item" href="#">Accesorios</a></li>
-          </ul>
-        </li>
-
-        <!-- Campo de búsqueda -->
-        <li class="nav-item d-flex align-items-center w-100">
-          <div class="input-group search-bar">
-            <input type="text" class="form-control shadow-none rounded-start-4" placeholder="¿Que estás buscando?">
-            <span class="input-group-text rounded-end-4"><i class="bi bi-search"></i></span>
-          </div>
-        </li>
-        <!-- Menu cuenta -->
-        <li class="nav-item dropdown">
-          <a class="nav-link m-0" href="#" id="menuLogin" data-bs-toggle="dropdown">
-            <i class="bi bi-person-circle text-dark"></i>
-            <p class="m-0 p-0 fw-bold text-dark" [hidden]="usuario.nombres!=''">Cuenta</p>
-            <p class="m-0 p-0 fw-bold text-dark" [hidden]="usuario.nombres==''">{{obtenerNombreUsuario()}}</p>
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="menuLogin">
-            <div [hidden]="usuario.nombres!=''">
-              <a class="dropdown-item" routerLink="auth/signin" (click)="cerrarNavbar()">Iniciar sesion</a>
-              <a class="dropdown-item" routerLink="auth/signup" (click)="cerrarNavbar()">Registrate</a>
-            </div>
-            <div [hidden]="usuario.nombres==''">
-              <li><a class="dropdown-item" href="#" routerLink="/cuenta/resumen" (click)="cerrarNavbar()">Mis datos</a>
-              </li>
-              <li><a class="dropdown-item" href="#" routerLink="/cuenta/pedidos" (click)="cerrarNavbar()">Pedidos</a>
-              </li>
-              <li><a class="dropdown-item" href="#" routerLink="/cuenta/favoritos"
-                  (click)="cerrarNavbar()">Favoritos</a></li>
-              <li>
-                <hr class="dropdown-divider">
-              </li>
-              <li><a class="dropdown-item" href="#" (click)="logout()">salir</a></li>
-            </div>
-          </ul>
-        </li>
-        <!-- Menu carrito -->
-        <li class="nav-item position-relative">
-          <a href="#" class="nav-link d-flex align-items-center m-0" (click)="togglePopup($event, carrito)">
-            <i class="bi bi-cart3"></i>
-            <div class="d-flex flex-row">
-              <p class="m-0 p-0 fw-bold text-dark">Carrito</p>
-              <div [hidden]="carrito.carritoDetalles.length==0">
-                <p class="m-0 p-0 text-danger fw-bold">({{carrito.carritoDetalles.length}})</p>
-              </div>
-            </div>
-          </a>
-
-          <!-- Contenido "Carrito" -->
-          <div class="popup-carrito" [ngClass]="{'visible': mostrarPopup}">
-            <div class="d-flex flex-row justify-content-between my-2">
-              <div class="d-flex flex-row fw-light">
-                <p class="m-0 p-0">{{carrito.carritoDetalles.length}}</p>
-                <p class="m-0 ps-1">Productos en carrito</p>
-              </div>
-              <div>
-                <p class="m-0 p-0 fw-semibold">Subtotal</p>
-              </div>
-            </div>
-            <div class="d-flex flex-row justify-content-end my-2">
-              <p class="m-0 p-0 fw-bold fs-5">S/ {{calcularTotal(carrito.carritoDetalles)}}</p>
-            </div>
-            <div class="d-grid my-2">
-              <button class="btn btn-warning fw-bold rounded-4" (click)="irAlCarrito()">Ir al carrito</button>
-            </div>
-            <div *ngFor="let c of carrito.carritoDetalles.slice(0,4)">
-              <div class="d-flex flex-row border border-light-subtle rounded-2 my-2">
-                <div class="p-1 d-flex align-items-center">
-                  <img src="img/{{c.producto.fotos[0].galeria.url}}" height="60px" alt="">
-                </div>
-                <div class="d-flex flex-column w-100 p-1">
-                  <p class="m-0 pb-1 fw-bold">{{c.producto.marca.nombre}}</p>
-                  <a routerLink="" class="lh-1 fw-semibold pb-1"
-                    (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
-                  <div class="d-flex align-items-center pb-1">
-                    <p class="m-0 p-0 text-danger fw-bold flex-grow-1">S/
-                      {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
-                    <p class="m-0 px-4 fw-semibold">cant.: {{c.cantidad}}</p>
-                    <a href="#" class="d-flex align-items-center" (click)="eliminarItem(c.producto)"><img class=""
-                        src="img/eliminar.png" height="20px" alt=""></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="d-flex">
-              <p class="m-0 p-0">{{obtenerTotalItems(carrito.carritoDetalles)}}</p>
-              <p class="m-0 ps-1 pe-2">productos en total</p>
-              <a routerLink="" (click)="irAlCarrito()">ver todo</a>
-            </div>
-          </div>
-        </li>
-        <!-- Menu seguimiento -->
-        <li class="nav-item">
-          <a class="nav-link m-0 d-flex align-items-center" href="#">
-            <i class="bi bi-box-seam"></i>
-            <p class="m-0 p-0 fw-bold text-dark">Seguimiento</p>
-          </a>
-        </li>
+<div class="container-fluid bg-warning sticky-top">
+  <div class="container d-flex flex-row w-100 py-2 px-0">
+    <!-- ITEM BRAND -->
+    <div class="d-flex align-items-center justify-content-center pe-2">
+      <a href=""><img src="img/chat-gpt.png" alt="Logo" width="24px" class="m-0 p-0"></a>
+    </div>
+    <!-- ITEM CATEGORIAS -->
+    <div class="btn-group d-flex align-items-center ps-2 manito">
+      <div class="d-flex flex-row align-items-center border border-dark rounded-2 px-2" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="bi bi-list m-0"></i>
+        <p class="m-0 ps-1 pe-0 menu-nombre text-dark fw-bold">Categorias</p>
+      </div>
+      <ul class="dropdown-menu">
+        <li><a class="dropdown-item" href="#">Zona Gamer</a></li>
+        <li><a class="dropdown-item" href="#">Celular</a></li>
+        <li><a class="dropdown-item" href="#">Computador</a></li>
+        <li><a class="dropdown-item" href="#">Laptop</a></li>
+        <li><a class="dropdown-item" href="#">Audifono</a></li>
+        <li><a class="dropdown-item" href="#">Teclado</a></li>
+        <li><a class="dropdown-item" href="#">Mouse</a></li>
+        <li><a class="dropdown-item" href="#">Audio</a></li>
+        <li><a class="dropdown-item" href="#">SmartWatch</a></li>
+        <li><a class="dropdown-item" href="#">Accesorios</a></li>
       </ul>
     </div>
+    <!-- ITEM BUSCAR -->
+    <div class="w-100 px-2">
+      <div class="input-group input-search">
+        <input class="form-control shadow-none rounded-start-4" type="text" placeholder="¿Que producto estas buscando?">
+        <span class="manito"><i class="bi bi-search"></i></span>
+      </div>
+    </div>
+    <!-- CUENTA/CARRITO/SEGUIMIENTO -->
+    <div class="d-flex flex-row justify-content-end align-items-center">
+      <!-- ITEM CUENTA -->
+      <div class="btn-group ps-2 manito">
+        <div class="d-flex flex-row align-items-center" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-person-circle"></i>
+          <p class="m-0 p-0 fw-bold text-dark menu-nombre" [hidden]="usuario.nombres!=''">Cuenta</p>
+          <p class="m-0 p-0 fw-bold text-dark menu-nombre" [hidden]="usuario.nombres==''">{{obtenerNombreUsuario()}}</p>
+        </div>
+        <ul class="dropdown-menu">
+          <div [hidden]="usuario.nombres!=''">
+            <a class="dropdown-item" routerLink="auth/signin">Iniciar sesion</a>
+            <a class="dropdown-item" routerLink="auth/signup">Registrate</a>
+          </div>
+          <div [hidden]="usuario.nombres==''">
+            <li><a class="dropdown-item" href="#" routerLink="/cuenta/resumen">Mis datos</a>
+            </li>
+            <li><a class="dropdown-item" href="#" routerLink="/cuenta/pedidos">Pedidos</a>
+            </li>
+            <li><a class="dropdown-item" href="#" routerLink="/cuenta/favoritos">Favoritos</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" href="#" (click)="logout()">salir</a></li>
+          </div>
+        </ul>
+      </div>
+      <!-- ITEM CARRITO -->
+      <div class="d-flex flex-row ps-2 align-items-center position-relative">
+        <a href="#" class="d-flex flex-row align-items-center text-decoration-none"
+          (click)="togglePopup($event, carrito)">
+          <i class="bi bi-cart-fill"></i>
+          <p class="m-0 p-0 menu-nombre text-dark fw-bold">Carrito</p>
+          <div class="ms-0" [hidden]="carrito.carritoDetalles.length==0">
+            <span class="badge bg-danger">{{carrito.carritoDetalles.length}}</span>
+          </div>
+
+        </a>
+        <!-- Contenido "Carrito" -->
+        <div class="popup-carrito" [ngClass]="{'visible': mostrarPopup}">
+          <div class="d-flex flex-row justify-content-between my-2">
+            <div class="d-flex flex-row fw-light">
+              <p class="m-0 p-0">{{carrito.carritoDetalles.length}}</p>
+              <p class="m-0 ps-1">Productos en carrito</p>
+            </div>
+            <div>
+              <p class="m-0 p-0 fw-semibold">Subtotal</p>
+            </div>
+          </div>
+          <div class="d-flex flex-row justify-content-end my-2">
+            <p class="m-0 p-0 fw-bold fs-5">S/ {{calcularTotal(carrito.carritoDetalles)}}</p>
+          </div>
+          <div class="d-grid my-2">
+            <button class="btn btn-warning fw-bold rounded-4" (click)="irAlCarrito()">Ir al carrito</button>
+          </div>
+          <div *ngFor="let c of carrito.carritoDetalles.slice(0,4)">
+            <div class="d-flex flex-row border border-light-subtle rounded-2 my-2">
+              <div class="p-1 d-flex align-items-center">
+                <img src="img/{{c.producto.fotos[0].galeria.url}}" height="60px" alt="">
+              </div>
+              <div class="d-flex flex-column w-100 p-1">
+                <p class="m-0 pb-1 fw-bold">{{c.producto.marca.nombre}}</p>
+                <a routerLink="" class="lh-1 fw-semibold pb-1"
+                  (click)="irAlProducto(c.producto.nombre)">{{c.producto.nombre}}</a>
+                <div class="d-flex align-items-center pb-1">
+                  <p class="m-0 p-0 text-danger fw-bold flex-grow-1">S/
+                    {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
+                  <p class="m-0 px-4 fw-semibold">cant.: {{c.cantidad}}</p>
+                  <a href="#" class="d-flex align-items-center" (click)="eliminarItem(c.producto)"><img class=""
+                      src="img/eliminar.png" height="20px" alt=""></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex">
+            <p class="m-0 p-0">{{obtenerTotalItems(carrito.carritoDetalles)}}</p>
+            <p class="m-0 ps-1 pe-2">productos en total</p>
+            <a routerLink="" (click)="irAlCarrito()">ver todo</a>
+          </div>
+        </div>
+      </div>
+      <!-- ITEM SEGUIMIENTO -->
+      <div class="d-flex flex-row ps-2 align-items-center">
+        <i class="bi bi-box-fill menu-icon"></i>
+        <p class="m-0 p-0 menu-nombre text-dark fw-bold">Seguimiento</p>
+      </div>
+    </div>
   </div>
-</nav>
+</div>
