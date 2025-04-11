@@ -1,3 +1,7 @@
+.ts-08rem{
+    font-size: 0.9rem;
+}
+
 @media (max-width: 576px) {
     .footer-bottom{
         padding-bottom: 40px;

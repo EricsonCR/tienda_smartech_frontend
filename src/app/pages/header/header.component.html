@@ -46,22 +46,21 @@
             <a class="dropdown-item" routerLink="auth/signup">Registrate</a>
           </div>
           <div [hidden]="usuario.nombres==''">
-            <li><a class="dropdown-item" href="#" routerLink="/cuenta/resumen">Mis datos</a>
+            <li><a class="dropdown-item" routerLink="/cuenta/resumen">Mis datos</a>
             </li>
-            <li><a class="dropdown-item" href="#" routerLink="/cuenta/pedidos">Pedidos</a>
+            <li><a class="dropdown-item" routerLink="/cuenta/pedidos">Pedidos</a>
             </li>
-            <li><a class="dropdown-item" href="#" routerLink="/cuenta/favoritos">Favoritos</a></li>
+            <li><a class="dropdown-item" routerLink="/cuenta/favoritos">Favoritos</a></li>
             <li>
               <hr class="dropdown-divider">
             </li>
-            <li><a class="dropdown-item" href="#" (click)="logout()">salir</a></li>
+            <li><a class="dropdown-item" (click)="logout()">salir</a></li>
           </div>
         </ul>
       </div>
       <!-- ITEM CARRITO -->
-      <div class="d-flex flex-row ps-2 align-items-center position-relative">
-        <a href="#" class="d-flex flex-row align-items-center text-decoration-none"
-          (click)="togglePopup($event, carrito)">
+      <div class="d-flex flex-row ps-2 align-items-center position-relative manito">
+        <a class="d-flex flex-row align-items-center text-decoration-none" (click)="togglePopup($event, carrito)">
           <i class="bi bi-cart-fill"></i>
           <p class="m-0 p-0 menu-nombre text-dark fw-bold">Carrito</p>
           <div class="ms-0" [hidden]="carrito.carritoDetalles.length==0">
@@ -99,8 +98,8 @@
                   <p class="m-0 p-0 text-danger fw-bold flex-grow-1">S/
                     {{calcularPrecio(c.producto.precio,c.producto.descuento)}}</p>
                   <p class="m-0 px-2 fw-light text-size1">cant.: {{c.cantidad}}</p>
-                  <a href="#" class="d-flex align-items-center" (click)="eliminarItem(c.producto)"><img class=""
-                      src="img/eliminar.png" height="18px" alt=""></a>
+                  <a class="d-flex align-items-center manito" (click)="eliminarItem(c.producto)"><img class=""
+                      src="img/eliminar.png" height="20px" alt=""></a>
                 </div>
               </div>
             </div>

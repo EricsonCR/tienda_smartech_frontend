@@ -103,7 +103,6 @@ export class HeaderComponent implements OnInit {
   eliminarItem(p: Producto) {
     const email: string = this.sharedService.getUsuario().email;
     if (email != "") {
-      console.log("eliminar en bd y local storage");
       const id: number = this.sharedService.getCarrito().id;
       this.carritoService.eliminarItem(id, { id: 0, producto: p, cantidad: 0 }).subscribe({
         next: (result) => {
@@ -117,7 +116,6 @@ export class HeaderComponent implements OnInit {
       });
 
     } else {
-      console.log("eliminar en local storage");
       this.sharedService.eliminarItemCarrito(p);
       this.carrito = this.sharedService.getCarrito();
     }
@@ -128,7 +126,6 @@ export class HeaderComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
     this.mostrarPopup = !this.mostrarPopup;
-    console.log(this.carrito);
 
     const dropdowns = document.querySelectorAll('.dropdown-menu.show');
     dropdowns.forEach((dropdown) => {

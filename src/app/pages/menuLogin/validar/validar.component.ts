@@ -15,7 +15,7 @@ export class ValidarComponent implements OnInit {
 
   email: string = "";
   mensaje: string = "";
-  opcionValidacion: number = 0;
+  opcionValidacion: number = 3;
   estadoReenviar: boolean = false;
   estadoRespuesta: boolean = false;
 

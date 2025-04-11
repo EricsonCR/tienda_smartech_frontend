@@ -1,5 +1,5 @@
-<div class="container my-2 d-flex justify-content-center">
-    <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="estadoRespuesta" class="col-sm-6 bg-body-tertiary p-5">
+<div class="container my-2 d-flex justify-content-center p-0">
+    <div [ngClass]="{'disabled-div':estadoReenviar}" [hidden]="estadoRespuesta" class="col-sm-6 bg-body-tertiary p-3">
         <div class="text-center mb-5">
             <p class="fs-3 text-secondary">Estado de registro</p>
         </div>
@@ -17,7 +17,7 @@
             </div>
         </div>
         <div [hidden]="!(opcionValidacion==3)" class="">
-            <div class="mb-3">
+            <div class="mb-3 text-center">
                 <p>Por favor escriba su email para que pueda recibir el mensaje de validacion</p>
             </div>
             <div class="mb-3">
