@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/api/*" # Redirige todas las solicitudes que comiencen con /api/
-  to = "https://pleasant-blessing-production-1e47.up.railway.app/api/:splat" # Redirige al backend
+  to = "https://tienda-smartech-backend.onrender.com/api/:splat" # Redirige al backend
   status = 200
   force = true
 
